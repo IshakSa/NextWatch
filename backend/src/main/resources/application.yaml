@@ -1,0 +1,18 @@
+spring:
+  config:
+      import:
+        - optional:file:.env[.properties]
+
+  application:
+    name: MyApp
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/app_dev
+    driver-class-name: org.postgresql.Driver
+    username: ${DEV_DB_USER}
+    password: ${DEV_DB_PASSWORD}
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+
