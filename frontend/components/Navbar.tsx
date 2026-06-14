@@ -1,5 +1,6 @@
 import { PopcornIcon, SearchIcon } from "lucide-react";
 import Link from "next/link";
+import { ModeToggle } from "./ModeToggle";
 
 export default function Navbar() {
   return (
@@ -35,6 +36,7 @@ export default function Navbar() {
             <button className="">Sign Up</button>
             <button className="">Login</button>
           </div>
+          <ModeToggle />
         </div>
       </nav>
     </header>
