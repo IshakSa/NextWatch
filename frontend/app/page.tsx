@@ -14,6 +14,7 @@ export default async function Home() {
           alt="poster"
           fill
           unoptimized
+          priority
           className="object-cover object-center"
         />
 
