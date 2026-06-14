@@ -29,6 +29,10 @@ body {
   main {
     @apply w-screen mx-auto flex flex-col px-0 lg:px-20;
   }
+  
+  h1 {
+    @apply text-3xl font-bold
+  }
 }
 
 @layer components {

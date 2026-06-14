@@ -13,10 +13,14 @@ export interface Movie {
   video: boolean;
   vote_average: number;
   vote_count: number;
+  length?: string;
+  genres?: string[];
+  contentType?: "Movie" | "Series";
 }
 
 export const movieData: Movie[] = [
   {
+    contentType: "Movie",
     adult: false,
     backdrop_path: "/8YFL5QQVPy3AgrEQxNYVSgiPEbe.jpg",
     genre_ids: [28, 12, 878],
@@ -32,6 +36,8 @@ export const movieData: Movie[] = [
     video: false,
     vote_average: 6.5,
     vote_count: 1856,
+    length: "2h40m",
+    genres: ["Fantasy", "Action"],
   },
   {
     adult: false,
