@@ -1,3 +1,4 @@
+import ContentCarousel from "@/components/ContentCarousel/ContentCarousel";
 import { movieData } from "@/lib/constants";
 import { BookmarkIcon, CirclePlayIcon } from "lucide-react";
 import Image from "next/image";
@@ -46,6 +47,15 @@ export default async function Home() {
           </div>
         </div>
       </div>
+
+
+      <ContentCarousel rowName="Just Release" />
+
+      <ContentCarousel rowName="Movies" />
+
+      <ContentCarousel rowName="Series" />
+
+
     </main>
   );
 }
