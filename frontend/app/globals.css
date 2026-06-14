@@ -24,3 +24,15 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+@layer base {
+  main {
+    @apply w-screen mx-auto flex flex-col px-0 lg:px-20;
+  }
+}
+
+@layer components {
+}
+
+@layer utilities {
+}
