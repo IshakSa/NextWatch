@@ -27,6 +27,7 @@ export default function ContentCarousel({
         opts={{
           slidesToScroll: "auto",
         }}
+        className="group relative"
       >
         <CarouselContent
           className={
@@ -74,8 +75,10 @@ export default function ContentCarousel({
             );
           })}
         </CarouselContent>
-        <CarouselPrevious className="z-1 left-2" />
-        <CarouselNext className="z-1 right-2" />
+        <div className="absolute inset-0 z-20 invisible opacity-0 transition-all duration-300 group-hover:visible group-hover:opacity-100 pointer-events-none">
+          <CarouselPrevious className="z-10 left-3 pointer-events-auto dark:bg-background/40 dark:hover:bg-background/25" />
+          <CarouselNext className="z-10 right-3 pointer-events-auto" />
+        </div>
         <div className="absolute top-0 bottom-0 right-0 w-1/8 bg-linear-to-l from-background to-transparent" />
       </Carousel>
     </div>
