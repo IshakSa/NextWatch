@@ -2,8 +2,8 @@ import React from "react";
 
 export default function Footer() {
   return (
-    <footer>
-      <div className="border-t-2 mt-40 pt-20 px-25 pb-10">
+    <footer className="border-t-2 mt-40 py-20 px-25">
+      <div className="container">
         <div className="flex justify-between">
           <h1 className="pb-10 w-1/2">
             No more endless searching. Scroll through personalized
