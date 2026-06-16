@@ -1,6 +1,8 @@
 import ContentCarousel from "@/components/ContentCarousel/ContentCarousel";
+import AddWatchlistButton from "@/components/buttons/AddWatchlistButton";
+import TrailerButton from "@/components/buttons/TrailerButton";
+import { Badge } from "@/components/ui/badge";
 import { movieData } from "@/lib/constants";
-import { BookmarkIcon, CirclePlayIcon } from "lucide-react";
 import Image from "next/image";
 
 const data = movieData[0];
@@ -8,7 +10,7 @@ const data = movieData[0];
 export default async function Home() {
   return (
     <main>
-      <div className="relative max-w-full h-[66.66vh] flex justify-center items-center ">
+      <section className="relative max-w-full h-[70vh] flex justify-center items-center ">
         <Image
           src={`/images${data.backdrop_path}`}
           alt="poster"
@@ -17,46 +19,43 @@ export default async function Home() {
           priority
           className="object-cover object-center"
         />
-
         <div className="absolute top-0 left-0 right-0 h-1/4 bg-linear-to-b from-background to-transparent opacity-50" />
         <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-linear-to-t from-background to-transparent" />
-        <div className="hidden lg:block absolute top-0 bottom-0 left-0 w-1/24 bg-linear-to-r from-background to-transparent" />
-        <div className="hidden lg:block absolute top-0 bottom-0 right-0 w-1/24 bg-linear-to-l from-background to-transparent" />
 
-        <div className="absolute left-0 bottom-0 flex flex-col z-1">
-          <div>{data.contentType}</div>
+        <div className="container absolute left-1/2 bottom-0 -translate-x-1/2 flex flex-col z-1 px-4 sm:px-6 lg:px-8 mb-10">
+          <div className="flex space-x-2 mb-5">
+            <Badge variant={"outline"} className="bg-background/80">
+              {data.contentType}
+            </Badge>
+            <Badge>Seen</Badge>{" "}
+            {/* TODO: ADD functionality to check if user has seen it */}
+          </div>
 
           <h1>{data.title}</h1>
 
-          <p>
+          <p className="muted-text my-2">
             {data.length} • {data.release_date.slice(0, 4)} •{" "}
             {data.genres?.join(" • ")}
           </p>
 
-          <p>{data.overview}</p>
+          <p className="max-w-1/2  text-sm">{data.overview}</p>
 
-          <div className="flex">
-            <button className="flex">
-              <CirclePlayIcon />
-              <p>Watch Trailer</p>
-            </button>
+          <div className="flex mt-5">
+            <TrailerButton className="p-5 rounded-lg" />
 
-            <button className="flex">
-              <BookmarkIcon />
-              <p>Add Watchlist</p>
-            </button>
+            <AddWatchlistButton className="mx-5 p-5 rounded-lg" />
           </div>
         </div>
-      </div>
+      </section>
 
+      <section className="container">
+        <ContentCarousel carouselType="Poster" rowName="Just Release" />
 
-      <ContentCarousel rowName="Just Release" />
+        <ContentCarousel carouselType="Ranked" rowName="Popular" />
 
-      <ContentCarousel rowName="Movies" />
-
-      <ContentCarousel rowName="Series" />
-
-
+        <ContentCarousel carouselType="Backdrop" rowName="Movies" />
+        <ContentCarousel carouselType="Backdrop" rowName="Series" />
+      </section>
     </main>
   );
 }
