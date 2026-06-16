@@ -4,9 +4,12 @@ import { PopcornIcon, SearchIcon } from "lucide-react";
 import Link from "next/link";
 import { ModeToggle } from "./ModeToggle";
 import { usePathname } from "next/navigation";
+import { Button } from "./ui/button";
+import { useState, useEffect } from "react";
 
 export default function Navbar() {
   const pathname = usePathname();
+  const [isScrolled, setIsScrolled] = useState(false);
 
   const navLinks = [
     { name: "Home", href: "/" },
@@ -15,16 +18,35 @@ export default function Navbar() {
     { name: "Something", href: "/something" },
   ];
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 10) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <header>
-      <nav className="absolute top-0 left-0 w-full bg-transparent z-1 flex justify-between px-5 text-white">
-        <div className="py-10 px-10">
+    <header
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+        isScrolled
+          ? "bg-zinc-950/70 backdrop-blur-md border-b border-white/10 shadow-lg"
+          : "bg-transparent"
+      }`}
+    >
+      <nav className="w-full relative flex items-center px-10 h-20 text-white max-w-350 mx-auto">
+        <div className="flex items-center absolute left-0">
           <Link href={"/"}>
             <PopcornIcon />
           </Link>
         </div>
 
-        <div className="flex items-center space-x-8">
+        <div className="flex items-center absolute left-1/2 -translate-x-1/2  space-x-8">
           {navLinks.map((link) => {
             const isActive =
               pathname === link.href ||
@@ -37,7 +59,7 @@ export default function Navbar() {
                 className={
                   isActive
                     ? "pointer-events-none font-semibold"
-                    : "hover:text-white/80 text-muted-foreground"
+                    : "hover:text-white/80 text-muted-foreground transition-colors"
                 }
               >
                 {link.name}
@@ -46,11 +68,13 @@ export default function Navbar() {
           })}
         </div>
 
-        <div className="flex items-center">
+        <div className="flex absolute right-0 items-center space-x-5">
           <SearchIcon />
-          <div className="flex space-x-5 mx-5">
-            <button className="">Sign Up</button>
-            <button className="">Login</button>
+          <div className="flex space-x-3">
+            <Button variant={"outline"} className="px-5 py-4 rounded-lg">
+              Sign Up
+            </Button>
+            <Button className="px-5 py-4 rounded-lg">Login</Button>
           </div>
           <ModeToggle />
         </div>
