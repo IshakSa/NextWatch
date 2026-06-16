@@ -17,17 +17,17 @@ export default function RankedContentCard({
   contentType: "Movie" | "Series";
 }) {
   return (
-    <div className="flex items-center">
-      <h1 className="text-5xl mr-5">{rank}</h1>
+    <div className="flex justify-center sm:justify-start items-center">
+      <h1 className="text-6xl mr-5">{rank}</h1>
       <Image
         src={image}
         alt="poster"
-        width={100}
+        width={150}
         height={100}
         className="rounded-xl"
       />
       <div className="space-y-3 ml-2">
-        <p className="truncate max-w-40 font-semibold text-lg">
+        <p className="truncate max-w-30 sm:max-w-45 md:max-w-35 lg:max-w-50 xl:max-w-40 2xl:max-w-50 font-semibold text-lg">
           {contentTitle}
         </p>
         <div className="flex space-x-1 items-center muted-text">

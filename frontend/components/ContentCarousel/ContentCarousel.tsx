@@ -29,7 +29,11 @@ export default function ContentCarousel({
         }}
       >
         <CarouselContent
-          className={carouselType === "Ranked" ? "" : "px-30 -ml-35"}
+          className={
+            carouselType === "Ranked"
+              ? "sm:px-50 sm:-ml-55 md:px-5 md:-ml-10 lg:px-30 lg:-ml-35"
+              : "px-30 -ml-35"
+          }
         >
           {movies.map((movie, index) => {
             const imageType =
@@ -40,7 +44,7 @@ export default function ContentCarousel({
               <CarouselItem
                 key={index}
                 className={`pl-5 basis-full 
-                  ${carouselType === "Ranked" ? "sm:basis-1/2 md:basis-1/3" : "sm:basis-1/3 md:basis-1/4"}`}
+                  ${carouselType === "Ranked" ? "md:basis-1/2 xl:basis-1/3" : "sm:basis-1/3 md:basis-1/4"}`}
               >
                 {carouselType === "Poster" ? (
                   <PosterContentCard
