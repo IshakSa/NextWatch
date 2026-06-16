@@ -7,40 +7,72 @@ import {
 } from "@/components/ui/carousel";
 
 import { movieData } from "@/lib/constants";
-import ContentCard from "./_components/ContentCard";
+import PosterContentCard from "./_components/PosterContentCard";
+import BackdropContentCard from "./_components/BackdropContentCard";
+import RankedContentCard from "./_components/RankedContentCard";
 
 const movies = movieData;
 
-export default function ContentCarousel({ rowName }: { rowName: string }) {
+export default function ContentCarousel({
+  rowName,
+  carouselType,
+}: {
+  rowName: string;
+  carouselType: "Poster" | "Backdrop" | "Ranked";
+}) {
   return (
-    <div className="mt-10">
-      <h1>{rowName}</h1>
+    <div className="mt-25">
+      <h2 className="mb-5">{rowName}</h2>
       <Carousel
         opts={{
           slidesToScroll: "auto",
         }}
       >
-        <CarouselContent className="px-12 -ml-15">
-          {movies.map((movie, index) => (
-            <CarouselItem
-              key={index}
-              className="pl-5 basis-full sm:basis-1/3 md:basis-1/5"
-            >
-              <ContentCard
-                key={movie.id}
-                contentTitle={movie.title}
-                genres={["Action", "Drama"]}
-                poster={"/images/ngl2FKBlU4fhbdsrtdom9LVLBXw.jpg"}
-                rating={movie.vote_average}
-              />
-            </CarouselItem>
-          ))}
+        <CarouselContent
+          className={carouselType === "Ranked" ? "" : "px-30 -ml-35"}
+        >
+          {movies.map((movie, index) => {
+            const imageType =
+              carouselType === "Poster" || carouselType === "Ranked"
+                ? movie.poster_path
+                : movie.backdrop_path;
+            return (
+              <CarouselItem
+                key={index}
+                className={`pl-5 basis-full 
+                  ${carouselType === "Ranked" ? "sm:basis-1/2 md:basis-1/3" : "sm:basis-1/3 md:basis-1/4"}`}
+              >
+                {carouselType === "Poster" ? (
+                  <PosterContentCard
+                    contentTitle={movie.title}
+                    genres={["Action", "Drama"]}
+                    image={`/images${imageType}`}
+                    rating={movie.vote_average}
+                  />
+                ) : carouselType === "Backdrop" ? (
+                  <BackdropContentCard
+                    contentTitle={movie.title}
+                    genres={["Action", "Drama"]}
+                    image={`/images${imageType}`}
+                    rating={movie.vote_average}
+                  />
+                ) : (
+                  <RankedContentCard
+                    contentTitle={movie.title}
+                    genres={["Action", "Drama"]}
+                    image={`/images${imageType}`}
+                    rank={index + 1}
+                    contentType={"Movie"} // TODO: get content type, limit ranking to only max 10
+                    rating={movie.vote_average}
+                  />
+                )}
+              </CarouselItem>
+            );
+          })}
         </CarouselContent>
-        <CarouselPrevious className="left-2 opacity-70 bg-white dark:bg-zinc-900 shadow-md" />
-        <CarouselNext
-          className="right-2 opacity-70 bg-white dark:bg-zinc-900 shadow-md"
-          suppressHydrationWarning
-        />
+        <CarouselPrevious className="z-1 left-2" />
+        <CarouselNext className="z-1 right-2" />
+        <div className="absolute top-0 bottom-0 right-0 w-1/8 bg-linear-to-l from-background to-transparent" />
       </Carousel>
     </div>
   );
