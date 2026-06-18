@@ -7,9 +7,9 @@ import {
   SheetDescription,
   SheetClose,
 } from "../../ui/sheet";
-import LoginButton from "@/components/buttons/LoginButton";
 import Link from "next/link";
 import { ModeToggle } from "@/components/ModeToggle";
+import AuthButton from "@/components/buttons/AuthButton";
 
 export default function NavbarMobile({
   navLinks,
@@ -62,10 +62,16 @@ export default function NavbarMobile({
         </SheetContent>
       </Sheet>
 
-      <PopcornIcon />
+      <Link href={"/"}>
+        <PopcornIcon />
+      </Link>
+
       <div className="flex items-center space-x-5">
-        <SearchIcon />
-        <LoginButton />
+        <Link href={"/search"}>
+          <SearchIcon />
+        </Link>
+
+        <AuthButton type="Login" />
       </div>
     </nav>
   );

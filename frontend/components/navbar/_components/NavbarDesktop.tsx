@@ -1,8 +1,7 @@
 import { PopcornIcon, SearchIcon } from "lucide-react";
 import { ModeToggle } from "../../ModeToggle";
-import { Button } from "../../ui/button";
 import Link from "next/link";
-import LoginButton from "@/components/buttons/LoginButton";
+import AuthButton from "@/components/buttons/AuthButton";
 
 export default function NavbarDesktop({
   navLinks,
@@ -42,12 +41,13 @@ export default function NavbarDesktop({
       </div>
 
       <div className="flex items-center gap-x-5 flex-1 justify-end">
-        <SearchIcon />
+        <Link href={"/search"}>
+          <SearchIcon />
+        </Link>
+
         <div className="flex space-x-3">
-          <Button variant={"outline"} className="px-5 py-4 rounded-lg">
-            Sign Up
-          </Button>
-          <LoginButton />
+          <AuthButton type="Register" />
+          <AuthButton type="Login" />
         </div>
         <ModeToggle />
       </div>
