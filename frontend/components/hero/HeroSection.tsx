@@ -1,4 +1,4 @@
-import ExpandableOverview from "@/components/ExpandableOverview";
+import ExpandableOverview from "@/components/hero/_components/ExpandableOverview";
 import AddWatchlistButton from "@/components/buttons/AddWatchlistButton";
 import TrailerButton from "@/components/buttons/TrailerButton";
 import { Badge } from "@/components/ui/badge";
@@ -28,10 +28,10 @@ export default function HeroSection({ data }: { data: Movie }) {
 
         <ExpandableOverview text={data.overview} />
 
-        <div className="flex mt-5">
-          <TrailerButton className="p-5 rounded-lg" />
+        <div className="flex justify-center sm:justify-start mt-5">
+          <TrailerButton className="p-5 rounded-lg w-48/100 sm:w-auto" />
 
-          <AddWatchlistButton className="mx-5 p-5 rounded-lg" />
+          <AddWatchlistButton className="ml-5 p-5 rounded-lg w-48/100 sm:w-auto" />
         </div>
       </div>
     </section>

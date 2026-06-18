@@ -1,14 +1,12 @@
 import ContentCarousel from "@/components/ContentCarousel/ContentCarousel";
-import HeroSection from "@/components/hero/HeroSection";
-
+import HeroContentCarousel from "@/components/hero/HeroContentCarousel";
 import { movieData } from "@/lib/constants";
 
-const data = movieData[0];
-
 export default async function Home() {
+  const content = movieData.slice(0, 5);
   return (
     <main>
-      <HeroSection data={data} />
+      <HeroContentCarousel content={content} />
 
       <section className="container">
         <ContentCarousel carouselType="Poster" rowName="Just Release" />
