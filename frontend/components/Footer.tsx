@@ -10,7 +10,7 @@ export default function Footer() {
             Scroll through personalized recommendations, discover hidden gems,
             and save your favorites.
           </h1>
-          <div className="flex gap-3 mb-5 justify-center">
+          <div className="flex gap-3 mb-5 justify-center items-baseline">
             <Link href={"/"}>Home</Link> <span>/</span>
             <Link href={"/discover"}>Discover</Link> <span>/</span>
             <Link href={"/about"}>About Us</Link> <span>/</span>
@@ -20,9 +20,15 @@ export default function Footer() {
 
         <div className="flex flex-col items-center lg:flex-row justify-between text-muted-foreground">
           <div className="flex space-x-5">
-            <Link href={"/privacy"}>Privacy policy</Link>
-            <Link href={"/tos"}>Terms of Service</Link>
-            <Link href={"/impressum"}>Legal Notice (Impressum)</Link>
+            <Link href={"/privacy"} className="hover:text-accent-foreground">
+              Privacy policy
+            </Link>
+            <Link href={"/tos"} className="hover:text-accent-foreground">
+              Terms of Service
+            </Link>
+            <Link href={"/impressum"} className="hover:text-accent-foreground">
+              Legal Notice (Impressum)
+            </Link>
           </div>
 
           <p className="mt-5">©2026 MyApp</p>
