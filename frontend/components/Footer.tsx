@@ -1,26 +1,31 @@
+import Link from "next/link";
+
 export default function Footer() {
   return (
-    <footer className="border-t-2 mt-40 py-20 px-25">
+    <footer className="border-t-2 px-5 lg:px-25 py-20 mt-40 ">
       <div className="container">
-        <div className="flex justify-between">
-          <h1 className="pb-10 w-1/2">
+        <div className="flex flex-col lg:flex-row justify-between">
+          <h1 className="pb-10 lg:w-1/2">
             No more endless searching. <br />
-            Scroll through personalized
-            recommendations, discover hidden gems, and save your favorites.
+            Scroll through personalized recommendations, discover hidden gems,
+            and save your favorites.
           </h1>
-          <div> Home / Discover / Influence / Release</div>
+          <div className="flex gap-3 mb-5 justify-center">
+            <Link href={"/"}>Home</Link> <span>/</span>
+            <Link href={"/discover"}>Discover</Link> <span>/</span>
+            <Link href={"/about"}>About Us</Link> <span>/</span>
+            <Link href={"/contact"}>Contact Us</Link>
+          </div>
         </div>
 
-        <div className="flex justify-between">
+        <div className="flex flex-col items-center lg:flex-row justify-between text-muted-foreground">
           <div className="flex space-x-5">
-            <p>Privacy policy</p>
-
-            <p>Terms of service</p>
-
-            <p>Privacy</p>
+            <Link href={"/privacy"}>Privacy policy</Link>
+            <Link href={"/tos"}>Terms of Service</Link>
+            <Link href={"/impressum"}>Legal Notice (Impressum)</Link>
           </div>
 
-          <p>©2026 MyApp</p>
+          <p className="mt-5">©2026 MyApp</p>
         </div>
       </div>
     </footer>
