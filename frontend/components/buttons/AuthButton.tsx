@@ -5,13 +5,15 @@ export default function AuthButton({ type }: { type: "Login" | "Register" }) {
   return (
     <>
       {type === "Login" ? (
-        <Button className="px-5 py-4 rounded-lg">
-          <Link href={"/login"}>Login</Link>
-        </Button>
+        <Link href={"/login"}>
+          <Button className="px-5 py-4 rounded-lg">Login</Button>
+        </Link>
       ) : (
-        <Button variant={"outline"} className="px-5 py-4 rounded-lg">
-          <Link href={"/register"}>Sign Up</Link>
-        </Button>
+        <Link href={"/register"}>
+          <Button variant={"outline"} className="px-5 py-4 rounded-lg">
+            Sign Up
+          </Button>
+        </Link>
       )}
     </>
   );
