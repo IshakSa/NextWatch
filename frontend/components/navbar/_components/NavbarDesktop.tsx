@@ -2,6 +2,7 @@ import { PopcornIcon, SearchIcon } from "lucide-react";
 import { ModeToggle } from "../../ModeToggle";
 import Link from "next/link";
 import AuthButton from "@/components/buttons/AuthButton";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 export default function NavbarDesktop({
   navLinks,
@@ -10,12 +11,14 @@ export default function NavbarDesktop({
   navLinks: { name: string; href: string }[];
   pathname: string;
 }) {
+  const shouldDisplayRegister = useMediaQuery("(min-width: 1024px)");
   return (
     <nav className="w-full flex justify-between items-center px-10 h-20 text-white max-w-7xl mx-auto">
-      <div className="flex items-center flex-1 justify-start">
+      <div className="flex items-center flex-1 justify-start space-x-5">
         <Link href={"/"}>
           <PopcornIcon />
         </Link>
+        <ModeToggle />
       </div>
 
       <div className="flex items-center space-x-8 justify-center">
@@ -46,10 +49,9 @@ export default function NavbarDesktop({
         </Link>
 
         <div className="flex space-x-3">
-          <AuthButton type="Register" />
+          {shouldDisplayRegister && <AuthButton type="Register" />}
           <AuthButton type="Login" />
         </div>
-        <ModeToggle />
       </div>
     </nav>
   );
