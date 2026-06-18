@@ -1,4 +1,5 @@
 import ContentCarousel from "@/components/ContentCarousel/ContentCarousel";
+import ExpandableOverview from "@/components/ExpandableOverview";
 import AddWatchlistButton from "@/components/buttons/AddWatchlistButton";
 import TrailerButton from "@/components/buttons/TrailerButton";
 import { Badge } from "@/components/ui/badge";
@@ -38,7 +39,7 @@ export default async function Home() {
             {data.genres?.join(" • ")}
           </p>
 
-          <p className="max-w-1/2  text-sm">{data.overview}</p>
+          <ExpandableOverview text={data.overview} />
 
           <div className="flex mt-5">
             <TrailerButton className="p-5 rounded-lg" />
