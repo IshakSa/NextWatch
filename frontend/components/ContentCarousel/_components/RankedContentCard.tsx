@@ -1,31 +1,36 @@
 import { FilmIcon, StarIcon } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function RankedContentCard({
+  id,
+  contentType,
   rank,
   image,
   contentTitle,
   genres,
   rating,
-  contentType,
 }: {
+  id: number;
+  contentType: "movie" | "tv";
   rank: number;
   image: string;
   genres: string[];
   contentTitle: string;
   rating: number;
-  contentType: "Movie" | "Series";
 }) {
   return (
     <div className="flex justify-center sm:justify-start items-center">
       <h1 className="text-6xl mr-5">{rank}</h1>
-      <Image
-        src={image}
-        alt="poster"
-        width={150}
-        height={100}
-        className="rounded-xl"
-      />
+      <Link href={`/${contentType}/${id}`}>
+        <Image
+          src={image}
+          alt="poster"
+          width={150}
+          height={100}
+          className="rounded-xl"
+        />
+      </Link>
       <div className="space-y-3 ml-2">
         <p className="truncate max-w-30 sm:max-w-45 md:max-w-35 lg:max-w-50 xl:max-w-40 2xl:max-w-50 font-semibold text-lg">
           {contentTitle}

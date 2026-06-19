@@ -49,6 +49,8 @@ export default function ContentCarousel({
               >
                 {carouselType === "Poster" ? (
                   <PosterContentCard
+                    id={movie.id}
+                    contentType={movie.contentType}
                     contentTitle={movie.title}
                     genres={["Action", "Drama"]}
                     image={`/images${imageType}`}
@@ -56,18 +58,22 @@ export default function ContentCarousel({
                   />
                 ) : carouselType === "Backdrop" ? (
                   <BackdropContentCard
+                    id={movie.id}
+                    contentType={movie.contentType}
                     contentTitle={movie.title}
                     genres={["Action", "Drama"]}
                     image={`/images${imageType}`}
                     rating={movie.vote_average}
                   />
                 ) : (
+                  // TODO: get content type, limit ranking to only max 10
                   <RankedContentCard
+                    id={movie.id}
+                    contentType={movie.contentType}
                     contentTitle={movie.title}
                     genres={["Action", "Drama"]}
                     image={`/images${imageType}`}
                     rank={index + 1}
-                    contentType={"Movie"} // TODO: get content type, limit ranking to only max 10
                     rating={movie.vote_average}
                   />
                 )}

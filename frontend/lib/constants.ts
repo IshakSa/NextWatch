@@ -13,14 +13,13 @@ export interface Movie {
   video: boolean;
   vote_average: number;
   vote_count: number;
-  length?: string;
-  genres?: string[];
-  contentType?: "Movie" | "Series";
+  length: string;
+  genres: string[];
+  contentType: "movie" | "tv";
 }
 
 export const movieData: Movie[] = [
   {
-    contentType: "Movie",
     adult: false,
     backdrop_path: "/8YFL5QQVPy3AgrEQxNYVSgiPEbe.jpg",
     genre_ids: [28, 12, 878],
@@ -38,6 +37,7 @@ export const movieData: Movie[] = [
     vote_count: 1856,
     length: "2h40m",
     genres: ["Fantasy", "Action"],
+    contentType: "movie",
   },
   {
     adult: false,
@@ -55,6 +55,9 @@ export const movieData: Movie[] = [
     video: false,
     vote_average: 7.5,
     vote_count: 1435,
+    length: "2h40m",
+    genres: ["Fantasy", "Action"],
+    contentType: "movie",
   },
   {
     adult: false,
@@ -72,6 +75,9 @@ export const movieData: Movie[] = [
     video: false,
     vote_average: 6.8,
     vote_count: 1203,
+    length: "2h40m",
+    genres: ["Fantasy", "Action"],
+    contentType: "movie",
   },
   {
     adult: false,
@@ -89,6 +95,9 @@ export const movieData: Movie[] = [
     video: false,
     vote_average: 7.7,
     vote_count: 7519,
+    length: "2h40m",
+    genres: ["Fantasy", "Action"],
+    contentType: "movie",
   },
   {
     adult: false,
@@ -106,6 +115,9 @@ export const movieData: Movie[] = [
     video: false,
     vote_average: 7.4,
     vote_count: 226,
+    length: "2h40m",
+    genres: ["Fantasy", "Action"],
+    contentType: "movie",
   },
   {
     adult: false,
@@ -123,6 +135,9 @@ export const movieData: Movie[] = [
     video: false,
     vote_average: 7.3,
     vote_count: 1183,
+    length: "2h40m",
+    genres: ["Fantasy", "Action"],
+    contentType: "movie",
   },
   {
     adult: false,
@@ -140,6 +155,9 @@ export const movieData: Movie[] = [
     video: false,
     vote_average: 6.9,
     vote_count: 192,
+    length: "2h40m",
+    genres: ["Fantasy", "Action"],
+    contentType: "movie",
   },
   {
     adult: false,
@@ -157,6 +175,9 @@ export const movieData: Movie[] = [
     video: false,
     vote_average: 6.6,
     vote_count: 856,
+    length: "2h40m",
+    genres: ["Fantasy", "Action"],
+    contentType: "movie",
   },
   {
     adult: false,
@@ -174,6 +195,9 @@ export const movieData: Movie[] = [
     video: false,
     vote_average: 8.3,
     vote_count: 5326,
+    length: "2h40m",
+    genres: ["Fantasy", "Action"],
+    contentType: "movie",
   },
   {
     adult: false,
@@ -191,6 +215,9 @@ export const movieData: Movie[] = [
     video: false,
     vote_average: 8,
     vote_count: 1202,
+    length: "2h40m",
+    genres: ["Fantasy", "Action"],
+    contentType: "movie",
   },
   {
     adult: false,
@@ -208,6 +235,9 @@ export const movieData: Movie[] = [
     video: false,
     vote_average: 4,
     vote_count: 4,
+    length: "2h40m",
+    genres: ["Fantasy", "Action"],
+    contentType: "movie",
   },
   {
     adult: false,
@@ -225,6 +255,9 @@ export const movieData: Movie[] = [
     video: false,
     vote_average: 6.4,
     vote_count: 873,
+    length: "2h40m",
+    genres: ["Fantasy", "Action"],
+    contentType: "movie",
   },
   {
     adult: false,
@@ -242,6 +275,9 @@ export const movieData: Movie[] = [
     video: false,
     vote_average: 6.3,
     vote_count: 55,
+    length: "2h40m",
+    genres: ["Fantasy", "Action"],
+    contentType: "movie",
   },
   {
     adult: false,
@@ -259,6 +295,9 @@ export const movieData: Movie[] = [
     video: false,
     vote_average: 6.3,
     vote_count: 752,
+    length: "2h40m",
+    genres: ["Fantasy", "Action"],
+    contentType: "movie",
   },
   {
     adult: false,
@@ -276,6 +315,9 @@ export const movieData: Movie[] = [
     video: false,
     vote_average: 6.2,
     vote_count: 21,
+    length: "2h40m",
+    genres: ["Fantasy", "Action"],
+    contentType: "movie",
   },
   {
     adult: false,
@@ -293,6 +335,9 @@ export const movieData: Movie[] = [
     video: false,
     vote_average: 5.6,
     vote_count: 20,
+    length: "2h40m",
+    genres: ["Fantasy", "Action"],
+    contentType: "movie",
   },
   {
     adult: false,
@@ -310,6 +355,9 @@ export const movieData: Movie[] = [
     video: false,
     vote_average: 6.5,
     vote_count: 142,
+    length: "2h40m",
+    genres: ["Fantasy", "Action"],
+    contentType: "movie",
   },
   {
     adult: false,
@@ -327,6 +375,9 @@ export const movieData: Movie[] = [
     video: false,
     vote_average: 6.4,
     vote_count: 122,
+    length: "2h40m",
+    genres: ["Fantasy", "Action"],
+    contentType: "movie",
   },
   {
     adult: false,
@@ -344,6 +395,9 @@ export const movieData: Movie[] = [
     video: false,
     vote_average: 6.8,
     vote_count: 184,
+    length: "2h40m",
+    genres: ["Fantasy", "Action"],
+    contentType: "movie",
   },
   {
     adult: false,
@@ -361,5 +415,8 @@ export const movieData: Movie[] = [
     video: false,
     vote_average: 6.1,
     vote_count: 104,
+    length: "2h40m",
+    genres: ["Fantasy", "Action"],
+    contentType: "movie",
   },
 ];
