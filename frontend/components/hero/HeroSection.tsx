@@ -4,6 +4,7 @@ import TrailerButton from "@/components/buttons/TrailerButton";
 import { Badge } from "@/components/ui/badge";
 import { Movie } from "@/lib/constants";
 import HeroImage from "./_components/HeroImage";
+import { capitalize } from "@/lib/utils";
 
 export default function HeroSection({ data }: { data: Movie }) {
   return (
@@ -13,7 +14,7 @@ export default function HeroSection({ data }: { data: Movie }) {
       <div className="container absolute left-1/2 bottom-0 -translate-x-1/2 flex flex-col z-1 px-4 sm:px-6 lg:px-8 mb-10">
         <div className="flex space-x-2 mb-5">
           <Badge variant={"outline"} className="bg-background/80">
-            {data.contentType}
+            {capitalize(data.contentType)}
           </Badge>
           <Badge>Seen</Badge>
           {/* TODO: ADD functionality to check if user has seen it */}

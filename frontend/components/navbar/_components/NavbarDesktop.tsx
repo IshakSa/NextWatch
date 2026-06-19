@@ -49,8 +49,8 @@ export default function NavbarDesktop({
         </Link>
 
         <div className="flex space-x-3">
-          {shouldDisplayRegister && <AuthButton type="Register" />}
-          <AuthButton type="Login" />
+          {shouldDisplayRegister && <AuthButton type="register" />}
+          <AuthButton type="login" />
         </div>
       </div>
     </nav>

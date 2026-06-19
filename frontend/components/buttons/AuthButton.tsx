@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { Button } from "../ui/button";
 
-export default function AuthButton({ type }: { type: "Login" | "Register" }) {
+export default function AuthButton({ type }: { type: "login" | "register" }) {
   return (
     <>
-      {type === "Login" ? (
+      {type === "login" ? (
         <Link href={"/login"}>
           <Button className="px-5 py-4 rounded-lg">Login</Button>
         </Link>

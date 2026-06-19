@@ -73,7 +73,7 @@ export default function NavbarMobile({
           <SearchIcon />
         </Link>
 
-        <AuthButton type="Login" />
+        <AuthButton type="login" />
       </div>
     </nav>
   );

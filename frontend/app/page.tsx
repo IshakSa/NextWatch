@@ -9,12 +9,12 @@ export default async function Home() {
       <HeroContentCarousel content={content} />
 
       <section className="container">
-        <ContentCarousel carouselType="Poster" rowName="Just Release" />
+        <ContentCarousel carouselType="poster" rowName="Just Release" />
 
-        <ContentCarousel carouselType="Ranked" rowName="Popular" />
+        <ContentCarousel carouselType="ranked" rowName="Popular" />
 
-        <ContentCarousel carouselType="Backdrop" rowName="Movies" />
-        <ContentCarousel carouselType="Backdrop" rowName="Series" />
+        <ContentCarousel carouselType="backdrop" rowName="Movies" />
+        <ContentCarousel carouselType="backdrop" rowName="Series" />
       </section>
     </main>
   );

@@ -18,7 +18,7 @@ export default function ContentCarousel({
   carouselType,
 }: {
   rowName: string;
-  carouselType: "Poster" | "Backdrop" | "Ranked";
+  carouselType: "poster" | "backdrop" | "ranked";
 }) {
   return (
     <div className="mt-25">
@@ -31,23 +31,23 @@ export default function ContentCarousel({
       >
         <CarouselContent
           className={
-            carouselType === "Ranked"
+            carouselType === "ranked"
               ? "sm:px-50 sm:-ml-55 md:px-5 md:-ml-10 lg:px-30 lg:-ml-35"
               : "px-30 -ml-35"
           }
         >
           {movies.map((movie, index) => {
             const imageType =
-              carouselType === "Poster" || carouselType === "Ranked"
+              carouselType === "poster" || carouselType === "ranked"
                 ? movie.poster_path
                 : movie.backdrop_path;
             return (
               <CarouselItem
                 key={index}
                 className={`pl-5 basis-full 
-                  ${carouselType === "Ranked" ? "md:basis-1/2 xl:basis-1/3" : "sm:basis-1/3 md:basis-1/4"}`}
+                  ${carouselType === "ranked" ? "md:basis-1/2 xl:basis-1/3" : "sm:basis-1/3 md:basis-1/4"}`}
               >
-                {carouselType === "Poster" ? (
+                {carouselType === "poster" ? (
                   <PosterContentCard
                     id={movie.id}
                     contentType={movie.contentType}
@@ -56,7 +56,7 @@ export default function ContentCarousel({
                     image={`/images${imageType}`}
                     rating={movie.vote_average}
                   />
-                ) : carouselType === "Backdrop" ? (
+                ) : carouselType === "backdrop" ? (
                   <BackdropContentCard
                     id={movie.id}
                     contentType={movie.contentType}
