@@ -20,7 +20,7 @@ export default function PosterContentCard({
   genres,
 }: ContentCardProps) {
   return (
-    <div className="relative">
+    <div className="relative text-white">
       <Link href={`/${contentType}/${id}`}>
         <Image
           className="rounded-xl"
@@ -29,7 +29,7 @@ export default function PosterContentCard({
           width={500}
           height={500}
         />
-        <div className="absolute bottom-0 left-0 z-10 p-4 w-full bg-linear-to-t from-black to-transparent rounded-b-xl">
+        <div className="absolute bottom-0 left-0 z-10 p-4 md:p-3 w-full bg-linear-to-t from-black to-transparent rounded-b-xl">
           <InfoOverlay
             contentTitle={contentTitle}
             genres={genres}

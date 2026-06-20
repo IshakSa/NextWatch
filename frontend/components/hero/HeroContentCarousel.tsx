@@ -40,42 +40,44 @@ export default function HeroContentCarousel({ content }: { content: Movie[] }) {
   }
 
   return (
-    <Carousel
-      plugins={[
-        Autoplay({
-          delay: 6000,
-        }),
-      ]}
-      opts={{
-        loop: true,
-      }}
-      setApi={setApi}
-      className="relative"
-    >
-      <CarouselContent>
-        {content.map((data) => (
-          <CarouselItem key={data.id}>
-            <HeroSection data={data} />
-          </CarouselItem>
-        ))}
-      </CarouselContent>
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 sm:bottom-10 sm:right-10 md:right-20 xl:right-40 sm:left-auto sm:translate-x-0 flex space-x-2 py-2 text-center text-sm text-muted-foreground">
-        {[0, 1, 2, 3, 4].map((index) => {
-          return (
-            <div
-              key={index}
-              className={`${current - 1 === index ? "text-foreground" : "text-muted-foreground/50"}`}
-            >
-              <button
-                className="cursor-pointer text-xs sm:text-[14px]"
-                onClick={() => handleDotClick(index)}
+    <section>
+      <Carousel
+        plugins={[
+          Autoplay({
+            delay: 6000,
+          }),
+        ]}
+        opts={{
+          loop: true,
+        }}
+        setApi={setApi}
+        className="relative"
+      >
+        <CarouselContent>
+          {content.map((data) => (
+            <CarouselItem key={data.id}>
+              <HeroSection data={data} />
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 sm:bottom-10 sm:right-10 md:right-20 xl:right-40 sm:left-auto sm:translate-x-0 flex space-x-2 py-2 text-center text-sm text-muted-foreground">
+          {[0, 1, 2, 3, 4].map((index) => {
+            return (
+              <div
+                key={index}
+                className={`${current - 1 === index ? "text-foreground" : "text-muted-foreground/50"}`}
               >
-                ⬤
-              </button>
-            </div>
-          );
-        })}
-      </div>
-    </Carousel>
+                <button
+                  className="cursor-pointer text-xs sm:text-[14px]"
+                  onClick={() => handleDotClick(index)}
+                >
+                  ⬤
+                </button>
+              </div>
+            );
+          })}
+        </div>
+      </Carousel>
+    </section>
   );
 }

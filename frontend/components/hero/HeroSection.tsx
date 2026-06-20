@@ -8,7 +8,7 @@ import { capitalize } from "@/lib/utils";
 
 export default function HeroSection({ data }: { data: Movie }) {
   return (
-    <section className="relative max-w-full h-[70vh] flex justify-center items-center ">
+    <div className="relative max-w-full h-[70vh] flex justify-center items-center ">
       <HeroImage image={data.backdrop_path} />
 
       <div className="container absolute left-1/2 bottom-0 -translate-x-1/2 flex flex-col z-1 px-4 sm:px-6 lg:px-8 mb-10">
@@ -35,6 +35,6 @@ export default function HeroSection({ data }: { data: Movie }) {
           <AddWatchlistButton className="ml-5 p-5 rounded-lg w-48/100 sm:w-auto" />
         </div>
       </div>
-    </section>
+    </div>
   );
 }
