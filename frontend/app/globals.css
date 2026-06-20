@@ -1,26 +1,165 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+    /* General Page Colors & Fonts */
+  --color-background: var(--background);               /* Main background color of the whole page */
+  --color-foreground: var(--foreground);               /* Main text color of the page */
+  --font-sans: var(--font-sans);                       /* Clean, modern text font for reading */
+  --font-heading: var(--font-sans);                    /* Font style used for big titles */
+
+  /* Sidebar Navigation */
+  --color-sidebar: var(--sidebar);                     /* Background color of the side menu */
+  --color-sidebar-foreground: var(--sidebar-foreground); /* Text color inside the side menu */
+  --color-sidebar-primary: var(--sidebar-primary);     /* Main color for important sidebar items */
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground); /* Text color on top of main sidebar items */
+  --color-sidebar-accent: var(--sidebar-accent);       /* Background color when hovering over menu items */
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground); /* Text color when hovering over menu items */
+  --color-sidebar-border: var(--sidebar-border);       /* Divider lines inside the side menu */
+  --color-sidebar-ring: var(--sidebar-ring);           /* Glow effect around sidebar items when clicked */
+
+  /* Borders & Focus Effects */
+  --color-ring: var(--ring);                           /* Glow outline when you click into a text box or button */
+  --color-input: var(--input);                         /* Border color for text entry fields */
+  --color-border: var(--border);                       /* General divider lines between sections */
+
+  /* Buttons & Status Colors */
+  --color-destructive: var(--destructive);             /* Warning color for delete or error actions (usually red) */
+  --color-accent: var(--accent);                       /* Highlight color when hovering with the mouse */
+  --color-accent-foreground: var(--accent-foreground); /* Text color on top of the hovered element */
+  --color-muted: var(--muted);                         /* Soft background for less important items */
+  --color-muted-foreground: var(--muted-foreground);   /* Faded text color for subtitles or dates */
+  --color-secondary: var(--secondary);                 /* Backup color for secondary buttons */
+  --color-secondary-foreground: var(--secondary-foreground); /* Text color for secondary buttons */
+  --color-primary: var(--primary);                     /* Main brand color for important action buttons */
+  --color-primary-foreground: var(--primary-foreground); /* Text color on top of main brand buttons */
+
+  /* Layout Boxes & Pop-ups */
+  --color-popover: var(--popover);                     /* Background color for dropdowns and pop-up menus */
+  --color-popover-foreground: var(--popover-foreground); /* Text color inside dropdowns and pop-ups */
+  --color-card: var(--card);                           /* Background color for content cards and boxes */
+  --color-card-foreground: var(--card-foreground);     /* Text color inside content cards and boxes */
+
+  /* Rounded Corners (Border Radius) */
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);                          /* Standard rounded corners */
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* Data Chart Colors */
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  main {
+    @apply w-screen mx-auto flex flex-col ;
+  }
+
+  h1 {
+    @apply text-3xl font-bold;
+  }
+
+  h2 {
+    @apply text-2xl font-semibold;
+  } 
+
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground overflow-x-hidden;
+  }
+  html {
+    @apply font-sans;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  .container {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .muted-text {
+    @apply text-muted-foreground text-sm
+  }
+}
+
+:root {
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.508 0.118 165.612);
+  --primary-foreground: oklch(0.979 0.021 166.113);
+  --secondary: oklch(0.967 0.001 286.375);
+  --secondary-foreground: oklch(0.21 0.006 285.885);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --radius: 0.625rem;
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.596 0.145 163.225);
+  --sidebar-primary-foreground: oklch(0.979 0.021 166.113);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+}
+
+.dark {
+  --background: oklch(15.698% 0.0065 300.753);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.432 0.095 166.913);
+  --primary-foreground: oklch(0.979 0.021 166.113);
+  --secondary: oklch(0.274 0.006 286.033);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.696 0.17 162.48);
+  --sidebar-primary-foreground: oklch(0.262 0.051 172.552);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
 }
