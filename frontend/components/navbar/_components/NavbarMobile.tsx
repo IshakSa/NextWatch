@@ -19,7 +19,7 @@ export default function NavbarMobile({
   pathname: string;
 }) {
   return (
-    <nav className="p-5 max-w-150 justify-between flex items-center mx-auto">
+    <nav className="p-5 max-w-150 justify-between text-white flex items-center mx-auto">
       <div className="flex">
         <Sheet>
           <SheetTrigger>

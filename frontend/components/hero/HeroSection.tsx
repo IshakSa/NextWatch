@@ -22,7 +22,7 @@ export default function HeroSection({ data }: { data: Movie }) {
 
         <h1>{data.title}</h1>
 
-        <p className="muted-text my-2">
+        <p className="text-foreground/50 dark:text-muted-foreground text-sm my-2">
           {data.length} • {data.release_date.slice(0, 4)} •{" "}
           {data.genres?.join(" • ")}
         </p>

@@ -11,7 +11,7 @@ export default function AuthButton({ type }: { type: "login" | "register" }) {
       ) : (
         <Link href={"/register"}>
           <Button variant={"outline"} className="text-foreground px-5 py-4 rounded-lg">
-            Sign up
+           Sign Up
           </Button>
         </Link>
       )}
