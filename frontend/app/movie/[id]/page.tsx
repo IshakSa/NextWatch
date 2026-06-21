@@ -1,6 +1,63 @@
+import ContentCarousel from "@/components/ContentCarousel/ContentCarousel";
+import ExpandableOverview from "@/components/hero/_components/ExpandableOverview";
+import HeroSection from "@/components/hero/HeroSection";
+import Providers from "@/components/Providers";
+import { credits, movieData, providers } from "@/lib/constants";
 
-export default function MovieDetailsPage() {
+export default async function MovieDetailsPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+  const idNum = Number(id);
+
+  const movie = movieData.find((movie) => movie.id === idNum);
+
+  if (!movie) {
+    return;
+  }
+
   return (
-    <div>Movie Details Page</div>
-  )
+    <main>
+      <section>
+        <HeroSection contentItem={movie} type="details" size={60} />
+      </section>
+
+      <section className="container mt-10">
+        <div>
+          <h2 className="mb-5">Story Line</h2>
+
+          <div className="text-foreground/60">
+            <ExpandableOverview text={movie.overview} overviewType="details" />
+          </div>
+        </div>
+
+        <ContentCarousel
+          carouselType="credits"
+          rowName="Top Cast"
+          content={credits.cast}
+        />
+
+        <ContentCarousel
+          carouselType="credits"
+          rowName="Director"
+          content={credits.director}
+        />
+
+        <div className="mt-20">
+          <h2>Available On</h2>
+          <Providers providers={providers} />
+        </div>
+      </section>
+
+      <section className="container">
+        <ContentCarousel<"backdrop">
+          carouselType="backdrop"
+          rowName="Similar Movies for you"
+          content={movieData}
+        />
+      </section>
+    </main>
+  );
 }
