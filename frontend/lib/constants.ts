@@ -1,4 +1,4 @@
-export interface Movie {
+export interface ContentItem {
   adult: boolean;
   backdrop_path: string;
   genre_ids: number[];
@@ -15,10 +15,406 @@ export interface Movie {
   vote_count: number;
   length: string;
   genres: string[];
-  contentType: "movie" | "tv";
+  type: "movie" | "tv";
 }
 
-export const movieData: Movie[] = [
+interface BasePerson {
+  name: string;
+  profile_path: string;
+}
+
+export interface Actor extends BasePerson {
+  character: string;
+  order: number;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+export interface Director extends BasePerson {}
+
+export interface Credits {
+  cast: Actor[];
+  director: Director[];
+}
+
+interface ProviderInfo {
+  logo_path: string;
+  provider_id: number;
+  provider_name: string;
+  display_priority: number;
+}
+
+export interface ProviderOptions {
+  [countryCode: string]: {
+    link: string;
+    rent?: ProviderInfo[];
+    flatrate?: ProviderInfo[];
+    buy?: ProviderInfo[];
+  };
+}
+
+export const providers: ProviderOptions = {
+  DE: {
+    link: "https://www.themoviedb.org/movie/550-fight-club/watch?locale=DE",
+    flatrate: [
+      {
+        logo_path: "/7rwgEs15tFwyR9NPQ5vpzxTj19Q.jpg",
+        provider_id: 337,
+        provider_name: "Disney Plus",
+        display_priority: 2,
+      },
+      {
+        logo_path: "/2joD3S2goOB6lmepX35A8dmaqgM.jpg",
+        provider_id: 421,
+        provider_name: "Joyn Plus",
+        display_priority: 49,
+      },
+    ],
+    buy: [
+      {
+        logo_path: "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+        provider_id: 2,
+        provider_name: "Apple TV",
+        display_priority: 4,
+      },
+      {
+        logo_path: "/5NyLm42TmCqCMOZFvH4fcoSNKEW.jpg",
+        provider_id: 10,
+        provider_name: "Amazon Video",
+        display_priority: 7,
+      },
+      {
+        logo_path: "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+        provider_id: 3,
+        provider_name: "Google Play Movies",
+        display_priority: 8,
+      },
+      {
+        logo_path: "/oIkQkEkwfmcG7IGpRR1NB8frZZM.jpg",
+        provider_id: 192,
+        provider_name: "YouTube",
+        display_priority: 10,
+      },
+      {
+        logo_path: "/2pCbao1J9s0DMak2KKnEzmzHni8.jpg",
+        provider_id: 130,
+        provider_name: "Sky Store",
+        display_priority: 11,
+      },
+      {
+        logo_path: "/5GEbAhFW2S5T8zVc1MNvz00pIzM.jpg",
+        provider_id: 35,
+        provider_name: "Rakuten TV",
+        display_priority: 13,
+      },
+      {
+        logo_path: "/2PTFxgrswnEuK0szl87iSd8Yszz.jpg",
+        provider_id: 20,
+        provider_name: "maxdome Store",
+        display_priority: 16,
+      },
+      {
+        logo_path: "/uULoezj2skPc6amfwru72UPjYXV.jpg",
+        provider_id: 178,
+        provider_name: "MagentaTV",
+        display_priority: 24,
+      },
+      {
+        logo_path: "/shq88b09gTBYC4hA7K7MUL8Q4zP.jpg",
+        provider_id: 68,
+        provider_name: "Microsoft Store",
+        display_priority: 34,
+      },
+    ],
+    rent: [
+      {
+        logo_path: "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+        provider_id: 2,
+        provider_name: "Apple TV",
+        display_priority: 4,
+      },
+      {
+        logo_path: "/5NyLm42TmCqCMOZFvH4fcoSNKEW.jpg",
+        provider_id: 10,
+        provider_name: "Amazon Video",
+        display_priority: 7,
+      },
+      {
+        logo_path: "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+        provider_id: 3,
+        provider_name: "Google Play Movies",
+        display_priority: 8,
+      },
+      {
+        logo_path: "/oIkQkEkwfmcG7IGpRR1NB8frZZM.jpg",
+        provider_id: 192,
+        provider_name: "YouTube",
+        display_priority: 10,
+      },
+      {
+        logo_path: "/2pCbao1J9s0DMak2KKnEzmzHni8.jpg",
+        provider_id: 130,
+        provider_name: "Sky Store",
+        display_priority: 11,
+      },
+      {
+        logo_path: "/5GEbAhFW2S5T8zVc1MNvz00pIzM.jpg",
+        provider_id: 35,
+        provider_name: "Rakuten TV",
+        display_priority: 13,
+      },
+      {
+        logo_path: "/2PTFxgrswnEuK0szl87iSd8Yszz.jpg",
+        provider_id: 20,
+        provider_name: "maxdome Store",
+        display_priority: 16,
+      },
+      {
+        logo_path: "/uULoezj2skPc6amfwru72UPjYXV.jpg",
+        provider_id: 178,
+        provider_name: "MagentaTV",
+        display_priority: 24,
+      },
+    ],
+  },
+  US: {
+    link: "https://www.themoviedb.org/movie/550-fight-club/watch?locale=US",
+    rent: [
+      {
+        logo_path: "/5NyLm42TmCqCMOZFvH4fcoSNKEW.jpg",
+        provider_id: 10,
+        provider_name: "Amazon Video",
+        display_priority: 13,
+      },
+      {
+        logo_path: "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+        provider_id: 3,
+        provider_name: "Google Play Movies",
+        display_priority: 14,
+      },
+      {
+        logo_path: "/oIkQkEkwfmcG7IGpRR1NB8frZZM.jpg",
+        provider_id: 192,
+        provider_name: "YouTube",
+        display_priority: 15,
+      },
+      {
+        logo_path: "/21dEscfO8n1tL35k4DANixhffsR.jpg",
+        provider_id: 7,
+        provider_name: "Vudu",
+        display_priority: 42,
+      },
+      {
+        logo_path: "/shq88b09gTBYC4hA7K7MUL8Q4zP.jpg",
+        provider_id: 68,
+        provider_name: "Microsoft Store",
+        display_priority: 53,
+      },
+      {
+        logo_path: "/gbyLHzl4eYP0oP9oJZ2oKbpkhND.jpg",
+        provider_id: 279,
+        provider_name: "Redbox",
+        display_priority: 54,
+      },
+      {
+        logo_path: "/xL9SUR63qrEjFZAhtsipskeAMR7.jpg",
+        provider_id: 358,
+        provider_name: "DIRECTV",
+        display_priority: 58,
+      },
+      {
+        logo_path: "/kJlVJLgbNPvKDYC0YMp3yA2OKq2.jpg",
+        provider_id: 352,
+        provider_name: "AMC on Demand",
+        display_priority: 137,
+      },
+    ],
+    flatrate: [
+      {
+        logo_path: "/jPXksae158ukMLFhhlNvzsvaEyt.jpg",
+        provider_id: 257,
+        provider_name: "fuboTV",
+        display_priority: 5,
+      },
+      {
+        logo_path: "/zxrVdFjIjLqkfnwyghnfywTn3Lh.jpg",
+        provider_id: 15,
+        provider_name: "Hulu",
+        display_priority: 6,
+      },
+      {
+        logo_path: "/xbhHHa1YgtpwhC8lb1NQ3ACVcLd.jpg",
+        provider_id: 531,
+        provider_name: "Paramount Plus",
+        display_priority: 16,
+      },
+      {
+        logo_path: "/3E0RkIEQrrGYazs63NMsn3XONT6.jpg",
+        provider_id: 582,
+        provider_name: "Paramount+ Amazon Channel",
+        display_priority: 23,
+      },
+      {
+        logo_path: "/hoqk74y8HTJTMWcVes1ZVwohCue.jpg",
+        provider_id: 583,
+        provider_name: "MGM Plus Amazon Channel",
+        display_priority: 24,
+      },
+      {
+        logo_path: "/qlVSrZgfXlFw0Jj6hsYq2zi70JD.jpg",
+        provider_id: 633,
+        provider_name: "Paramount+ Roku Premium Channel",
+        display_priority: 31,
+      },
+      {
+        logo_path: "/3sE2JNYZJRD9Le1P8B6oVEqarad.jpg",
+        provider_id: 636,
+        provider_name: "MGM Plus Roku Premium Channel",
+        display_priority: 35,
+      },
+      {
+        logo_path: "/xL9SUR63qrEjFZAhtsipskeAMR7.jpg",
+        provider_id: 358,
+        provider_name: "DIRECTV",
+        display_priority: 58,
+      },
+      {
+        logo_path: "/6A1gRIJqLfFHOoTvbTxDAbuU2nQ.jpg",
+        provider_id: 34,
+        provider_name: "MGM Plus",
+        display_priority: 64,
+      },
+    ],
+    buy: [
+      {
+        logo_path: "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+        provider_id: 2,
+        provider_name: "Apple TV",
+        display_priority: 4,
+      },
+      {
+        logo_path: "/5NyLm42TmCqCMOZFvH4fcoSNKEW.jpg",
+        provider_id: 10,
+        provider_name: "Amazon Video",
+        display_priority: 13,
+      },
+      {
+        logo_path: "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+        provider_id: 3,
+        provider_name: "Google Play Movies",
+        display_priority: 14,
+      },
+      {
+        logo_path: "/oIkQkEkwfmcG7IGpRR1NB8frZZM.jpg",
+        provider_id: 192,
+        provider_name: "YouTube",
+        display_priority: 15,
+      },
+      {
+        logo_path: "/21dEscfO8n1tL35k4DANixhffsR.jpg",
+        provider_id: 7,
+        provider_name: "Vudu",
+        display_priority: 42,
+      },
+      {
+        logo_path: "/shq88b09gTBYC4hA7K7MUL8Q4zP.jpg",
+        provider_id: 68,
+        provider_name: "Microsoft Store",
+        display_priority: 53,
+      },
+      {
+        logo_path: "/gbyLHzl4eYP0oP9oJZ2oKbpkhND.jpg",
+        provider_id: 279,
+        provider_name: "Redbox",
+        display_priority: 54,
+      },
+      {
+        logo_path: "/xL9SUR63qrEjFZAhtsipskeAMR7.jpg",
+        provider_id: 358,
+        provider_name: "DIRECTV",
+        display_priority: 58,
+      },
+      {
+        logo_path: "/kJlVJLgbNPvKDYC0YMp3yA2OKq2.jpg",
+        provider_id: 352,
+        provider_name: "AMC on Demand",
+        display_priority: 137,
+      },
+    ],
+  },
+};
+
+export const credits: Credits = {
+  cast: [
+    {
+      name: "Edward Norton",
+      profile_path: "/8nytsqL59SFJTVYVrN72k6qkGgJ.jpg",
+      character: "The Narrator",
+      order: 0,
+    },
+    {
+      name: "Brad Pitt",
+      profile_path: "/huV2cdcolEUwJy37QvH914vup7d.jpg",
+      character: "Tyler Durden",
+      order: 1,
+    },
+    {
+      name: "Helena Bonham Carter",
+      profile_path: "/DDeITcCpnBd0CkAIRPhggy9bt5.jpg",
+      character: "Marla Singer",
+      order: 2,
+    },
+    {
+      name: "Meat Loaf",
+      profile_path: "/7gKLR1u46OB8WJ6m06LemNBCMx6.jpg",
+      character: 'Robert "Bob" Paulson',
+      order: 3,
+    },
+    {
+      name: "Jared Leto",
+      profile_path: "/ca3x0OfIKbJppZh8S1Alx3GfUZO.jpg",
+      character: "Angel Face",
+      order: 4,
+    },
+    {
+      name: "Zach Grenier",
+      profile_path: "/fSyQKZO39sUsqY283GXiScOg3Hi.jpg",
+      character: "Richard Chesler",
+      order: 5,
+    },
+    {
+      name: "Holt McCallany",
+      profile_path: "/a5ax2ICLrV6l0T74OSFvzssCQyQ.jpg",
+      character: "The Mechanic",
+      order: 6,
+    },
+    {
+      name: "Eion Bailey",
+      profile_path: "/hKqfGq1sPhZdQOlto0bS3igFZdP.jpg",
+      character: "Ricky",
+      order: 7,
+    },
+    {
+      name: "Richmond Arquette",
+      profile_path: "/7byGiVac0GjBSVD1h6ylZlVXZK6.jpg",
+      character: "Intern",
+      order: 8,
+    },
+    {
+      name: "David Andrews",
+      profile_path: "/36LEerIIN7gpG52mM3Ier7YWDbh.jpg",
+      character: "Thomas",
+      order: 9,
+    },
+  ],
+  director: [
+    {
+      name: "David Fincher",
+      profile_path: "/tpEczFclQZeKAiCeKZZ0adRvtfz.jpg",
+    },
+  ],
+};
+
+export const movieData: ContentItem[] = [
   {
     adult: false,
     backdrop_path: "/8YFL5QQVPy3AgrEQxNYVSgiPEbe.jpg",
@@ -37,7 +433,7 @@ export const movieData: Movie[] = [
     vote_count: 1856,
     length: "2h40m",
     genres: ["Fantasy", "Action"],
-    contentType: "movie",
+    type: "movie",
   },
   {
     adult: false,
@@ -57,7 +453,7 @@ export const movieData: Movie[] = [
     vote_count: 1435,
     length: "2h40m",
     genres: ["Fantasy", "Action"],
-    contentType: "movie",
+    type: "movie",
   },
   {
     adult: false,
@@ -77,7 +473,7 @@ export const movieData: Movie[] = [
     vote_count: 1203,
     length: "2h40m",
     genres: ["Fantasy", "Action"],
-    contentType: "movie",
+    type: "movie",
   },
   {
     adult: false,
@@ -97,7 +493,7 @@ export const movieData: Movie[] = [
     vote_count: 7519,
     length: "2h40m",
     genres: ["Fantasy", "Action"],
-    contentType: "movie",
+    type: "movie",
   },
   {
     adult: false,
@@ -117,7 +513,7 @@ export const movieData: Movie[] = [
     vote_count: 226,
     length: "2h40m",
     genres: ["Fantasy", "Action"],
-    contentType: "movie",
+    type: "movie",
   },
   {
     adult: false,
@@ -137,7 +533,7 @@ export const movieData: Movie[] = [
     vote_count: 1183,
     length: "2h40m",
     genres: ["Fantasy", "Action"],
-    contentType: "movie",
+    type: "movie",
   },
   {
     adult: false,
@@ -157,7 +553,7 @@ export const movieData: Movie[] = [
     vote_count: 192,
     length: "2h40m",
     genres: ["Fantasy", "Action"],
-    contentType: "movie",
+    type: "movie",
   },
   {
     adult: false,
@@ -177,7 +573,7 @@ export const movieData: Movie[] = [
     vote_count: 856,
     length: "2h40m",
     genres: ["Fantasy", "Action"],
-    contentType: "movie",
+    type: "movie",
   },
   {
     adult: false,
@@ -197,7 +593,7 @@ export const movieData: Movie[] = [
     vote_count: 5326,
     length: "2h40m",
     genres: ["Fantasy", "Action"],
-    contentType: "movie",
+    type: "movie",
   },
   {
     adult: false,
@@ -217,7 +613,7 @@ export const movieData: Movie[] = [
     vote_count: 1202,
     length: "2h40m",
     genres: ["Fantasy", "Action"],
-    contentType: "movie",
+    type: "movie",
   },
   {
     adult: false,
@@ -237,7 +633,7 @@ export const movieData: Movie[] = [
     vote_count: 4,
     length: "2h40m",
     genres: ["Fantasy", "Action"],
-    contentType: "movie",
+    type: "movie",
   },
   {
     adult: false,
@@ -257,7 +653,7 @@ export const movieData: Movie[] = [
     vote_count: 873,
     length: "2h40m",
     genres: ["Fantasy", "Action"],
-    contentType: "movie",
+    type: "movie",
   },
   {
     adult: false,
@@ -277,7 +673,7 @@ export const movieData: Movie[] = [
     vote_count: 55,
     length: "2h40m",
     genres: ["Fantasy", "Action"],
-    contentType: "movie",
+    type: "movie",
   },
   {
     adult: false,
@@ -297,7 +693,7 @@ export const movieData: Movie[] = [
     vote_count: 752,
     length: "2h40m",
     genres: ["Fantasy", "Action"],
-    contentType: "movie",
+    type: "movie",
   },
   {
     adult: false,
@@ -317,7 +713,7 @@ export const movieData: Movie[] = [
     vote_count: 21,
     length: "2h40m",
     genres: ["Fantasy", "Action"],
-    contentType: "movie",
+    type: "movie",
   },
   {
     adult: false,
@@ -337,7 +733,7 @@ export const movieData: Movie[] = [
     vote_count: 20,
     length: "2h40m",
     genres: ["Fantasy", "Action"],
-    contentType: "movie",
+    type: "movie",
   },
   {
     adult: false,
@@ -357,7 +753,7 @@ export const movieData: Movie[] = [
     vote_count: 142,
     length: "2h40m",
     genres: ["Fantasy", "Action"],
-    contentType: "movie",
+    type: "movie",
   },
   {
     adult: false,
@@ -377,7 +773,7 @@ export const movieData: Movie[] = [
     vote_count: 122,
     length: "2h40m",
     genres: ["Fantasy", "Action"],
-    contentType: "movie",
+    type: "movie",
   },
   {
     adult: false,
@@ -397,7 +793,7 @@ export const movieData: Movie[] = [
     vote_count: 184,
     length: "2h40m",
     genres: ["Fantasy", "Action"],
-    contentType: "movie",
+    type: "movie",
   },
   {
     adult: false,
@@ -417,6 +813,6 @@ export const movieData: Movie[] = [
     vote_count: 104,
     length: "2h40m",
     genres: ["Fantasy", "Action"],
-    contentType: "movie",
+    type: "movie",
   },
 ];
