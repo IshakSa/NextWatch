@@ -1,39 +1,28 @@
 import Image from "next/image";
 import InfoOverlay from "./InfoOverlay";
 import Link from "next/link";
-
-interface ContentCardProps {
-  id: number;
-  contentType: "movie" | "tv";
-  image: string;
-  contentTitle: string;
-  rating: number;
-  genres: string[];
-}
+import { ContentItem } from "@/lib/constants";
 
 export default function BackdropContentCard({
-  id,
-  contentType,
-  image,
-  contentTitle,
-  rating,
-  genres,
-}: ContentCardProps) {
+  contentItem,
+}: {
+  contentItem: ContentItem;
+}) {
   return (
     <div className="relative">
-      <Link href={`/${contentType}/${id}`}>
+      <Link href={`/${contentItem.type}/${contentItem.id}`}>
         <Image
           className="rounded-xl"
-          src={image}
+          src={`/images${contentItem.backdrop_path}`}
           alt="backdrop"
           width={500}
           height={150}
         />
         <div className="mt-2">
           <InfoOverlay
-            contentTitle={contentTitle}
-            genres={genres}
-            rating={rating}
+            contentTitle={contentItem.title}
+            genres={contentItem.genres}
+            rating={contentItem.vote_average}
           />
         </div>
       </Link>
