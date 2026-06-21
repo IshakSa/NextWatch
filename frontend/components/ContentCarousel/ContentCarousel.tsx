@@ -6,22 +6,25 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 
-import { movieData } from "@/lib/constants";
+import { Actor, ContentItem, Director } from "@/lib/constants";
 import PosterContentCard from "./_components/PosterContentCard";
 import BackdropContentCard from "./_components/BackdropContentCard";
 import RankedContentCard from "./_components/RankedContentCard";
+import CreditsCard from "./_components/CreditsCard";
 
-const movies = movieData;
-
-export default function ContentCarousel({
-  rowName,
-  carouselType,
-}: {
+type ContentCarouselProps<
+  T extends "poster" | "backdrop" | "ranked" | "credits",
+> = {
   rowName: string;
-  carouselType: "poster" | "backdrop" | "ranked";
-}) {
+  carouselType: T;
+  content: T extends "credits" ? Actor[] | Director[] : ContentItem[];
+};
+
+export default function ContentCarousel<
+  T extends "poster" | "backdrop" | "ranked" | "credits",
+>({ rowName, carouselType, content }: ContentCarouselProps<T>) {
   return (
-    <div className="mt-25">
+    <div className={`${carouselType === "credits" ? "mt-15" : "mt-25"}`}>
       <h2 className="mb-5">{rowName}</h2>
       <Carousel
         opts={{
@@ -33,49 +36,36 @@ export default function ContentCarousel({
           className={
             carouselType === "ranked"
               ? "sm:px-50 sm:-ml-55 md:px-5 md:-ml-10 lg:px-30 lg:-ml-35"
-              : "px-30 -ml-35"
+              : carouselType === "credits"
+                ? "sm:px-30 sm:-ml-35 md:px-0 md:-ml-4"
+                : "px-30 -ml-35"
           }
         >
-          {movies.map((movie, index) => {
-            const imageType =
-              carouselType === "poster" || carouselType === "ranked"
-                ? movie.poster_path
-                : movie.backdrop_path;
+          {content.map((item, index) => {
             return (
               <CarouselItem
                 key={index}
                 className={`pl-5 basis-full 
-                  ${carouselType === "ranked" ? "md:basis-1/2 xl:basis-1/3" : "sm:basis-1/2 md:basis-1/3 lg:basis-1/4"}`}
+                  ${
+                    carouselType === "ranked"
+                      ? "md:basis-1/2 xl:basis-1/3"
+                      : carouselType === "credits"
+                        ? "basis-1/2 sm:basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5 2xl:basis-1/6"
+                        : "sm:basis-1/2 md:basis-1/3 lg:basis-1/4"
+                  }`}
               >
                 {carouselType === "poster" ? (
-                  <PosterContentCard
-                    id={movie.id}
-                    contentType={movie.contentType}
-                    contentTitle={movie.title}
-                    genres={["Action", "Drama"]}
-                    image={`/images${imageType}`}
-                    rating={movie.vote_average}
-                  />
+                  <PosterContentCard contentItem={item as ContentItem} />
                 ) : carouselType === "backdrop" ? (
-                  <BackdropContentCard
-                    id={movie.id}
-                    contentType={movie.contentType}
-                    contentTitle={movie.title}
-                    genres={["Action", "Drama"]}
-                    image={`/images${imageType}`}
-                    rating={movie.vote_average}
+                  <BackdropContentCard contentItem={item as ContentItem} />
+                ) : carouselType === "ranked" ? (
+                  // TODO: limit ranking to only max 10
+                  <RankedContentCard
+                    contentItem={item as ContentItem}
+                    rank={index + 1}
                   />
                 ) : (
-                  // TODO: get content type, limit ranking to only max 10
-                  <RankedContentCard
-                    id={movie.id}
-                    contentType={movie.contentType}
-                    contentTitle={movie.title}
-                    genres={["Action", "Drama"]}
-                    image={`/images${imageType}`}
-                    rank={index + 1}
-                    rating={movie.vote_average}
-                  />
+                  <CreditsCard person={item as Actor | Director} />
                 )}
               </CarouselItem>
             );
