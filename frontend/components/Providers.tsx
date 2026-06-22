@@ -8,6 +8,15 @@ import {
   ComboboxItem,
   ComboboxList,
 } from "@/components/ui/combobox";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 import { ProviderOptions } from "@/lib/constants";
@@ -41,6 +50,16 @@ const countryMap: CountryObject = {
   Sweden: "SE",
 };
 
+const watchOptionMap: WatchOptionMap = {
+  Stream: "flatrate",
+  Buy: "buy",
+  Rent: "rent",
+};
+
+interface WatchOptionMap {
+  [watchOption: string]: string;
+}
+
 interface CountryObject {
   [countryCode: string]: string;
 }
@@ -56,6 +75,7 @@ export default function Providers({
   const [countryProviders, setCountryProviders] = useState(
     selectedCountry ? providers[countryMap[selectedCountry]] : null,
   );
+  const [selectedWatchOption, setSelectedWatchOption] = useState("Stream");
 
   useEffect(() => {
     if (!selectedCountry) {
@@ -68,40 +88,74 @@ export default function Providers({
     setCountryProviders(currentProviders);
   }, [selectedCountry, providers]);
 
-  function handleValueChange(value: string | null) {
+  function handleCountryChange(value: string | null) {
     setSelectedCountry(value);
   }
 
+  function handleWatchOptionChange(value: string | null) {
+    if (value) {
+      setSelectedWatchOption(value);
+    }
+  }
+
+  const currentWatchOption = watchOptionMap[selectedWatchOption] as
+    | "flatrate"
+    | "rent"
+    | "buy";
+  const currentProviders = countryProviders
+    ? countryProviders[currentWatchOption]
+    : [];
+
   return (
     <div className="mt-20">
-      <div className="flex space-x-3">
+      <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 space-x-3">
         <h2>Available On</h2>
 
-        <div className="flex max-w-50">
-          <Combobox
-            items={countries}
-            value={selectedCountry}
-            onValueChange={handleValueChange}
-          >
-            <ComboboxInput placeholder="Select a country" />
+        <div className="flex space-x-3">
+          <div className="flex max-w-40">
+            <Combobox
+              items={countries}
+              value={selectedCountry}
+              onValueChange={handleCountryChange}
+            >
+              <ComboboxInput placeholder="Select a country" />
 
-            <ComboboxContent>
-              <ComboboxEmpty>Country not found.</ComboboxEmpty>
-              <ComboboxList>
-                {(country) => (
-                  <ComboboxItem key={country} value={country}>
-                    {country}
-                  </ComboboxItem>
-                )}
-              </ComboboxList>
-            </ComboboxContent>
-          </Combobox>
+              <ComboboxContent>
+                <ComboboxEmpty>Country not found.</ComboboxEmpty>
+                <ComboboxList>
+                  {(country) => (
+                    <ComboboxItem key={country} value={country}>
+                      {country}
+                    </ComboboxItem>
+                  )}
+                </ComboboxList>
+              </ComboboxContent>
+            </Combobox>
+          </div>
+
+          <div className="flex max-w-20">
+            <Select
+              value={selectedWatchOption}
+              onValueChange={handleWatchOptionChange}
+            >
+              <SelectTrigger className="w-45">
+                <SelectValue placeholder="Select Watch Option" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectItem value="Stream">Stream</SelectItem>
+                  <SelectItem value="Rent">Rent</SelectItem>
+                  <SelectItem value="Buy">Buy</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
       </div>
 
       <div className="space-x-3 space-y-3 mt-5">
-        {countryProviders?.flatrate &&
-          countryProviders.flatrate
+        {currentProviders &&
+          currentProviders
             .sort((a, b) => a.display_priority - b.display_priority)
             .slice(0, 4)
             .map((provider) => (
