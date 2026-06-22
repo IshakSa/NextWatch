@@ -24,9 +24,9 @@ export default async function MovieDetailsPage({
         <HeroSection contentItem={movie} type="details" size={60} />
       </section>
 
-      <section className="container mt-10">
+      <section className="container mt-5 sm:mt-15">
         <div>
-          <h2 className="mb-5">Story Line</h2>
+          <h2 className="mb-2">Story Line</h2>
 
           <div className="text-foreground/60">
             <ExpandableOverview text={movie.overview} overviewType="details" />
@@ -45,10 +45,7 @@ export default async function MovieDetailsPage({
           content={credits.director}
         />
 
-        <div className="mt-20">
-          <h2>Available On</h2>
-          <Providers providers={providers} />
-        </div>
+        <Providers providers={providers} />
       </section>
 
       <section className="container">

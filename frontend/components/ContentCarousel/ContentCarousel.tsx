@@ -24,7 +24,7 @@ export default function ContentCarousel<
   T extends "poster" | "backdrop" | "ranked" | "credits",
 >({ rowName, carouselType, content }: ContentCarouselProps<T>) {
   return (
-    <div className={`${carouselType === "credits" ? "mt-15" : "mt-25"}`}>
+    <div className={`${carouselType === "credits" ? "mt-20" : "mt-25"}`}>
       <h2 className="mb-5">{rowName}</h2>
       <Carousel
         opts={{

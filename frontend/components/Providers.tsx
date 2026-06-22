@@ -59,6 +59,7 @@ export default function Providers({
 
   useEffect(() => {
     if (!selectedCountry) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setCountryProviders(null);
       return;
     }
@@ -72,41 +73,61 @@ export default function Providers({
   }
 
   return (
-    <div>
-      <Combobox
-        items={countries}
-        value={selectedCountry}
-        onValueChange={handleValueChange}
-      >
-        <ComboboxInput placeholder="Select a country" />
+    <div className="mt-20">
+      <div className="flex space-x-3">
+        <h2>Available On</h2>
 
-        <ComboboxContent>
-          <ComboboxEmpty>Country not found.</ComboboxEmpty>
-          <ComboboxList>
-            {(country) => (
-              <ComboboxItem key={country} value={country}>
-                {country}
-              </ComboboxItem>
-            )}
-          </ComboboxList>
-        </ComboboxContent>
-      </Combobox>
+        <div className="flex max-w-50">
+          <Combobox
+            items={countries}
+            value={selectedCountry}
+            onValueChange={handleValueChange}
+          >
+            <ComboboxInput placeholder="Select a country" />
 
-      {countryProviders?.flatrate &&
-        countryProviders.flatrate
-          .sort((a, b) => a.display_priority - b.display_priority)
-          .slice(0, 4)
-          .map((provider) => (
-            <Badge key={provider.provider_id}>
-              <Image
-                src={`/images${provider.logo_path}`}
-                alt="provider logo"
-                width={24}
-                height={24}
-              />
-              {provider.provider_name}
-            </Badge>
-          ))}
+            <ComboboxContent>
+              <ComboboxEmpty>Country not found.</ComboboxEmpty>
+              <ComboboxList>
+                {(country) => (
+                  <ComboboxItem key={country} value={country}>
+                    {country}
+                  </ComboboxItem>
+                )}
+              </ComboboxList>
+            </ComboboxContent>
+          </Combobox>
+        </div>
+      </div>
+
+      <div className="space-x-3 space-y-3 mt-5">
+        {countryProviders?.flatrate &&
+          countryProviders.flatrate
+            .sort((a, b) => a.display_priority - b.display_priority)
+            .slice(0, 4)
+            .map((provider) => (
+              <Badge
+                key={provider.provider_id}
+                variant={"secondary"}
+                className="p-5 space-x-1"
+              >
+                <div className="rounded-full overflow-hidden">
+                  <Image
+                    src={`/images${provider.logo_path}`}
+                    alt="provider logo"
+                    width={30}
+                    height={30}
+                    unoptimized
+                  />
+                </div>
+                <p className="font-semibold">{provider.provider_name}</p>
+              </Badge>
+            ))}
+      </div>
+      {!selectedCountry && (
+        <p className="text-sm text-muted-foreground mt-4">
+          Please select a country to see streaming providers.
+        </p>
+      )}
     </div>
   );
 }
