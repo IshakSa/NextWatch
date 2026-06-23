@@ -11,39 +11,35 @@ export default function ShareButton({ className }: { className?: string }) {
 
   const handleShare = async () => {
     const shareData = {
-      title: "Mein Next.js Projekt",
-      text: "Schau dir diese tolle Seite an!",
+      title: "Check out this recommendation!",
+      text: "Found this amazing title on this movie platform.",
       url: window.location.href,
     };
 
     if (navigator.share) {
       try {
         await navigator.share(shareData);
-      } catch (err) {
-        console.error("Fehler beim Teilen:", err);
-      }
+      } catch {}
     } else {
       try {
         await navigator.clipboard.writeText(window.location.href);
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
-      } catch (err) {
-        console.error("In Zwischenablage kopieren fehlgeschlagen", err);
-      }
+      } catch {}
     }
   };
 
   return (
     <div>
       <Button
-        variant={copied ? "secondary" : "outline"}
+        variant={"outline"}
         onClick={handleShare}
         className={className}
         size={"icon"}
       >
         <div className="flex space-x-2 items-center">
           <ShareIcon />
-          {isDesktop && <p>{copied ? "Link Copied" : "Share"}</p>}
+          {isDesktop && <p>{copied ? "Link Copied!" : "Share"}</p>}
         </div>
       </Button>
     </div>

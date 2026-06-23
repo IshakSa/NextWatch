@@ -33,7 +33,7 @@ export default function ExpandableOverview({
 
   return (
     <p
-      className={`max-w-screen sm:max-w-2/3  ${page === "details" ? "lg:max-w-2/3" : "lg:max-w-2/5"} whitespace-pre-wrap wrap-break-word`}
+      className={`max-w-screen ${page === "home" && "sm:max-w-2/3"}  ${page === "details" ? "lg:max-w-2/3" : "lg:max-w-2/5"}`}
     >
       {isExpanded ? text : text.slice(0, MAX_LENGTH)}
       {shouldTruncate && (

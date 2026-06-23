@@ -82,7 +82,7 @@ export default function WatchedButton({ className }: { className?: string }) {
         <PopoverTrigger
           render={
             <Button
-              variant={watched ? "secondary" : "outline"}
+              variant={watched ? "watched" : "outline"}
               onClick={handleWatched}
               size={"icon"}
               className={className}
