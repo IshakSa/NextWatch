@@ -1,3 +1,5 @@
+"use client";
+
 import ExpandableOverview from "@/components/hero/_components/ExpandableOverview";
 import AddWatchlistButton from "@/components/buttons/AddWatchlistButton";
 import TrailerButton from "@/components/buttons/TrailerButton";
@@ -7,6 +9,8 @@ import HeroImage from "./_components/HeroImage";
 import { capitalize } from "@/lib/utils";
 import WatchedButton from "../buttons/WatchedButton";
 import ShareButton from "../buttons/ShareButton";
+import { useState } from "react";
+import EmbeddedVideo from "../EmbeddedVideo";
 
 export default function HeroSection({
   contentItem,
@@ -17,12 +21,15 @@ export default function HeroSection({
   page: "home" | "details";
   size?: number;
 }) {
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   return (
     <div
-      className={`relative max-w-full flex justify-center items-center`}
+      className="relative max-w-full flex justify-center items-center"
       style={{ height: `${size}vh` }}
     >
       <HeroImage image={contentItem.backdrop_path} />
+
+      {isVideoPlaying && <EmbeddedVideo youtubeId="O-b2VfmmbyA" />}
 
       <div className="container absolute left-1/2 bottom-0 -translate-x-1/2 flex flex-col z-1 px-4 sm:px-6 lg:px-8 mb-10">
         <div className="flex space-x-2 mb-5">
@@ -43,7 +50,11 @@ export default function HeroSection({
             <ExpandableOverview text={contentItem.overview} page="home" />
 
             <div className="flex gap-5 justify-center sm:justify-start mt-5">
-              <TrailerButton className="p-5 rounded-lg flex-1 w-auto sm:flex-initial" />
+              <TrailerButton
+                className="p-5 rounded-lg flex-1 w-auto sm:flex-initial"
+                isVideoPlaying={isVideoPlaying}
+                setIsVideoPlaying={setIsVideoPlaying}
+              />
               <AddWatchlistButton
                 className="p-5 rounded-lg flex-1 w-auto sm:flex-initial"
                 page="home"
@@ -53,7 +64,11 @@ export default function HeroSection({
         ) : (
           <div className="flex justify-between mt-5 gap-3">
             <div className="flex gap-5 justify-center w-full sm:justify-start">
-              <TrailerButton className="p-5 rounded-lg flex-1 sm:flex-initial" />
+              <TrailerButton
+                className="p-5 rounded-lg flex-1 sm:flex-initial"
+                isVideoPlaying={isVideoPlaying}
+                setIsVideoPlaying={setIsVideoPlaying}
+              />
               <AddWatchlistButton
                 className="hidden sm:inline-flex p-5 rounded-lg w-auto sm:flex-initial"
                 page="details"
@@ -61,7 +76,7 @@ export default function HeroSection({
             </div>
             <div className="flex gap-3">
               <AddWatchlistButton
-                className="sm:hidden p-5 rounded-lg flex-1 w-auto sm:flex-initial"
+                className="sm:hidden rounded-lg p-5 sm:w-auto"
                 page="details"
               />
               <WatchedButton className="rounded-lg p-5 sm:w-auto" />
