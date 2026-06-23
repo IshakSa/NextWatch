@@ -60,7 +60,7 @@ export default function HeroContentCarousel({
         <CarouselContent>
           {content.map((item) => (
             <CarouselItem key={item.id}>
-              <HeroSection contentItem={item} type="home" />
+              <HeroSection contentItem={item} page="home" />
             </CarouselItem>
           ))}
         </CarouselContent>

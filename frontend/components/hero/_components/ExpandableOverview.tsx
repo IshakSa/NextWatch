@@ -5,10 +5,10 @@ import { useState } from "react";
 
 export default function ExpandableOverview({
   text,
-  overviewType = "home",
+  page,
 }: {
   text: string;
-  overviewType?: "home" | "details";
+  page: "home" | "details";
 }) {
   const isDesktop = useMediaQuery("(min-width: 1280px)");
   const [isExpanded, setIsExpanded] = useState(false);
@@ -22,7 +22,7 @@ export default function ExpandableOverview({
   }
 
   let MAX_LENGTH = 100;
-  if (overviewType === "details") {
+  if (page === "details") {
     MAX_LENGTH = isDesktop ? 400 : 200;
   } else if (isDesktop) {
     MAX_LENGTH = 170;
@@ -33,7 +33,7 @@ export default function ExpandableOverview({
 
   return (
     <p
-      className={`max-w-screen sm:max-w-2/3  ${overviewType === "details" ? "lg:max-w-2/3" : "lg:max-w-2/5"} whitespace-pre-wrap wrap-break-word`}
+      className={`max-w-screen sm:max-w-2/3  ${page === "details" ? "lg:max-w-2/3" : "lg:max-w-2/5"} whitespace-pre-wrap wrap-break-word`}
     >
       {isExpanded ? text : text.slice(0, MAX_LENGTH)}
       {shouldTruncate && (

@@ -21,7 +21,7 @@ export default async function MovieDetailsPage({
   return (
     <main>
       <section>
-        <HeroSection contentItem={movie} type="details" size={60} />
+        <HeroSection contentItem={movie} page="details" size={60} />
       </section>
 
       <section className="container mt-5 sm:mt-15">
@@ -29,7 +29,7 @@ export default async function MovieDetailsPage({
           <h2 className="mb-2">Story Line</h2>
 
           <div className="text-foreground/60">
-            <ExpandableOverview text={movie.overview} overviewType="details" />
+            <ExpandableOverview text={movie.overview} page="details" />
           </div>
         </div>
 
