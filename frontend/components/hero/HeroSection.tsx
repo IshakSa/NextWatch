@@ -5,14 +5,16 @@ import { Badge } from "@/components/ui/badge";
 import { ContentItem } from "@/lib/constants";
 import HeroImage from "./_components/HeroImage";
 import { capitalize } from "@/lib/utils";
+import WatchedButton from "../buttons/WatchedButton";
+import ShareButton from "../buttons/ShareButton";
 
 export default function HeroSection({
   contentItem,
-  type,
+  page,
   size = 70,
 }: {
   contentItem: ContentItem;
-  type: "home" | "details";
+  page: "home" | "details";
   size?: number;
 }) {
   return (
@@ -36,13 +38,37 @@ export default function HeroSection({
           {contentItem.genres?.join(" • ")}
         </p>
 
-        {type === "home" && <ExpandableOverview text={contentItem.overview} />}
+        {page === "home" ? (
+          <>
+            <ExpandableOverview text={contentItem.overview} page="home" />
 
-        <div className="flex justify-center sm:justify-start mt-5">
-          <TrailerButton className="p-5 rounded-lg w-48/100 sm:w-auto" />
-
-          <AddWatchlistButton className="ml-5 p-5 rounded-lg w-48/100 sm:w-auto" />
-        </div>
+            <div className="flex gap-5 justify-center sm:justify-start mt-5">
+              <TrailerButton className="p-5 rounded-lg flex-1 w-auto sm:flex-initial" />
+              <AddWatchlistButton
+                className="p-5 rounded-lg flex-1 w-auto sm:flex-initial"
+                page="home"
+              />
+            </div>
+          </>
+        ) : (
+          <div className="flex justify-between mt-5 gap-3">
+            <div className="flex gap-5 justify-center w-full sm:justify-start">
+              <TrailerButton className="p-5 rounded-lg flex-1 sm:flex-initial" />
+              <AddWatchlistButton
+                className="hidden sm:inline-flex p-5 rounded-lg w-auto sm:flex-initial"
+                page="details"
+              />
+            </div>
+            <div className="flex gap-3">
+              <AddWatchlistButton
+                className="sm:hidden p-5 rounded-lg flex-1 w-auto sm:flex-initial"
+                page="details"
+              />
+              <WatchedButton className="rounded-lg p-5 sm:w-auto" />
+              <ShareButton className="rounded-lg p-5 sm:w-auto" />
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
