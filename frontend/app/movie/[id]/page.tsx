@@ -1,8 +1,9 @@
 import ContentCarousel from "@/components/ContentCarousel/ContentCarousel";
+import EpisodesCarousel from "@/components/EpisodesCarousel/EpisodeCarousel";
 import ExpandableOverview from "@/components/hero/_components/ExpandableOverview";
 import HeroSection from "@/components/hero/HeroSection";
 import Providers from "@/components/Providers";
-import { credits, movieData, providers } from "@/lib/constants";
+import { credits, movieData, providers, seasons } from "@/lib/constants";
 
 export default async function MovieDetailsPage({
   params,
@@ -47,12 +48,14 @@ export default async function MovieDetailsPage({
           margin="mt-20"
         />
 
+        <EpisodesCarousel seasons={seasons} margin="mt-20" />
+
         <Providers providers={providers} />
       </section>
 
       <div className="border-t-2 mt-15" />
 
-      <section className="container mt-0">
+      <section className="container">
         <ContentCarousel<"backdrop">
           carouselType="backdrop"
           rowName="Similar Movies for you"
