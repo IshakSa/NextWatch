@@ -17,7 +17,7 @@ export default function EpisodeCard({ episode }: { episode: Episode }) {
           E. {episode.episode_number} | {episode.runtime}m
         </p>
         <p className="truncate font-semibold text-lg">{episode.name}</p>
-        <div className="flex text-muted-foreground sm:text-sm text-xs">
+        <div className="flex text-white/60 sm:text-sm text-xs">
           <ExpandableOverview text={episode.overview} page="episodes" />
         </div>
       </div>
