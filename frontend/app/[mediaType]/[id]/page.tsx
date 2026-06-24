@@ -8,9 +8,9 @@ import { credits, movieData, providers, seasons } from "@/lib/constants";
 export default async function MovieDetailsPage({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: Promise<{ mediaType: "movie" | "tv"; id: string }>;
 }) {
-  const { id } = await params;
+  const { mediaType, id } = await params;
   const idNum = Number(id);
 
   const movie = movieData.find((movie) => movie.id === idNum);
@@ -48,7 +48,9 @@ export default async function MovieDetailsPage({
           margin="mt-20"
         />
 
-        <EpisodesCarousel seasons={seasons} margin="mt-20" />
+        {movie.type === "tv" && (
+          <EpisodesCarousel seasons={seasons} margin="mt-20" />
+        )}
 
         <Providers providers={providers} />
       </section>
