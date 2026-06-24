@@ -18,13 +18,19 @@ type ContentCarouselProps<
   rowName: string;
   carouselType: T;
   content: T extends "credits" ? Actor[] | Director[] : ContentItem[];
+  margin?: string;
 };
 
 export default function ContentCarousel<
   T extends "poster" | "backdrop" | "ranked" | "credits",
->({ rowName, carouselType, content }: ContentCarouselProps<T>) {
+>({
+  rowName,
+  carouselType,
+  content,
+  margin = "mt-25",
+}: ContentCarouselProps<T>) {
   return (
-    <div className={`${carouselType === "credits" ? "mt-20" : "mt-25"}`}>
+    <div className={`${margin}`}>
       <h2 className="mb-5">{rowName}</h2>
       <Carousel
         opts={{

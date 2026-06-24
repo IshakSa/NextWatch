@@ -13,7 +13,7 @@ export default function EmbeddedVideo({ youtubeId }: { youtubeId: string }) {
   return (
     <>
       {isShown && (
-        <div className="z-10 w-screen h-full flex items-center justify-center bg-zinc-950/70 backdrop-blur-md">
+        <div onClick={handleClose} className="z-10 w-screen h-full flex items-center justify-center bg-zinc-950/70 backdrop-blur-md">
           <div className="z-5 w-full sm:max-w-[80%] lg:max-w-[65%] xl:max-w-[50%] mx-auto sm:px-4">
             <div className="relative aspect-video sm:rounded-xl overflow-hidden">
               <iframe

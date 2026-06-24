@@ -24,7 +24,7 @@ export default async function MovieDetailsPage({
         <HeroSection contentItem={movie} page="details" size={60} />
       </section>
 
-      <section className="container mt-5 sm:mt-15">
+      <section className="container mt-10 sm:mt-15">
         <div>
           <h2 className="mb-2">Story Line</h2>
 
@@ -37,22 +37,27 @@ export default async function MovieDetailsPage({
           carouselType="credits"
           rowName="Top Cast"
           content={credits.cast}
+          margin="mt-20"
         />
 
         <ContentCarousel
           carouselType="credits"
           rowName="Director"
           content={credits.director}
+          margin="mt-20"
         />
 
         <Providers providers={providers} />
       </section>
 
-      <section className="container">
+      <div className="border-t-2 mt-15" />
+
+      <section className="container mt-0">
         <ContentCarousel<"backdrop">
           carouselType="backdrop"
           rowName="Similar Movies for you"
           content={movieData}
+          margin="mt-15"
         />
       </section>
     </main>
