@@ -1,7 +1,7 @@
 import { PopcornIcon, SearchIcon } from "lucide-react";
-import { ModeToggle } from "../../ModeToggle";
+import { ModeToggle } from "./ModeToggle";
 import Link from "next/link";
-import AuthButton from "@/components/buttons/AuthButton";
+import AuthButton from "@/components/actions/AuthButton";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 export default function NavbarDesktop({

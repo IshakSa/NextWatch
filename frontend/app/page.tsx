@@ -1,4 +1,4 @@
-import ContentCarousel from "@/components/ContentCarousel/ContentCarousel";
+import ContentCarousel from "@/components/carousel/ContentCarousel/ContentCarousel";
 import HeroContentCarousel from "@/components/hero/HeroContentCarousel";
 import { movieData } from "@/lib/constants";
 

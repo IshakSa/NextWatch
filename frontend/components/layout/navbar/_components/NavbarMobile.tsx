@@ -6,10 +6,10 @@ import {
   SheetHeader,
   SheetDescription,
   SheetClose,
-} from "../../ui/sheet";
+} from "../../../ui/sheet";
 import Link from "next/link";
-import { ModeToggle } from "@/components/ModeToggle";
-import AuthButton from "@/components/buttons/AuthButton";
+import { ModeToggle } from "@/components/layout/navbar/_components/ModeToggle";
+import AuthButton from "@/components/actions/AuthButton";
 
 export default function NavbarMobile({
   navLinks,

@@ -1,4 +1,4 @@
-import ExpandableOverview from "@/components/hero/_components/ExpandableOverview";
+import ExpandableOverview from "@/components/shared/ExpandableOverview";
 import { Episode } from "@/lib/constants";
 import Image from "next/image";
 

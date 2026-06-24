@@ -1,6 +1,6 @@
-import ContentCarousel from "@/components/ContentCarousel/ContentCarousel";
-import EpisodesCarousel from "@/components/EpisodesCarousel/EpisodeCarousel";
-import ExpandableOverview from "@/components/hero/_components/ExpandableOverview";
+import ContentCarousel from "@/components/carousel/ContentCarousel/ContentCarousel";
+import EpisodesCarousel from "@/components/carousel/EpisodesCarousel/EpisodeCarousel";
+import ExpandableOverview from "@/components/shared/ExpandableOverview";
 import HeroSection from "@/components/hero/HeroSection";
 import Providers from "@/components/Providers";
 import { credits, movieData, providers, seasons } from "@/lib/constants";

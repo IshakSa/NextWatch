@@ -1,16 +1,16 @@
 "use client";
 
-import ExpandableOverview from "@/components/hero/_components/ExpandableOverview";
-import AddWatchlistButton from "@/components/buttons/AddWatchlistButton";
-import TrailerButton from "@/components/buttons/TrailerButton";
+import ExpandableOverview from "@/components/shared/ExpandableOverview";
+import AddWatchlistButton from "@/components/actions/AddWatchlistButton";
+import TrailerButton from "@/components/actions/TrailerButton";
 import { Badge } from "@/components/ui/badge";
 import { ContentItem } from "@/lib/constants";
 import HeroImage from "./_components/HeroImage";
 import { capitalize } from "@/lib/utils";
-import WatchedButton from "../buttons/WatchedButton";
-import ShareButton from "../buttons/ShareButton";
+import WatchedButton from "../actions/WatchedButton";
+import ShareButton from "../actions/ShareButton";
 import { useState } from "react";
-import EmbeddedVideo from "../EmbeddedVideo";
+import EmbeddedVideo from "../shared/EmbeddedVideo";
 
 export default function HeroSection({
   contentItem,
