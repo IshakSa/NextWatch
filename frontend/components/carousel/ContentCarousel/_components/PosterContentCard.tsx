@@ -1,7 +1,7 @@
-import Image from "next/image";
 import InfoOverlay from "./InfoOverlay";
 import Link from "next/link";
-import { ContentItem } from "@/lib/constants";
+import { ContentItem, ImageSizes } from "@/lib/constants";
+import ImageLoader from "@/components/shared/ImageLoader";
 
 export default function PosterContentCard({
   contentItem,
@@ -11,11 +11,12 @@ export default function PosterContentCard({
   return (
     <div className="relative text-white">
       <Link href={`/${contentItem.type}/${contentItem.id}`}>
-        <Image
-          className="rounded-xl"
-          src={`/images${contentItem.poster_path}`}
+        <ImageLoader
+          src={contentItem.poster_path}
           alt="poster"
-          width={500}
+          apiWidth={ImageSizes.poster}
+          className="rounded-xl"
+          width={ImageSizes.poster}
           height={500}
         />
         <div className="absolute bottom-0 left-0 z-10 p-4 md:p-3 w-full bg-linear-to-t from-black to-transparent rounded-b-xl">

@@ -1,4 +1,5 @@
-import { ContentItem } from "@/lib/constants";
+import ImageLoader from "@/components/shared/ImageLoader";
+import { ContentItem, ImageSizes } from "@/lib/constants";
 import { FilmIcon, StarIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -14,9 +15,10 @@ export default function RankedContentCard({
     <div className="flex justify-center sm:justify-start items-center">
       <h1 className="text-6xl mr-5">{rank}</h1>
       <Link href={`/${contentItem.type}/${contentItem.id}`}>
-        <Image
-          src={`/images${contentItem.poster_path}`}
+        <ImageLoader
+          src={contentItem.poster_path}
           alt="poster"
+          apiWidth={ImageSizes.poster}
           width={150}
           height={100}
           className="rounded-xl"

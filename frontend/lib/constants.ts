@@ -65,6 +65,15 @@ export interface Episode {
   still_path: string;
 }
 
+export const ImageSizes = {
+  hero: 1920,
+  poster: 500,
+  backdrop: 500,
+  still: 500,
+  provider: 154,
+  credits: 185,
+} as const;
+
 export const providers: ProviderOptions = {
   DE: {
     link: "https://www.themoviedb.org/movie/550-fight-club/watch?locale=DE",
@@ -767,7 +776,7 @@ export const seasons: Season[] = [
         still_path: "/y1BXkhEqBQS3ewQeqqdHpjhTts0.jpg",
       },
     ],
-  }
+  },
 ];
 
 export const movieData: ContentItem[] = [

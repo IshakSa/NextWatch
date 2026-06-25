@@ -1,7 +1,7 @@
-import Image from "next/image";
 import InfoOverlay from "./InfoOverlay";
 import Link from "next/link";
-import { ContentItem } from "@/lib/constants";
+import { ContentItem, ImageSizes } from "@/lib/constants";
+import ImageLoader from "@/components/shared/ImageLoader";
 
 export default function BackdropContentCard({
   contentItem,
@@ -11,11 +11,11 @@ export default function BackdropContentCard({
   return (
     <div className="relative">
       <Link href={`/${contentItem.type}/${contentItem.id}`}>
-        <Image
-          className="rounded-xl"
-          src={`/images${contentItem.backdrop_path}`}
+        <ImageLoader
+          src={contentItem.backdrop_path}
           alt="backdrop"
-          width={500}
+          apiWidth={ImageSizes.backdrop}
+          width={ImageSizes.backdrop}
           height={150}
         />
         <div className="mt-2">

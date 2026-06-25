@@ -1,15 +1,16 @@
 import ExpandableOverview from "@/components/shared/ExpandableOverview";
-import { Episode } from "@/lib/constants";
-import Image from "next/image";
+import ImageLoader from "@/components/shared/ImageLoader";
+import { Episode, ImageSizes } from "@/lib/constants";
 
 export default function EpisodeCard({ episode }: { episode: Episode }) {
   return (
     <div className="relative text-white">
-      <Image
+      <ImageLoader
+        src={episode.still_path}
+        alt="still"
+        apiWidth={ImageSizes.still}
         className="rounded-xl"
-        src={`/images${episode.still_path}`}
-        alt="backdrop"
-        width={500}
+        width={ImageSizes.still}
         height={150}
       />
       <div className="absolute bottom-0 left-0 z-10 p-4 md:p-3 w-full bg-linear-to-t from-black to-transparent rounded-b-xl">
