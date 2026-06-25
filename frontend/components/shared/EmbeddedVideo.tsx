@@ -24,7 +24,7 @@ export default function EmbeddedVideo({
           <iframe
             className="absolute top-0 left-0 w-full h-full"
             src={`https://www.youtube.com/embed/${youtubeId}?playsinline=1&autoplay=1&modestbranding=1&rel=0`}
-            allow="accelerometer; clipboard-write; autoplay; encrypted-media; gyroscope; picture-in-picture"
+            allow="accelerometer; clipboard-write; autoplay; encrypted-media;"
             allowFullScreen
             loading="lazy"
           />
