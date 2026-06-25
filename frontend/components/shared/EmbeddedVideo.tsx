@@ -2,16 +2,17 @@
 
 import { XIcon } from "lucide-react";
 import { Button } from "../ui/button";
-import { useState } from "react";
 
-export default function EmbeddedVideo({ youtubeId }: { youtubeId: string }) {
-  const [isShown, setIsShown] = useState(true);
-
+export default function EmbeddedVideo({
+  youtubeId,
+  setIsVideoPlaying,
+}: {
+  youtubeId: string;
+  setIsVideoPlaying: (isPlaying: boolean) => void;
+}) {
   function handleClose() {
-    setIsShown(false);
+    setIsVideoPlaying(false);
   }
-
-  if (!isShown) return null;
 
   return (
     <div
@@ -23,7 +24,6 @@ export default function EmbeddedVideo({ youtubeId }: { youtubeId: string }) {
           <iframe
             className="absolute top-0 left-0 w-full h-full"
             src={`https://www.youtube.com/embed/${youtubeId}?playsinline=1&autoplay=1&modestbranding=1&rel=0`}
-            title="YouTube Video Player"
             allow="accelerometer; clipboard-write; autoplay; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
             loading="lazy"

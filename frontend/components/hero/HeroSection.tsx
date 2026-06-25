@@ -29,7 +29,7 @@ export default function HeroSection({
       <HeroImage image={contentItem.backdrop_path} />
       
       {/* TODO: add video from contentItem data */}
-      {isVideoPlaying && <EmbeddedVideo youtubeId="O-b2VfmmbyA" />}
+      {isVideoPlaying && <EmbeddedVideo youtubeId="O-b2VfmmbyA" setIsVideoPlaying={setIsVideoPlaying} />}
 
       <div className="container absolute left-1/2 bottom-0 -translate-x-1/2 flex flex-col z-1 px-4 sm:px-6 lg:px-8 mb-10">
         <div className="flex space-x-2 mb-5">
@@ -54,7 +54,6 @@ export default function HeroSection({
             <div className="flex gap-5 justify-center sm:justify-start mt-5">
               <TrailerButton
                 className="p-5 rounded-lg flex-1 w-auto sm:flex-initial"
-                isVideoPlaying={isVideoPlaying}
                 setIsVideoPlaying={setIsVideoPlaying}
               />
               <AddWatchlistButton
@@ -68,7 +67,6 @@ export default function HeroSection({
             <div className="flex gap-5 justify-center w-full sm:justify-start">
               <TrailerButton
                 className="p-5 rounded-lg flex-1 sm:flex-initial"
-                isVideoPlaying={isVideoPlaying}
                 setIsVideoPlaying={setIsVideoPlaying}
               />
               <AddWatchlistButton

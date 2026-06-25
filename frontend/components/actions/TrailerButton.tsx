@@ -5,15 +5,13 @@ import { PlayIcon } from "lucide-react";
 
 export default function TrailerButton({
   className,
-  isVideoPlaying,
   setIsVideoPlaying,
 }: {
   className?: string;
-  isVideoPlaying: boolean;
   setIsVideoPlaying: (isPlaying: boolean) => void;
 }) {
   function handlePlayVideo() {
-    setIsVideoPlaying(!isVideoPlaying);
+    setIsVideoPlaying(true);
   }
 
   return (
