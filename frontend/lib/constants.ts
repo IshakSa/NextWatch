@@ -36,7 +36,7 @@ export interface Credits {
   director: Director[];
 }
 
-interface ProviderInfo {
+export interface ProviderInfo {
   logo_path: string;
   provider_id: number;
   provider_name: string;

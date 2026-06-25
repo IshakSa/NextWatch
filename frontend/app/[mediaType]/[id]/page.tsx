@@ -2,7 +2,7 @@ import ContentCarousel from "@/components/carousel/ContentCarousel/ContentCarous
 import EpisodesCarousel from "@/components/carousel/EpisodesCarousel/EpisodeCarousel";
 import ExpandableOverview from "@/components/shared/ExpandableOverview";
 import HeroSection from "@/components/hero/HeroSection";
-import Providers from "@/components/Providers";
+import WatchProviders from "@/components/providers/WatchProviders";
 import { credits, movieData, providers, seasons } from "@/lib/constants";
 
 export default async function MovieDetailsPage({
@@ -52,7 +52,7 @@ export default async function MovieDetailsPage({
           <EpisodesCarousel seasons={seasons} margin="mt-20" />
         )}
 
-        <Providers providers={providers} />
+        <WatchProviders providers={providers} />
       </section>
 
       <div className="border-t-2 mt-15" />
