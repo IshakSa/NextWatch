@@ -24,8 +24,7 @@ export default function NavbarDesktop({
       <div className="flex items-center space-x-8 justify-center">
         {navLinks.map((link) => {
           const isActive =
-            pathname === link.href ||
-            (link.href !== "/" && pathname.startsWith(`${link.href}/`));
+            pathname === link.href || pathname.startsWith(`${link.href}/`);
 
           return (
             <Link

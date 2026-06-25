@@ -37,7 +37,7 @@ export default function NavbarMobile({
               {navLinks.map((link) => {
                 const isActive =
                   pathname === link.href ||
-                  (link.href !== "/" && pathname.startsWith(`${link.href}/`));
+                  pathname.startsWith(`${link.href}/`);
 
                 return (
                   <SheetClose key={link.name}>
