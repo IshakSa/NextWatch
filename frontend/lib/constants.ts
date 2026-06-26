@@ -1,4 +1,4 @@
-export interface Movie {
+export interface ContentItem {
   adult: boolean;
   backdrop_path: string;
   genre_ids: number[];
@@ -15,10 +15,771 @@ export interface Movie {
   vote_count: number;
   length: string;
   genres: string[];
-  contentType: "movie" | "tv";
+  type: "movie" | "tv";
 }
 
-export const movieData: Movie[] = [
+interface BasePerson {
+  name: string;
+  profile_path: string;
+}
+
+export interface Actor extends BasePerson {
+  character: string;
+  order: number;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+export interface Director extends BasePerson {}
+
+export interface Credits {
+  cast: Actor[];
+  director: Director[];
+}
+
+export interface ProviderInfo {
+  logo_path: string;
+  provider_id: number;
+  provider_name: string;
+  display_priority: number;
+}
+
+export interface ProviderOptions {
+  [countryCode: string]: {
+    link: string;
+    rent?: ProviderInfo[];
+    flatrate?: ProviderInfo[];
+    buy?: ProviderInfo[];
+  };
+}
+
+export interface Season {
+  season_number: number;
+  episodes: Episode[];
+}
+
+export interface Episode {
+  episode_number: number;
+  overview: string;
+  name: string;
+  runtime: number;
+  still_path: string;
+}
+
+export const ImageSizes = {
+  hero: 1920,
+  poster: 500,
+  backdrop: 500,
+  still: 500,
+  provider: 154,
+  credits: 185,
+} as const;
+
+export const providers: ProviderOptions = {
+  DE: {
+    link: "https://www.themoviedb.org/movie/550-fight-club/watch?locale=DE",
+    flatrate: [
+      {
+        logo_path: "/7rwgEs15tFwyR9NPQ5vpzxTj19Q.jpg",
+        provider_id: 337,
+        provider_name: "Disney Plus",
+        display_priority: 2,
+      },
+      {
+        logo_path: "/2joD3S2goOB6lmepX35A8dmaqgM.jpg",
+        provider_id: 421,
+        provider_name: "Joyn Plus",
+        display_priority: 49,
+      },
+    ],
+    buy: [
+      {
+        logo_path: "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+        provider_id: 2,
+        provider_name: "Apple TV",
+        display_priority: 4,
+      },
+      {
+        logo_path: "/5NyLm42TmCqCMOZFvH4fcoSNKEW.jpg",
+        provider_id: 10,
+        provider_name: "Amazon Video",
+        display_priority: 7,
+      },
+      {
+        logo_path: "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+        provider_id: 3,
+        provider_name: "Google Play Movies",
+        display_priority: 8,
+      },
+      {
+        logo_path: "/oIkQkEkwfmcG7IGpRR1NB8frZZM.jpg",
+        provider_id: 192,
+        provider_name: "YouTube",
+        display_priority: 10,
+      },
+      {
+        logo_path: "/2pCbao1J9s0DMak2KKnEzmzHni8.jpg",
+        provider_id: 130,
+        provider_name: "Sky Store",
+        display_priority: 11,
+      },
+      {
+        logo_path: "/5GEbAhFW2S5T8zVc1MNvz00pIzM.jpg",
+        provider_id: 35,
+        provider_name: "Rakuten TV",
+        display_priority: 13,
+      },
+      {
+        logo_path: "/2PTFxgrswnEuK0szl87iSd8Yszz.jpg",
+        provider_id: 20,
+        provider_name: "maxdome Store",
+        display_priority: 16,
+      },
+      {
+        logo_path: "/uULoezj2skPc6amfwru72UPjYXV.jpg",
+        provider_id: 178,
+        provider_name: "MagentaTV",
+        display_priority: 24,
+      },
+      {
+        logo_path: "/shq88b09gTBYC4hA7K7MUL8Q4zP.jpg",
+        provider_id: 68,
+        provider_name: "Microsoft Store",
+        display_priority: 34,
+      },
+    ],
+    rent: [
+      {
+        logo_path: "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+        provider_id: 2,
+        provider_name: "Apple TV",
+        display_priority: 4,
+      },
+      {
+        logo_path: "/5NyLm42TmCqCMOZFvH4fcoSNKEW.jpg",
+        provider_id: 10,
+        provider_name: "Amazon Video",
+        display_priority: 7,
+      },
+      {
+        logo_path: "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+        provider_id: 3,
+        provider_name: "Google Play Movies",
+        display_priority: 8,
+      },
+      {
+        logo_path: "/oIkQkEkwfmcG7IGpRR1NB8frZZM.jpg",
+        provider_id: 192,
+        provider_name: "YouTube",
+        display_priority: 10,
+      },
+      {
+        logo_path: "/2pCbao1J9s0DMak2KKnEzmzHni8.jpg",
+        provider_id: 130,
+        provider_name: "Sky Store",
+        display_priority: 11,
+      },
+      {
+        logo_path: "/5GEbAhFW2S5T8zVc1MNvz00pIzM.jpg",
+        provider_id: 35,
+        provider_name: "Rakuten TV",
+        display_priority: 13,
+      },
+      {
+        logo_path: "/2PTFxgrswnEuK0szl87iSd8Yszz.jpg",
+        provider_id: 20,
+        provider_name: "maxdome Store",
+        display_priority: 16,
+      },
+      {
+        logo_path: "/uULoezj2skPc6amfwru72UPjYXV.jpg",
+        provider_id: 178,
+        provider_name: "MagentaTV",
+        display_priority: 24,
+      },
+    ],
+  },
+  US: {
+    link: "https://www.themoviedb.org/movie/550-fight-club/watch?locale=US",
+    rent: [
+      {
+        logo_path: "/5NyLm42TmCqCMOZFvH4fcoSNKEW.jpg",
+        provider_id: 10,
+        provider_name: "Amazon Video",
+        display_priority: 13,
+      },
+      {
+        logo_path: "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+        provider_id: 3,
+        provider_name: "Google Play Movies",
+        display_priority: 14,
+      },
+      {
+        logo_path: "/oIkQkEkwfmcG7IGpRR1NB8frZZM.jpg",
+        provider_id: 192,
+        provider_name: "YouTube",
+        display_priority: 15,
+      },
+      {
+        logo_path: "/21dEscfO8n1tL35k4DANixhffsR.jpg",
+        provider_id: 7,
+        provider_name: "Vudu",
+        display_priority: 42,
+      },
+      {
+        logo_path: "/shq88b09gTBYC4hA7K7MUL8Q4zP.jpg",
+        provider_id: 68,
+        provider_name: "Microsoft Store",
+        display_priority: 53,
+      },
+      {
+        logo_path: "/gbyLHzl4eYP0oP9oJZ2oKbpkhND.jpg",
+        provider_id: 279,
+        provider_name: "Redbox",
+        display_priority: 54,
+      },
+      {
+        logo_path: "/xL9SUR63qrEjFZAhtsipskeAMR7.jpg",
+        provider_id: 358,
+        provider_name: "DIRECTV",
+        display_priority: 58,
+      },
+      {
+        logo_path: "/kJlVJLgbNPvKDYC0YMp3yA2OKq2.jpg",
+        provider_id: 352,
+        provider_name: "AMC on Demand",
+        display_priority: 137,
+      },
+    ],
+    flatrate: [
+      {
+        logo_path: "/jPXksae158ukMLFhhlNvzsvaEyt.jpg",
+        provider_id: 257,
+        provider_name: "fuboTV",
+        display_priority: 5,
+      },
+      {
+        logo_path: "/zxrVdFjIjLqkfnwyghnfywTn3Lh.jpg",
+        provider_id: 15,
+        provider_name: "Hulu",
+        display_priority: 6,
+      },
+      {
+        logo_path: "/xbhHHa1YgtpwhC8lb1NQ3ACVcLd.jpg",
+        provider_id: 531,
+        provider_name: "Paramount Plus",
+        display_priority: 16,
+      },
+      {
+        logo_path: "/3E0RkIEQrrGYazs63NMsn3XONT6.jpg",
+        provider_id: 582,
+        provider_name: "Paramount+ Amazon Channel",
+        display_priority: 23,
+      },
+      {
+        logo_path: "/hoqk74y8HTJTMWcVes1ZVwohCue.jpg",
+        provider_id: 583,
+        provider_name: "MGM Plus Amazon Channel",
+        display_priority: 24,
+      },
+      {
+        logo_path: "/qlVSrZgfXlFw0Jj6hsYq2zi70JD.jpg",
+        provider_id: 633,
+        provider_name: "Paramount+ Roku Premium Channel",
+        display_priority: 31,
+      },
+      {
+        logo_path: "/3sE2JNYZJRD9Le1P8B6oVEqarad.jpg",
+        provider_id: 636,
+        provider_name: "MGM Plus Roku Premium Channel",
+        display_priority: 35,
+      },
+      {
+        logo_path: "/xL9SUR63qrEjFZAhtsipskeAMR7.jpg",
+        provider_id: 358,
+        provider_name: "DIRECTV",
+        display_priority: 58,
+      },
+      {
+        logo_path: "/6A1gRIJqLfFHOoTvbTxDAbuU2nQ.jpg",
+        provider_id: 34,
+        provider_name: "MGM Plus",
+        display_priority: 64,
+      },
+    ],
+    buy: [
+      {
+        logo_path: "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+        provider_id: 2,
+        provider_name: "Apple TV",
+        display_priority: 4,
+      },
+      {
+        logo_path: "/5NyLm42TmCqCMOZFvH4fcoSNKEW.jpg",
+        provider_id: 10,
+        provider_name: "Amazon Video",
+        display_priority: 13,
+      },
+      {
+        logo_path: "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+        provider_id: 3,
+        provider_name: "Google Play Movies",
+        display_priority: 14,
+      },
+      {
+        logo_path: "/oIkQkEkwfmcG7IGpRR1NB8frZZM.jpg",
+        provider_id: 192,
+        provider_name: "YouTube",
+        display_priority: 15,
+      },
+      {
+        logo_path: "/21dEscfO8n1tL35k4DANixhffsR.jpg",
+        provider_id: 7,
+        provider_name: "Vudu",
+        display_priority: 42,
+      },
+      {
+        logo_path: "/shq88b09gTBYC4hA7K7MUL8Q4zP.jpg",
+        provider_id: 68,
+        provider_name: "Microsoft Store",
+        display_priority: 53,
+      },
+      {
+        logo_path: "/gbyLHzl4eYP0oP9oJZ2oKbpkhND.jpg",
+        provider_id: 279,
+        provider_name: "Redbox",
+        display_priority: 54,
+      },
+      {
+        logo_path: "/xL9SUR63qrEjFZAhtsipskeAMR7.jpg",
+        provider_id: 358,
+        provider_name: "DIRECTV",
+        display_priority: 58,
+      },
+      {
+        logo_path: "/kJlVJLgbNPvKDYC0YMp3yA2OKq2.jpg",
+        provider_id: 352,
+        provider_name: "AMC on Demand",
+        display_priority: 137,
+      },
+    ],
+  },
+};
+
+export const credits: Credits = {
+  cast: [
+    {
+      name: "Edward Norton",
+      profile_path: "/8nytsqL59SFJTVYVrN72k6qkGgJ.jpg",
+      character: "The Narrator",
+      order: 0,
+    },
+    {
+      name: "Brad Pitt",
+      profile_path: "/huV2cdcolEUwJy37QvH914vup7d.jpg",
+      character: "Tyler Durden",
+      order: 1,
+    },
+    {
+      name: "Helena Bonham Carter",
+      profile_path: "/DDeITcCpnBd0CkAIRPhggy9bt5.jpg",
+      character: "Marla Singer",
+      order: 2,
+    },
+    {
+      name: "Meat Loaf",
+      profile_path: "/7gKLR1u46OB8WJ6m06LemNBCMx6.jpg",
+      character: 'Robert "Bob" Paulson',
+      order: 3,
+    },
+    {
+      name: "Jared Leto",
+      profile_path: "/ca3x0OfIKbJppZh8S1Alx3GfUZO.jpg",
+      character: "Angel Face",
+      order: 4,
+    },
+    {
+      name: "Zach Grenier",
+      profile_path: "/fSyQKZO39sUsqY283GXiScOg3Hi.jpg",
+      character: "Richard Chesler",
+      order: 5,
+    },
+    {
+      name: "Holt McCallany",
+      profile_path: "/a5ax2ICLrV6l0T74OSFvzssCQyQ.jpg",
+      character: "The Mechanic",
+      order: 6,
+    },
+    {
+      name: "Eion Bailey",
+      profile_path: "/hKqfGq1sPhZdQOlto0bS3igFZdP.jpg",
+      character: "Ricky",
+      order: 7,
+    },
+    {
+      name: "Richmond Arquette",
+      profile_path: "/7byGiVac0GjBSVD1h6ylZlVXZK6.jpg",
+      character: "Intern",
+      order: 8,
+    },
+    {
+      name: "David Andrews",
+      profile_path: "/36LEerIIN7gpG52mM3Ier7YWDbh.jpg",
+      character: "Thomas",
+      order: 9,
+    },
+  ],
+  director: [
+    {
+      name: "David Fincher",
+      profile_path: "/tpEczFclQZeKAiCeKZZ0adRvtfz.jpg",
+    },
+  ],
+};
+
+export const seasons: Season[] = [
+  {
+    season_number: 1,
+    episodes: [
+      {
+        runtime: 62,
+        episode_number: 1,
+        name: "Winter Is Coming",
+        overview:
+          "Jon Arryn, the Hand of the King, is dead. King Robert Baratheon plans to ask his oldest friend, Eddard Stark, to take Jon's place. Across the sea, Viserys Targaryen plans to wed his sister to a nomadic warlord in exchange for an army.",
+        still_path: "/9hGF3WUkBf7cSjMg0cdMDHJkByd.jpg",
+      },
+      {
+        runtime: 56,
+        episode_number: 2,
+        name: "The Kingsroad",
+        overview:
+          "While Bran recovers from his fall, Ned takes only his daughters to Kings Landing. Jon Snow goes with his uncle Benjen to The Wall. Tyrion joins them.",
+        still_path: "/l0GJx3IR8YasbztTJi5uK0XqkEo.jpg",
+      },
+      {
+        runtime: 58,
+        episode_number: 3,
+        name: "Lord Snow",
+        overview:
+          "Lord Stark and his daughters arrive at King's Landing to discover the intrigues of the king's realm.",
+        still_path: "/8HjOlb4slc1xusMgOtoNpxuTgSI.jpg",
+      },
+      {
+        runtime: 56,
+        episode_number: 4,
+        name: "Cripples, Bastards, and Broken Things",
+        overview:
+          "Eddard investigates Jon Arryn's murder. Jon befriends Samwell Tarly, a coward who has come to join the Night's Watch.",
+        still_path: "/Ai2UPMWv38xGjOgNBuA1o8w8dUI.jpg",
+      },
+      {
+        runtime: 55,
+        episode_number: 5,
+        name: "The Wolf and the Lion",
+        overview:
+          "Catelyn has captured Tyrion and plans to bring him to her sister, Lysa Arryn, at The Vale, to be tried for his, supposed, crimes against Bran. Robert plans to have Daenerys killed, but Eddard refuses to be a part of it and quits.",
+        still_path: "/u7e1qSWE6v8jfY9vGNrckX47DGN.jpg",
+      },
+      {
+        runtime: 53,
+        episode_number: 6,
+        name: "A Golden Crown",
+        overview:
+          "While recovering from his battle with Jamie, Eddard is forced to run the kingdom while Robert goes hunting. Tyrion demands a trial by combat for his freedom. Viserys is losing his patience with Drogo.",
+        still_path: "/6FcfWGFlDyWZ2JvQi8uvkxbDx1z.jpg",
+      },
+      {
+        runtime: 58,
+        episode_number: 7,
+        name: "You Win or You Die",
+        overview:
+          "Robert has been injured while hunting and is dying. Jon and the others finally take their vows to the Night's Watch. A man, sent by Robert, is captured for trying to poison Daenerys. Furious, Drogo vows to attack the Seven Kingdoms.",
+        still_path: "/o6ldSDhIINGNKZR62mHf2m64dD.jpg",
+      },
+      {
+        runtime: 59,
+        episode_number: 8,
+        name: "The Pointy End",
+        overview:
+          "Eddard and his men are betrayed and captured by the Lannisters. When word reaches Robb, he plans to go to war to rescue them. The White Walkers attack The Wall. Tyrion returns to his father with some new friends.",
+        still_path: "/hH0U1QISWGGjoFutvCLdw28MGiq.jpg",
+      },
+      {
+        runtime: 57,
+        episode_number: 9,
+        name: "Baelor",
+        overview:
+          "Robb goes to war against the Lannisters. Jon finds himself struggling on deciding if his place is with Robb or the Night's Watch. Drogo has fallen ill from a fresh battle wound. Daenerys is desperate to save him.",
+        still_path: "/fAmBhmw1pQc6fucrdmnRM5FOpXD.jpg",
+      },
+      {
+        runtime: 53,
+        episode_number: 10,
+        name: "Fire and Blood",
+        overview:
+          "With Ned dead, Robb vows to get revenge on the Lannisters. Jon must officially decide if his place is with Robb or the Night's Watch. Daenerys says her final goodbye to Drogo.",
+        still_path: "/y1BXkhEqBQS3ewQeqqdHpjhTts0.jpg",
+      },
+    ],
+  },
+  {
+    season_number: 2,
+    episodes: [
+      {
+        runtime: 62,
+        episode_number: 1,
+        name: "Winter Is Coming",
+        overview:
+          "Jon Arryn, the Hand of the King, is dead. King Robert Baratheon plans to ask his oldest friend, Eddard Stark, to take Jon's place. Across the sea, Viserys Targaryen plans to wed his sister to a nomadic warlord in exchange for an army.",
+        still_path: "/9hGF3WUkBf7cSjMg0cdMDHJkByd.jpg",
+      },
+      {
+        runtime: 56,
+        episode_number: 2,
+        name: "The Kingsroad",
+        overview:
+          "While Bran recovers from his fall, Ned takes only his daughters to Kings Landing. Jon Snow goes with his uncle Benjen to The Wall. Tyrion joins them.",
+        still_path: "/l0GJx3IR8YasbztTJi5uK0XqkEo.jpg",
+      },
+      {
+        runtime: 58,
+        episode_number: 3,
+        name: "Lord Snow",
+        overview:
+          "Lord Stark and his daughters arrive at King's Landing to discover the intrigues of the king's realm.",
+        still_path: "/8HjOlb4slc1xusMgOtoNpxuTgSI.jpg",
+      },
+      {
+        runtime: 56,
+        episode_number: 4,
+        name: "Cripples, Bastards, and Broken Things",
+        overview:
+          "Eddard investigates Jon Arryn's murder. Jon befriends Samwell Tarly, a coward who has come to join the Night's Watch.",
+        still_path: "/Ai2UPMWv38xGjOgNBuA1o8w8dUI.jpg",
+      },
+      {
+        runtime: 55,
+        episode_number: 5,
+        name: "The Wolf and the Lion",
+        overview:
+          "Catelyn has captured Tyrion and plans to bring him to her sister, Lysa Arryn, at The Vale, to be tried for his, supposed, crimes against Bran. Robert plans to have Daenerys killed, but Eddard refuses to be a part of it and quits.",
+        still_path: "/u7e1qSWE6v8jfY9vGNrckX47DGN.jpg",
+      },
+      {
+        runtime: 53,
+        episode_number: 6,
+        name: "A Golden Crown",
+        overview:
+          "While recovering from his battle with Jamie, Eddard is forced to run the kingdom while Robert goes hunting. Tyrion demands a trial by combat for his freedom. Viserys is losing his patience with Drogo.",
+        still_path: "/6FcfWGFlDyWZ2JvQi8uvkxbDx1z.jpg",
+      },
+      {
+        runtime: 58,
+        episode_number: 7,
+        name: "You Win or You Die",
+        overview:
+          "Robert has been injured while hunting and is dying. Jon and the others finally take their vows to the Night's Watch. A man, sent by Robert, is captured for trying to poison Daenerys. Furious, Drogo vows to attack the Seven Kingdoms.",
+        still_path: "/o6ldSDhIINGNKZR62mHf2m64dD.jpg",
+      },
+      {
+        runtime: 59,
+        episode_number: 8,
+        name: "The Pointy End",
+        overview:
+          "Eddard and his men are betrayed and captured by the Lannisters. When word reaches Robb, he plans to go to war to rescue them. The White Walkers attack The Wall. Tyrion returns to his father with some new friends.",
+        still_path: "/hH0U1QISWGGjoFutvCLdw28MGiq.jpg",
+      },
+      {
+        runtime: 57,
+        episode_number: 9,
+        name: "Baelor",
+        overview:
+          "Robb goes to war against the Lannisters. Jon finds himself struggling on deciding if his place is with Robb or the Night's Watch. Drogo has fallen ill from a fresh battle wound. Daenerys is desperate to save him.",
+        still_path: "/fAmBhmw1pQc6fucrdmnRM5FOpXD.jpg",
+      },
+      {
+        runtime: 53,
+        episode_number: 10,
+        name: "Fire and Blood",
+        overview:
+          "With Ned dead, Robb vows to get revenge on the Lannisters. Jon must officially decide if his place is with Robb or the Night's Watch. Daenerys says her final goodbye to Drogo.",
+        still_path: "/y1BXkhEqBQS3ewQeqqdHpjhTts0.jpg",
+      },
+    ],
+  },
+  {
+    season_number: 3,
+    episodes: [
+      {
+        runtime: 62,
+        episode_number: 1,
+        name: "Winter Is Coming",
+        overview:
+          "Jon Arryn, the Hand of the King, is dead. King Robert Baratheon plans to ask his oldest friend, Eddard Stark, to take Jon's place. Across the sea, Viserys Targaryen plans to wed his sister to a nomadic warlord in exchange for an army.",
+        still_path: "/9hGF3WUkBf7cSjMg0cdMDHJkByd.jpg",
+      },
+      {
+        runtime: 56,
+        episode_number: 2,
+        name: "The Kingsroad",
+        overview:
+          "While Bran recovers from his fall, Ned takes only his daughters to Kings Landing. Jon Snow goes with his uncle Benjen to The Wall. Tyrion joins them.",
+        still_path: "/l0GJx3IR8YasbztTJi5uK0XqkEo.jpg",
+      },
+      {
+        runtime: 58,
+        episode_number: 3,
+        name: "Lord Snow",
+        overview:
+          "Lord Stark and his daughters arrive at King's Landing to discover the intrigues of the king's realm.",
+        still_path: "/8HjOlb4slc1xusMgOtoNpxuTgSI.jpg",
+      },
+      {
+        runtime: 56,
+        episode_number: 4,
+        name: "Cripples, Bastards, and Broken Things",
+        overview:
+          "Eddard investigates Jon Arryn's murder. Jon befriends Samwell Tarly, a coward who has come to join the Night's Watch.",
+        still_path: "/Ai2UPMWv38xGjOgNBuA1o8w8dUI.jpg",
+      },
+      {
+        runtime: 55,
+        episode_number: 5,
+        name: "The Wolf and the Lion",
+        overview:
+          "Catelyn has captured Tyrion and plans to bring him to her sister, Lysa Arryn, at The Vale, to be tried for his, supposed, crimes against Bran. Robert plans to have Daenerys killed, but Eddard refuses to be a part of it and quits.",
+        still_path: "/u7e1qSWE6v8jfY9vGNrckX47DGN.jpg",
+      },
+      {
+        runtime: 53,
+        episode_number: 6,
+        name: "A Golden Crown",
+        overview:
+          "While recovering from his battle with Jamie, Eddard is forced to run the kingdom while Robert goes hunting. Tyrion demands a trial by combat for his freedom. Viserys is losing his patience with Drogo.",
+        still_path: "/6FcfWGFlDyWZ2JvQi8uvkxbDx1z.jpg",
+      },
+      {
+        runtime: 58,
+        episode_number: 7,
+        name: "You Win or You Die",
+        overview:
+          "Robert has been injured while hunting and is dying. Jon and the others finally take their vows to the Night's Watch. A man, sent by Robert, is captured for trying to poison Daenerys. Furious, Drogo vows to attack the Seven Kingdoms.",
+        still_path: "/o6ldSDhIINGNKZR62mHf2m64dD.jpg",
+      },
+      {
+        runtime: 59,
+        episode_number: 8,
+        name: "The Pointy End",
+        overview:
+          "Eddard and his men are betrayed and captured by the Lannisters. When word reaches Robb, he plans to go to war to rescue them. The White Walkers attack The Wall. Tyrion returns to his father with some new friends.",
+        still_path: "/hH0U1QISWGGjoFutvCLdw28MGiq.jpg",
+      },
+      {
+        runtime: 57,
+        episode_number: 9,
+        name: "Baelor",
+        overview:
+          "Robb goes to war against the Lannisters. Jon finds himself struggling on deciding if his place is with Robb or the Night's Watch. Drogo has fallen ill from a fresh battle wound. Daenerys is desperate to save him.",
+        still_path: "/fAmBhmw1pQc6fucrdmnRM5FOpXD.jpg",
+      },
+      {
+        runtime: 53,
+        episode_number: 10,
+        name: "Fire and Blood",
+        overview:
+          "With Ned dead, Robb vows to get revenge on the Lannisters. Jon must officially decide if his place is with Robb or the Night's Watch. Daenerys says her final goodbye to Drogo.",
+        still_path: "/y1BXkhEqBQS3ewQeqqdHpjhTts0.jpg",
+      },
+    ],
+  },
+  {
+    season_number: 4,
+    episodes: [
+      {
+        runtime: 62,
+        episode_number: 1,
+        name: "Winter Is Coming",
+        overview:
+          "Jon Arryn, the Hand of the King, is dead. King Robert Baratheon plans to ask his oldest friend, Eddard Stark, to take Jon's place. Across the sea, Viserys Targaryen plans to wed his sister to a nomadic warlord in exchange for an army.",
+        still_path: "/9hGF3WUkBf7cSjMg0cdMDHJkByd.jpg",
+      },
+      {
+        runtime: 56,
+        episode_number: 2,
+        name: "The Kingsroad",
+        overview:
+          "While Bran recovers from his fall, Ned takes only his daughters to Kings Landing. Jon Snow goes with his uncle Benjen to The Wall. Tyrion joins them.",
+        still_path: "/l0GJx3IR8YasbztTJi5uK0XqkEo.jpg",
+      },
+      {
+        runtime: 58,
+        episode_number: 3,
+        name: "Lord Snow",
+        overview:
+          "Lord Stark and his daughters arrive at King's Landing to discover the intrigues of the king's realm.",
+        still_path: "/8HjOlb4slc1xusMgOtoNpxuTgSI.jpg",
+      },
+      {
+        runtime: 56,
+        episode_number: 4,
+        name: "Cripples, Bastards, and Broken Things",
+        overview:
+          "Eddard investigates Jon Arryn's murder. Jon befriends Samwell Tarly, a coward who has come to join the Night's Watch.",
+        still_path: "/Ai2UPMWv38xGjOgNBuA1o8w8dUI.jpg",
+      },
+      {
+        runtime: 55,
+        episode_number: 5,
+        name: "The Wolf and the Lion",
+        overview:
+          "Catelyn has captured Tyrion and plans to bring him to her sister, Lysa Arryn, at The Vale, to be tried for his, supposed, crimes against Bran. Robert plans to have Daenerys killed, but Eddard refuses to be a part of it and quits.",
+        still_path: "/u7e1qSWE6v8jfY9vGNrckX47DGN.jpg",
+      },
+      {
+        runtime: 53,
+        episode_number: 6,
+        name: "A Golden Crown",
+        overview:
+          "While recovering from his battle with Jamie, Eddard is forced to run the kingdom while Robert goes hunting. Tyrion demands a trial by combat for his freedom. Viserys is losing his patience with Drogo.",
+        still_path: "/6FcfWGFlDyWZ2JvQi8uvkxbDx1z.jpg",
+      },
+      {
+        runtime: 58,
+        episode_number: 7,
+        name: "You Win or You Die",
+        overview:
+          "Robert has been injured while hunting and is dying. Jon and the others finally take their vows to the Night's Watch. A man, sent by Robert, is captured for trying to poison Daenerys. Furious, Drogo vows to attack the Seven Kingdoms.",
+        still_path: "/o6ldSDhIINGNKZR62mHf2m64dD.jpg",
+      },
+      {
+        runtime: 59,
+        episode_number: 8,
+        name: "The Pointy End",
+        overview:
+          "Eddard and his men are betrayed and captured by the Lannisters. When word reaches Robb, he plans to go to war to rescue them. The White Walkers attack The Wall. Tyrion returns to his father with some new friends.",
+        still_path: "/hH0U1QISWGGjoFutvCLdw28MGiq.jpg",
+      },
+      {
+        runtime: 57,
+        episode_number: 9,
+        name: "Baelor",
+        overview:
+          "Robb goes to war against the Lannisters. Jon finds himself struggling on deciding if his place is with Robb or the Night's Watch. Drogo has fallen ill from a fresh battle wound. Daenerys is desperate to save him.",
+        still_path: "/fAmBhmw1pQc6fucrdmnRM5FOpXD.jpg",
+      },
+      {
+        runtime: 53,
+        episode_number: 10,
+        name: "Fire and Blood",
+        overview:
+          "With Ned dead, Robb vows to get revenge on the Lannisters. Jon must officially decide if his place is with Robb or the Night's Watch. Daenerys says her final goodbye to Drogo.",
+        still_path: "/y1BXkhEqBQS3ewQeqqdHpjhTts0.jpg",
+      },
+    ],
+  },
+];
+
+export const movieData: ContentItem[] = [
   {
     adult: false,
     backdrop_path: "/8YFL5QQVPy3AgrEQxNYVSgiPEbe.jpg",
@@ -37,7 +798,7 @@ export const movieData: Movie[] = [
     vote_count: 1856,
     length: "2h40m",
     genres: ["Fantasy", "Action"],
-    contentType: "movie",
+    type: "movie",
   },
   {
     adult: false,
@@ -57,7 +818,7 @@ export const movieData: Movie[] = [
     vote_count: 1435,
     length: "2h40m",
     genres: ["Fantasy", "Action"],
-    contentType: "movie",
+    type: "movie",
   },
   {
     adult: false,
@@ -77,7 +838,7 @@ export const movieData: Movie[] = [
     vote_count: 1203,
     length: "2h40m",
     genres: ["Fantasy", "Action"],
-    contentType: "movie",
+    type: "movie",
   },
   {
     adult: false,
@@ -97,7 +858,7 @@ export const movieData: Movie[] = [
     vote_count: 7519,
     length: "2h40m",
     genres: ["Fantasy", "Action"],
-    contentType: "movie",
+    type: "movie",
   },
   {
     adult: false,
@@ -117,7 +878,7 @@ export const movieData: Movie[] = [
     vote_count: 226,
     length: "2h40m",
     genres: ["Fantasy", "Action"],
-    contentType: "movie",
+    type: "movie",
   },
   {
     adult: false,
@@ -137,7 +898,7 @@ export const movieData: Movie[] = [
     vote_count: 1183,
     length: "2h40m",
     genres: ["Fantasy", "Action"],
-    contentType: "movie",
+    type: "movie",
   },
   {
     adult: false,
@@ -157,7 +918,7 @@ export const movieData: Movie[] = [
     vote_count: 192,
     length: "2h40m",
     genres: ["Fantasy", "Action"],
-    contentType: "movie",
+    type: "movie",
   },
   {
     adult: false,
@@ -177,7 +938,7 @@ export const movieData: Movie[] = [
     vote_count: 856,
     length: "2h40m",
     genres: ["Fantasy", "Action"],
-    contentType: "movie",
+    type: "movie",
   },
   {
     adult: false,
@@ -197,7 +958,7 @@ export const movieData: Movie[] = [
     vote_count: 5326,
     length: "2h40m",
     genres: ["Fantasy", "Action"],
-    contentType: "movie",
+    type: "movie",
   },
   {
     adult: false,
@@ -217,7 +978,7 @@ export const movieData: Movie[] = [
     vote_count: 1202,
     length: "2h40m",
     genres: ["Fantasy", "Action"],
-    contentType: "movie",
+    type: "movie",
   },
   {
     adult: false,
@@ -237,7 +998,7 @@ export const movieData: Movie[] = [
     vote_count: 4,
     length: "2h40m",
     genres: ["Fantasy", "Action"],
-    contentType: "movie",
+    type: "movie",
   },
   {
     adult: false,
@@ -257,7 +1018,7 @@ export const movieData: Movie[] = [
     vote_count: 873,
     length: "2h40m",
     genres: ["Fantasy", "Action"],
-    contentType: "movie",
+    type: "movie",
   },
   {
     adult: false,
@@ -277,7 +1038,7 @@ export const movieData: Movie[] = [
     vote_count: 55,
     length: "2h40m",
     genres: ["Fantasy", "Action"],
-    contentType: "movie",
+    type: "movie",
   },
   {
     adult: false,
@@ -297,7 +1058,7 @@ export const movieData: Movie[] = [
     vote_count: 752,
     length: "2h40m",
     genres: ["Fantasy", "Action"],
-    contentType: "movie",
+    type: "movie",
   },
   {
     adult: false,
@@ -317,7 +1078,7 @@ export const movieData: Movie[] = [
     vote_count: 21,
     length: "2h40m",
     genres: ["Fantasy", "Action"],
-    contentType: "movie",
+    type: "movie",
   },
   {
     adult: false,
@@ -337,7 +1098,7 @@ export const movieData: Movie[] = [
     vote_count: 20,
     length: "2h40m",
     genres: ["Fantasy", "Action"],
-    contentType: "movie",
+    type: "movie",
   },
   {
     adult: false,
@@ -357,7 +1118,7 @@ export const movieData: Movie[] = [
     vote_count: 142,
     length: "2h40m",
     genres: ["Fantasy", "Action"],
-    contentType: "movie",
+    type: "movie",
   },
   {
     adult: false,
@@ -377,7 +1138,7 @@ export const movieData: Movie[] = [
     vote_count: 122,
     length: "2h40m",
     genres: ["Fantasy", "Action"],
-    contentType: "movie",
+    type: "movie",
   },
   {
     adult: false,
@@ -397,7 +1158,7 @@ export const movieData: Movie[] = [
     vote_count: 184,
     length: "2h40m",
     genres: ["Fantasy", "Action"],
-    contentType: "movie",
+    type: "movie",
   },
   {
     adult: false,
@@ -417,6 +1178,6 @@ export const movieData: Movie[] = [
     vote_count: 104,
     length: "2h40m",
     genres: ["Fantasy", "Action"],
-    contentType: "movie",
+    type: "movie",
   },
 ];

@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/navbar/Navbar";
+import Navbar from "@/components/layout/navbar/Navbar";
 import { cn } from "@/lib/utils";
-import { ThemeProvider } from "@/components/ThemeProvider";
-import Footer from "@/components/Footer";
+import { ThemeProvider } from "@/components/layout/ThemeProvider";
+import Footer from "@/components/layout/Footer";
+import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -38,7 +39,24 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Navbar />
+
           {children}
+
+          <Toaster
+            position="top-center"
+            expand={false}
+            richColors={false}
+            toastOptions={{
+              classNames: {
+                toast:
+                  "!bg-background !text-foreground !border-border !gap-3 !p-4 !rounded-xl",
+                title: "!text-sm !font-semibold !tracking-tight",
+                description: "!text-xs !text-muted-foreground",
+                actionButton:
+                  "!bg-primary !text-primary-foreground !text-xs !font-medium !px-3 !py-1.5 !rounded-md hover:!bg-primary/90 !transition-colors",
+              },
+            }}
+          />
           <Footer />
         </ThemeProvider>
       </body>

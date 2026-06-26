@@ -8,10 +8,14 @@ import {
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import HeroSection from "./HeroSection";
-import { Movie } from "@/lib/constants";
 import { useEffect, useState } from "react";
+import { ContentItem } from "@/lib/constants";
 
-export default function HeroContentCarousel({ content }: { content: Movie[] }) {
+export default function HeroContentCarousel({
+  content,
+}: {
+  content: ContentItem[];
+}) {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [, setCount] = useState(0);
@@ -40,11 +44,11 @@ export default function HeroContentCarousel({ content }: { content: Movie[] }) {
   }
 
   return (
-    <section>
+    <div>
       <Carousel
         plugins={[
           Autoplay({
-            delay: 6000,
+            delay: 7000,
           }),
         ]}
         opts={{
@@ -54,9 +58,9 @@ export default function HeroContentCarousel({ content }: { content: Movie[] }) {
         className="relative"
       >
         <CarouselContent>
-          {content.map((data) => (
-            <CarouselItem key={data.id}>
-              <HeroSection data={data} />
+          {content.map((item) => (
+            <CarouselItem key={item.id}>
+              <HeroSection contentItem={item} page="home" />
             </CarouselItem>
           ))}
         </CarouselContent>
@@ -78,6 +82,6 @@ export default function HeroContentCarousel({ content }: { content: Movie[] }) {
           })}
         </div>
       </Carousel>
-    </section>
+    </div>
   );
 }
