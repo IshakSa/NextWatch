@@ -48,7 +48,7 @@ export default function HeroContentCarousel({
       <Carousel
         plugins={[
           Autoplay({
-            delay: 6000,
+            delay: 7000,
           }),
         ]}
         opts={{

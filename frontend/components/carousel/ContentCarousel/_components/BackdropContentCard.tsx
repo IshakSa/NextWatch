@@ -17,6 +17,7 @@ export default function BackdropContentCard({
           apiWidth={ImageSizes.backdrop}
           width={ImageSizes.backdrop}
           height={150}
+          className="rounded-xl"
         />
         <div className="mt-2">
           <InfoOverlay
