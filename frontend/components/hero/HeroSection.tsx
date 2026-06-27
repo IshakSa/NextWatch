@@ -10,6 +10,7 @@ import WatchedButton from "../actions/WatchedButton";
 import ShareButton from "../actions/ShareButton";
 import { useState } from "react";
 import EmbeddedVideo from "../shared/EmbeddedVideo";
+import { toMovieLength } from "@/lib/utils";
 
 export default function HeroSection({
   contentItem,
@@ -26,7 +27,7 @@ export default function HeroSection({
       className="relative max-w-full flex justify-center items-center"
       style={{ height: `${size}vh` }}
     >
-      <HeroImage image={contentItem.backdrop_path} />
+      <HeroImage image={contentItem.backdropPath} />
 
       {/* TODO: add video from contentItem data */}
       {isVideoPlaying && (
@@ -48,7 +49,7 @@ export default function HeroSection({
         <h1>{contentItem.title}</h1>
 
         <p className="text-foreground/50 dark:text-muted-foreground text-sm my-2">
-          {contentItem.length} • {contentItem.release_date.slice(0, 4)} •{" "}
+          {contentItem.type === "movie" ? toMovieLength(contentItem.length) : `${contentItem.length} Episodes`} • {contentItem.releaseDate.slice(0, 4)} •{" "}
           {contentItem.genres?.join(" • ")}
         </p>
 
