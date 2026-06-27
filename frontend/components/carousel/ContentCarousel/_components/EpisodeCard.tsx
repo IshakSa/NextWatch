@@ -1,6 +1,7 @@
 import ExpandableOverview from "@/components/shared/ExpandableOverview";
 import ImageLoader from "@/components/shared/ImageLoader";
-import { Episode, ImageSizes } from "@/lib/constants";
+import { ImageSizes } from "@/lib/constants";
+import { Episode } from "@/types";
 
 export default function EpisodeCard({ episode }: { episode: Episode }) {
   return (

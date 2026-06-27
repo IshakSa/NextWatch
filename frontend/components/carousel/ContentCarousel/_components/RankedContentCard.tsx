@@ -1,5 +1,6 @@
 import ImageLoader from "@/components/shared/ImageLoader";
-import { ContentItem, ImageSizes } from "@/lib/constants";
+import { ImageSizes } from "@/lib/constants";
+import { ContentItem } from "@/types";
 import { FilmIcon, StarIcon } from "lucide-react";
 import Link from "next/link";
 

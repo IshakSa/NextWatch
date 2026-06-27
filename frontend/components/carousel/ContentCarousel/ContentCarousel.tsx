@@ -6,17 +6,17 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 
-import { Actor, ContentItem, Director, Episode } from "@/lib/constants";
 import PosterContentCard from "./_components/PosterContentCard";
 import BackdropContentCard from "./_components/BackdropContentCard";
 import RankedContentCard from "./_components/RankedContentCard";
 import CreditsCard from "./_components/CreditsCard";
 import EpisodeCard from "./_components/EpisodeCard";
+import { Actor, ContentItem, Director, Episode } from "@/types";
 
 type AllowedCarouselTypes =
   | "poster"
   | "backdrop"
-  | "ranked"
+  | "ranked"  
   | "credits"
   | "episodes";
 

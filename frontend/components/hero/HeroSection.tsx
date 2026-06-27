@@ -4,13 +4,13 @@ import ExpandableOverview from "@/components/shared/ExpandableOverview";
 import AddWatchlistButton from "@/components/actions/AddWatchlistButton";
 import TrailerButton from "@/components/actions/TrailerButton";
 import { Badge } from "@/components/ui/badge";
-import { ContentItem } from "@/lib/constants";
 import HeroImage from "./_components/HeroImage";
 import WatchedButton from "../actions/WatchedButton";
 import ShareButton from "../actions/ShareButton";
 import { useState } from "react";
 import EmbeddedVideo from "../shared/EmbeddedVideo";
 import { toMovieLength } from "@/lib/utils";
+import { ContentItem } from "@/types";
 
 export default function HeroSection({
   contentItem,

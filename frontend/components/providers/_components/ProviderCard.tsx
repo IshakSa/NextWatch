@@ -1,6 +1,7 @@
 import ImageLoader from "@/components/shared/ImageLoader";
 import { Badge } from "@/components/ui/badge";
-import { ImageSizes, ProviderInfo } from "@/lib/constants";
+import { ImageSizes } from "@/lib/constants";
+import { ProviderInfo } from "@/types";
 
 export default function ProviderCard({ provider }: { provider: ProviderInfo }) {
   return (

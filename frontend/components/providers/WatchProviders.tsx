@@ -1,11 +1,11 @@
 "use client";
 
-import { Providers } from "@/lib/constants";
 import { useState } from "react";
 import SelectButton from "./_components/SelectButton";
 import ComboboxButton from "./_components/ComboboxButton";
 import { countries, countryMap, watchOptionMap } from "./constants";
 import ProviderCard from "./_components/ProviderCard";
+import { Providers } from "@/types";
 
 export default function WatchProviders({
   providers,

@@ -1,6 +1,6 @@
 import ContentCarousel from "@/components/carousel/ContentCarousel/ContentCarousel";
 import HeroContentCarousel from "@/components/hero/HeroContentCarousel";
-import { ContentItem } from "@/lib/constants";
+import { ContentItem } from "@/types/content";
 
 async function getLatest() {
   const response = await fetch(`${process.env.BACKEND_URL}/api/content/latest`);

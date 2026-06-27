@@ -3,7 +3,7 @@ import EpisodesCarousel from "@/components/carousel/EpisodesCarousel/EpisodeCaro
 import ExpandableOverview from "@/components/shared/ExpandableOverview";
 import HeroSection from "@/components/hero/HeroSection";
 import WatchProviders from "@/components/providers/WatchProviders";
-import { ContentItemDetails } from "@/lib/constants";
+import { ContentItemDetails } from "@/types";
 
 async function getDetails(mediaType: "tv" | "movie", id: number) {
   const response = await fetch(

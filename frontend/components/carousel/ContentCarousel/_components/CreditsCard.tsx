@@ -1,5 +1,6 @@
 import ImageLoader from "@/components/shared/ImageLoader";
-import { Actor, Director, ImageSizes } from "@/lib/constants";
+import { ImageSizes } from "@/lib/constants";
+import { Actor, Director } from "@/types";
 
 export default function CreditsCard({ person }: { person: Actor | Director }) {
   return (

@@ -1,9 +1,9 @@
 "use client";
 
-import { Season } from "@/lib/constants";
 import { useState } from "react";
 import SelectButton from "./_components/SelectButton";
 import ContentCarousel from "../ContentCarousel/ContentCarousel";
+import { Season } from "@/types";
 
 export default function EpisodesCarousel({
   seasons,
