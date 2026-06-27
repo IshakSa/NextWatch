@@ -35,7 +35,7 @@ async function getRanked() {
 
 async function getMovies() {
   const response = await fetch(
-    `${process.env.BACKEND_URL}/api/content/movie/top-rated`,
+    `${process.env.BACKEND_URL}/api/content/top-rated/movie`,
   );
   if (!response.ok) {
     throw new Error("failed to fetch data");
@@ -46,7 +46,7 @@ async function getMovies() {
 
 async function getSeries() {
   const response = await fetch(
-    `${process.env.BACKEND_URL}/api/content/tv/top-rated`,
+    `${process.env.BACKEND_URL}/api/content/top-rated/tv`,
   );
   if (!response.ok) {
     throw new Error("failed to fetch data");

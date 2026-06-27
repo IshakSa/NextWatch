@@ -20,7 +20,7 @@ public class ContentController {
         this.contentService = contentService;
     }
 
-    @GetMapping("/{contentType}/top-rated")
+    @GetMapping("/top-rated/{contentType}")
     public ResponseEntity<List<ContentSummaryDto>> getTopRated(@PathVariable ContentType contentType) {
         return new ResponseEntity<>(contentService.getTopRated(contentType), HttpStatus.OK);
     }
