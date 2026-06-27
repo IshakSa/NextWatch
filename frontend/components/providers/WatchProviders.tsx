@@ -1,6 +1,6 @@
 "use client";
 
-import { ProviderOptions } from "@/lib/constants";
+import { Providers } from "@/lib/constants";
 import { useState } from "react";
 import SelectButton from "./_components/SelectButton";
 import ComboboxButton from "./_components/ComboboxButton";
@@ -10,7 +10,7 @@ import ProviderCard from "./_components/ProviderCard";
 export default function WatchProviders({
   providers,
 }: {
-  providers: ProviderOptions;
+  providers: Providers;
 }) {
   const [selectedCountry, setSelectedCountry] = useState(countries[0]);
   const [selectedWatchOption, setSelectedWatchOption] = useState("Stream");
@@ -51,10 +51,10 @@ export default function WatchProviders({
       <div className="space-x-3 space-y-3 mt-5">
         {currentProviders &&
           currentProviders
-            .sort((a, b) => a.display_priority - b.display_priority)
+            .sort((a, b) => a.displayPriority - b.displayPriority)
             .slice(0, 4)
             .map((provider) => (
-              <ProviderCard key={provider.provider_id} provider={provider} />
+              <ProviderCard key={provider.providerId} provider={provider} />
             ))}
       </div>
       {!selectedCountry && (

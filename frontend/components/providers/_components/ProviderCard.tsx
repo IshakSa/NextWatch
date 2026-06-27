@@ -7,14 +7,14 @@ export default function ProviderCard({ provider }: { provider: ProviderInfo }) {
     <Badge variant={"secondary"} className="p-5 space-x-1">
       <div className="rounded-full overflow-hidden">
         <ImageLoader
-          src={provider.logo_path}
+          src={provider.logoPath}
           alt="provider logo"
           apiWidth={ImageSizes.provider}
           width={30}
           height={30}
         />
       </div>
-      <p className="font-semibold">{provider.provider_name}</p>
+      <p className="font-semibold">{provider.providerName}</p>
     </Badge>
   );
 }

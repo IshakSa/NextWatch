@@ -12,7 +12,7 @@ export default function PosterContentCard({
     <div className="relative text-white">
       <Link href={`/${contentItem.type}/${contentItem.id}`}>
         <ImageLoader
-          src={contentItem.poster_path}
+          src={contentItem.posterPath}
           alt="poster"
           apiWidth={ImageSizes.poster}
           className="rounded-xl"
@@ -23,7 +23,7 @@ export default function PosterContentCard({
           <InfoOverlay
             contentTitle={contentItem.title}
             genres={contentItem.genres}
-            rating={contentItem.vote_average}
+            rating={contentItem.rating}
           />
         </div>
       </Link>

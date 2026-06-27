@@ -6,7 +6,7 @@ export default function CreditsCard({ person }: { person: Actor | Director }) {
     <div className="flex items-center space-x-3">
       <div className="relative w-15 h-15 overflow-hidden rounded-full">
         <ImageLoader
-          src={person.profile_path}
+          src={person.profilePath}
           alt="person image"
           apiWidth={ImageSizes.credits}
           fill
