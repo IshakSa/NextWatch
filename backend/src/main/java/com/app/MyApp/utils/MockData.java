@@ -18,7 +18,7 @@ public class MockData {
     public static ContentSummaryDto mockMovie = ContentSummaryDto.builder()
             .id(640146)
             .title("Ant-Man and the Wasp: Quantumania")
-            .genres(List.of("Fantasy", "Action", "Sci-Fi"))
+            .genres(List.of("Fantasy", "Action"))
             .type(ContentType.MOVIE)
             .overview(
                     "Super-Hero partners Scott Lang and Hope van Dyne, along with with Hope's parents Janet van Dyne and Hank Pym, and Scott's daughter Cassie Lang, find themselves exploring the Quantum Realm, interacting with strange new creatures and embarking on an adventure that will push them beyond the limits of what they thought possible.")
@@ -34,7 +34,7 @@ public class MockData {
             ContentSummaryDto.builder()
                     .id(640146)
                     .title("Ant-Man and the Wasp: Quantumania")
-                    .genres(List.of("Fantasy", "Action", "Sci-Fi"))
+                    .genres(List.of("Fantasy", "Action"))
                     .type(ContentType.MOVIE)
                     .overview(
                             "Super-Hero partners Scott Lang and Hope van Dyne, along with with Hope's parents Janet van Dyne and Hank Pym, and Scott's daughter Cassie Lang, find themselves exploring the Quantum Realm, interacting with strange new creatures and embarking on an adventure that will push them beyond the limits of what they thought possible.")
@@ -49,7 +49,7 @@ public class MockData {
             ContentSummaryDto.builder()
                     .id(502356)
                     .title("The Super Mario Bros. tv")
-                    .genres(List.of("Fantasy", "Action", "Animation", "Comedy"))
+                    .genres(List.of("Fantasy", "Action"))
                     .type(ContentType.TV)
                     .overview(
                             "While working underground to fix a water main, Brooklyn plumbers—and brothers—Mario and Luigi are transported down a mysterious pipe and wander into a magical new world. But when the brothers are separated, Mario embarks on an epic quest to find Luigi.")
@@ -64,7 +64,7 @@ public class MockData {
             ContentSummaryDto.builder()
                     .id(594767)
                     .title("Shazam! Fury of the Gods")
-                    .genres(List.of("Fantasy", "Action", "Comedy"))
+                    .genres(List.of("Fantasy", "Action"))
                     .type(ContentType.MOVIE)
                     .overview(
                             "Billy Batson and his foster siblings, who transform into superheroes bysaying \"Shazam!\", are forced to get back into action and fight the Daughters of Atlas, who they must stop from using a weapon that could destroy the world.")
@@ -74,7 +74,7 @@ public class MockData {
                     .build(),
 
             ContentSummaryDto.builder().id(76600).title("Avatar: The Way of Water")
-                    .genres(List.of("Fantasy", "Action", "Sci-Fi")).type(ContentType.MOVIE)
+                    .genres(List.of("Fantasy", "Action")).type(ContentType.MOVIE)
                     .overview(
                             "Set more than a decade after the events of the first film, learn the story of the Sully family (Jake, Neytiri, and their kids), the trouble that follows them, the lengths they go to keep each other safe, the battles they fight to stay alive, and the tragedies they endure.")
                     .length(192)
@@ -88,7 +88,7 @@ public class MockData {
             ContentSummaryDto.builder()
                     .id(948713)
                     .title("The Last Kingdom: Seven Kings Must Die")
-                    .genres(List.of("Action", "History", "Drama"))
+                    .genres(List.of("Action", "History"))
                     .type(ContentType.TV)
                     .overview(
                             "In the wake of King Edward's death, Uhtred of Bebbanburg and his comrades adventure across a fractured kingdom in the hopes of uniting England at last.")
@@ -120,7 +120,7 @@ public class MockData {
                     .build(),
 
             ContentSummaryDto.builder().id(638974).title("Murder Mystery tv")
-                    .genres(List.of("Comedy", "Mystery", "Action")).type(ContentType.MOVIE)
+                    .genres(List.of("Comedy", "Mystery")).type(ContentType.MOVIE)
                     .overview(
                             "After starting their own detective agency, Nick and Audrey Spitz land a career-making case when their billionaire pal is kidnapped from his wedding.")
                     .length(8).rating(6.6).releaseDate(LocalDate.parse("2023-03-28"))
@@ -128,7 +128,7 @@ public class MockData {
                     .build(),
 
             ContentSummaryDto.builder().id(315162).title("Puss in Boots: The Animated tv")
-                    .genres(List.of("Animation", "Family", "Fantasy", "Adventure", "Comedy", "Drama"))
+                    .genres(List.of("Animation", "Family"))
                     .type(ContentType.TV)
                     .overview(
                             "Puss in Boots discovers that his passion for adventure has taken its toll: He has burned through eight of his nine lives, leaving him with only one life left. Puss sets out on an epic journey to find the mythical Last Wish and restore his nine lives.")
@@ -137,7 +137,7 @@ public class MockData {
                     .build(),
 
             ContentSummaryDto.builder().id(603692).title("John Wick: Chapter 4")
-                    .genres(List.of("Action", "Thriller", "Crime")).type(ContentType.MOVIE)
+                    .genres(List.of("Action", "Thriller")).type(ContentType.MOVIE)
                     .overview(
                             "With the price on his head ever increasing, John Wick uncovers a path to defeating The High Table. But before he can earn his freedom, Wick must face off against a new enemy with powerful alliances across the globe and forces that turn old friends into foes.")
                     .length(169).rating(8.0).releaseDate(LocalDate.parse("2023-03-22"))
@@ -153,7 +153,7 @@ public class MockData {
                     .build(),
 
             ContentSummaryDto.builder().id(804150).title("Cocaine Bear")
-                    .genres(List.of("Thriller", "Comedy", "Crime")).type(ContentType.MOVIE)
+                    .genres(List.of("Thriller", "Comedy")).type(ContentType.MOVIE)
                     .overview(
                             "Inspired by a true story, an oddball group of cops, criminals, tourists and teens converge in a Georgia forest where a 500-pound black bear goes on a murderous rampage after unintentionally ingesting cocaine.")
                     .length(95).rating(6.4).releaseDate(LocalDate.parse("2023-02-22"))
@@ -169,7 +169,7 @@ public class MockData {
                     .build(),
 
             ContentSummaryDto.builder().id(946310).title("Pirates Down the Street")
-                    .genres(List.of("Family", "Action", "Adventure", "Comedy")).type(ContentType.TV)
+                    .genres(List.of("Family", "Action")).type(ContentType.TV)
                     .overview(
                             "The pirates feel right at home in Sandborough, but the atmosphere cools right down when the ninjas come to live in the street. After all, pirates and ninjas are sworn enemies!  While pirate captain Hector Blunderbuss struggles to get rid of his new neighbours, son Billy and ninja daughter Yuka become friends. The pirates challenge the ninjas to the ultimate battle at the village's annual hexathlon. Who will win the match? Ninjas are faster and more agile of course, but pirates are the best cheats in all of the seven seas...")
                     .length(12).rating(6.2).releaseDate(LocalDate.parse("2022-04-20"))
@@ -177,7 +177,7 @@ public class MockData {
                     .build(),
 
             ContentSummaryDto.builder().id(1104040).title("Gangs of Lagos: The tv")
-                    .genres(List.of("Crime", "Drama", "Action")).type(ContentType.TV)
+                    .genres(List.of("Crime", "Drama")).type(ContentType.TV)
                     .overview(
                             "A group of friends who each have to navigate their own destiny, growing up on the bustling streets and neighborhood of Isale Eko, Lagos.")
                     .length(6).rating(5.6).releaseDate(LocalDate.parse("2023-04-07"))
@@ -185,7 +185,7 @@ public class MockData {
                     .build(),
 
             ContentSummaryDto.builder().id(758323).title("The Pope's Exorcist")
-                    .genres(List.of("Horror", "Thriller", "Mystery")).type(ContentType.MOVIE)
+                    .genres(List.of("Horror", "Thriller")).type(ContentType.MOVIE)
                     .overview(
                             "Father Gabriele Amorth, Chief Exorcist of the Vatican, investigates a young boy's terrifying possession and ends up uncovering a centuries-old conspiracy the Vatican has desperately tried to keep hidden.")
                     .length(103).rating(6.5).releaseDate(LocalDate.parse("2023-04-05"))
@@ -193,7 +193,7 @@ public class MockData {
                     .build(),
 
             ContentSummaryDto.builder().id(842945).title("Supercell")
-                    .genres(List.of("Action", "Thriller", "Drama")).type(ContentType.MOVIE)
+                    .genres(List.of("Action", "Thriller")).type(ContentType.MOVIE)
                     .overview(
                             "Good-hearted teenager William always lived in hope of following in his late father’s footsteps and becoming a storm chaser. His father’s legacy has now been turned into a storm-chasing tourist business, managed by the greedy and reckless Zane Rogers, who is now using William as the main attraction to lead a group of unsuspecting adventurers deep into the eye of the most dangerous supercell ever seen.")
                     .length(100).rating(6.4).releaseDate(LocalDate.parse("2023-03-17"))
@@ -201,7 +201,7 @@ public class MockData {
                     .build(),
 
             ContentSummaryDto.builder().id(849869).title("Kill Boksoon")
-                    .genres(List.of("Action", "Thriller", "Crime", "Drama")).type(ContentType.TV)
+                    .genres(List.of("Action", "Thriller")).type(ContentType.TV)
                     .overview(
                             "At work, she's a renowned assassin. At home, she's a single mom to a teenage daughter. Killing? That's easy. It's parenting that's the hard part.")
                     .length(16).rating(6.8).releaseDate(LocalDate.parse("2023-02-17"))
@@ -209,7 +209,7 @@ public class MockData {
                     .build(),
 
             ContentSummaryDto.builder().id(1033219).title("Attack on Titan (Sci-Fi Live Action)")
-                    .genres(List.of("Sci-Fi", "Action", "Adventure")).type(ContentType.TV)
+                    .genres(List.of("Sci-Fi", "Action")).type(ContentType.TV)
                     .overview(
                             "As viable water is depleted on Earth, a mission is sent to Saturn's moon Titan to retrieve sustainable H2O reserves from its alien inhabitants. But just as the humans acquire the precious resource, they are attacked by Titan rebels, who don't trust that the Earthlings will leave in peace.")
                     .length(10).rating(6.1).releaseDate(LocalDate.parse("2022-09-30"))
