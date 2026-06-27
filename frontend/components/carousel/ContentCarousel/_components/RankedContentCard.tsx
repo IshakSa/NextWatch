@@ -1,5 +1,6 @@
 import ImageLoader from "@/components/shared/ImageLoader";
-import { ContentItem, ImageSizes } from "@/lib/constants";
+import { ImageSizes } from "@/lib/constants";
+import { ContentItem } from "@/types";
 import { FilmIcon, StarIcon } from "lucide-react";
 import Link from "next/link";
 
@@ -15,7 +16,7 @@ export default function RankedContentCard({
       <h1 className="text-6xl mr-5">{rank}</h1>
       <Link href={`/${contentItem.type}/${contentItem.id}`}>
         <ImageLoader
-          src={contentItem.poster_path}
+          src={contentItem.posterPath}
           alt="poster"
           apiWidth={ImageSizes.poster}
           width={150}
@@ -33,7 +34,7 @@ export default function RankedContentCard({
         </div>
         <div className="flex items-center">
           <StarIcon size={20} color="#eab308" fill="#eab308" />
-          <p className="mx-1 font-semibold">{contentItem.vote_average}</p>
+          <p className="mx-1 font-semibold">{contentItem.rating}</p>
           <p className="muted-text"> | {contentItem.type}</p>
         </div>
       </div>

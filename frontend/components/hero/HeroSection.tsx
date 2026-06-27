@@ -4,12 +4,13 @@ import ExpandableOverview from "@/components/shared/ExpandableOverview";
 import AddWatchlistButton from "@/components/actions/AddWatchlistButton";
 import TrailerButton from "@/components/actions/TrailerButton";
 import { Badge } from "@/components/ui/badge";
-import { ContentItem } from "@/lib/constants";
 import HeroImage from "./_components/HeroImage";
 import WatchedButton from "../actions/WatchedButton";
 import ShareButton from "../actions/ShareButton";
 import { useState } from "react";
 import EmbeddedVideo from "../shared/EmbeddedVideo";
+import { toMovieLength } from "@/lib/utils";
+import { ContentItem } from "@/types";
 
 export default function HeroSection({
   contentItem,
@@ -26,12 +27,12 @@ export default function HeroSection({
       className="relative max-w-full flex justify-center items-center"
       style={{ height: `${size}vh` }}
     >
-      <HeroImage image={contentItem.backdrop_path} />
+      <HeroImage image={contentItem.backdropPath} />
 
       {/* TODO: add video from contentItem data */}
       {isVideoPlaying && (
         <EmbeddedVideo
-          youtubeId="O-b2VfmmbyA"
+          youtubeId={contentItem.trailerId}
           setIsVideoPlaying={setIsVideoPlaying}
         />
       )}
@@ -48,7 +49,7 @@ export default function HeroSection({
         <h1>{contentItem.title}</h1>
 
         <p className="text-foreground/50 dark:text-muted-foreground text-sm my-2">
-          {contentItem.length} • {contentItem.release_date.slice(0, 4)} •{" "}
+          {contentItem.type === "movie" ? toMovieLength(contentItem.length) : `${contentItem.length} Episodes`} • {contentItem.releaseDate.slice(0, 4)} •{" "}
           {contentItem.genres?.join(" • ")}
         </p>
 

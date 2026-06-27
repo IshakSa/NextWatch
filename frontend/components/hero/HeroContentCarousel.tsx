@@ -9,7 +9,7 @@ import {
 import Autoplay from "embla-carousel-autoplay";
 import HeroSection from "./HeroSection";
 import { useEffect, useState } from "react";
-import { ContentItem } from "@/lib/constants";
+import { ContentItem } from "@/types";
 
 export default function HeroContentCarousel({
   content,
@@ -48,7 +48,7 @@ export default function HeroContentCarousel({
       <Carousel
         plugins={[
           Autoplay({
-            delay: 7000,
+            delay: 6000,
           }),
         ]}
         opts={{

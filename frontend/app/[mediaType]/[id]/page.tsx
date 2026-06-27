@@ -3,7 +3,18 @@ import EpisodesCarousel from "@/components/carousel/EpisodesCarousel/EpisodeCaro
 import ExpandableOverview from "@/components/shared/ExpandableOverview";
 import HeroSection from "@/components/hero/HeroSection";
 import WatchProviders from "@/components/providers/WatchProviders";
-import { credits, movieData, providers, seasons } from "@/lib/constants";
+import { ContentItemDetails } from "@/types";
+
+async function getDetails(mediaType: "tv" | "movie", id: number) {
+  const response = await fetch(
+    `${process.env.BACKEND_URL}/api/content/${mediaType}/${id}?includeSimilar=true`,
+  );
+  if (!response.ok) {
+    throw new Error("failed to fetch data");
+  }
+
+  return await response.json();
+}
 
 export default async function MovieDetailsPage({
   params,
@@ -13,7 +24,7 @@ export default async function MovieDetailsPage({
   const { mediaType, id } = await params;
   const idNum = Number(id);
 
-  const movie = movieData.find((movie) => movie.id === idNum);
+  const movie: ContentItemDetails = await getDetails(mediaType, idNum);
 
   if (!movie) {
     return;
@@ -37,34 +48,36 @@ export default async function MovieDetailsPage({
         <ContentCarousel
           carouselType="credits"
           rowName="Top Cast"
-          content={credits.cast}
+          content={movie.credits.cast}
           margin="mt-20"
         />
 
         <ContentCarousel
           carouselType="credits"
           rowName="Director"
-          content={credits.director}
+          content={movie.credits.directors}
           margin="mt-20"
         />
 
-        {movie.type === "tv" && (
-          <EpisodesCarousel seasons={seasons} margin="mt-20" />
+        {movie.type === "tv" && movie.seasons && (
+          <EpisodesCarousel seasons={movie.seasons} margin="mt-20" />
         )}
 
-        <WatchProviders providers={providers} />
+        <WatchProviders providers={movie.providers} />
       </section>
 
       <div className="border-t-2 mt-15" />
 
-      <section className="container">
-        <ContentCarousel<"backdrop">
-          carouselType="backdrop"
-          rowName="Similar Movies for you"
-          content={movieData}
-          margin="mt-15"
-        />
-      </section>
+      {movie.similar && (
+        <section className="container">
+          <ContentCarousel<"backdrop">
+            carouselType="backdrop"
+            rowName="Similar Movies for you"
+            content={movie.similar}
+            margin="mt-15"
+          />
+        </section>
+      )}
     </main>
   );
 }

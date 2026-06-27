@@ -1,7 +1,8 @@
 import InfoOverlay from "./InfoOverlay";
 import Link from "next/link";
-import { ContentItem, ImageSizes } from "@/lib/constants";
+import { ImageSizes } from "@/lib/constants";
 import ImageLoader from "@/components/shared/ImageLoader";
+import { ContentItem } from "@/types";
 
 export default function BackdropContentCard({
   contentItem,
@@ -12,7 +13,7 @@ export default function BackdropContentCard({
     <div className="relative">
       <Link href={`/${contentItem.type}/${contentItem.id}`}>
         <ImageLoader
-          src={contentItem.backdrop_path}
+          src={contentItem.backdropPath}
           alt="backdrop"
           apiWidth={ImageSizes.backdrop}
           width={ImageSizes.backdrop}
@@ -23,7 +24,7 @@ export default function BackdropContentCard({
           <InfoOverlay
             contentTitle={contentItem.title}
             genres={contentItem.genres}
-            rating={contentItem.vote_average}
+            rating={contentItem.rating}
           />
         </div>
       </Link>
