@@ -32,7 +32,7 @@ export default function HeroSection({
       {/* TODO: add video from contentItem data */}
       {isVideoPlaying && (
         <EmbeddedVideo
-          youtubeId="O-b2VfmmbyA"
+          youtubeId={contentItem.trailerId}
           setIsVideoPlaying={setIsVideoPlaying}
         />
       )}

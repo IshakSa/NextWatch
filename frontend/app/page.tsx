@@ -13,7 +13,7 @@ async function getLatest() {
 
 async function getHero() {
   const response = await fetch(
-    `${process.env.BACKEND_URL}/api/content/trending/day`,
+    `${process.env.BACKEND_URL}/api/content/trending/day?includeTrailer=true`,
   );
   if (!response.ok) {
     throw new Error("failed to fetch data");

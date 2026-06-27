@@ -31,12 +31,15 @@ public class ContentController {
     }
 
     @GetMapping("/trending/{timeWindow}")
-    public ResponseEntity<List<ContentSummaryDto>> getTrending(@PathVariable TimeWindow timeWindow) {
-        return new ResponseEntity<>(contentService.getTrending(timeWindow), HttpStatus.OK);
+    public ResponseEntity<List<ContentSummaryDto>> getTrending(
+            @PathVariable TimeWindow timeWindow,
+            @RequestParam(defaultValue = "false") boolean includeTrailer) {
+        return new ResponseEntity<>(contentService.getTrending(timeWindow, includeTrailer), HttpStatus.OK);
     }
 
     @GetMapping("/{contentType}/{id}")
-    public ResponseEntity<ContentDetailsDto> getDetails(@PathVariable ContentType contentType, @PathVariable Integer id,
+    public ResponseEntity<ContentDetailsDto> getDetails(
+            @PathVariable ContentType contentType, @PathVariable Integer id,
             @RequestParam(defaultValue = "false") boolean includeSimilar) {
         return new ResponseEntity<>(contentService.getDetails(id, contentType, includeSimilar), HttpStatus.OK);
     }

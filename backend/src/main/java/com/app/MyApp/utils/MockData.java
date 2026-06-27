@@ -27,6 +27,7 @@ public class MockData {
             .releaseDate(LocalDate.parse("2023-02-15"))
             .posterPath("/ngl2FKBlU4fhbdsrtdom9LVLBXw.jpg")
             .backdropPath("/8YFL5QQVPy3AgrEQxNYVSgiPEbe.jpg")
+            .trailerId("O-b2VfmmbyA")
             .build();
 
     public static List<ContentSummaryDto> mockDataList = List.of(
@@ -42,6 +43,7 @@ public class MockData {
                     .releaseDate(LocalDate.parse("2023-02-15"))
                     .posterPath("/ngl2FKBlU4fhbdsrtdom9LVLBXw.jpg")
                     .backdropPath("/8YFL5QQVPy3AgrEQxNYVSgiPEbe.jpg")
+                    .trailerId("O-b2VfmmbyA")
                     .build(),
 
             ContentSummaryDto.builder()
@@ -56,6 +58,7 @@ public class MockData {
                     .releaseDate(LocalDate.parse("2023-04-05"))
                     .posterPath("/qNBAXBIQlnOThrVvA6mA2B5ggV6.jpg")
                     .backdropPath("/iJQIbOPm81fPEGKt5BPuZmfnA54.jpg")
+                    .trailerId("O-b2VfmmbyA")
                     .build(),
 
             ContentSummaryDto.builder()
@@ -67,6 +70,7 @@ public class MockData {
                             "Billy Batson and his foster siblings, who transform into superheroes bysaying \"Shazam!\", are forced to get back into action and fight the Daughters of Atlas, who they must stop from using a weapon that could destroy the world.")
                     .length(130).rating(6.8).releaseDate(LocalDate.parse("2023-03-15"))
                     .posterPath("/2VK4d3mqqTc7LVZLnLPeRiPaJ71.jpg").backdropPath("/nDxJJyA5giRhXx96q1sWbOUjMBI.jpg")
+                    .trailerId("O-b2VfmmbyA")
                     .build(),
 
             ContentSummaryDto.builder().id(76600).title("Avatar: The Way of Water")
@@ -78,6 +82,7 @@ public class MockData {
                     .releaseDate(LocalDate.parse("2022-12-14"))
                     .posterPath("/t6HIqrRAclMCA60NsSmeqe9RmNV.jpg")
                     .backdropPath("/ovM06PdF3M8wvKb06i4sjW3xoww.jpg")
+                    .trailerId("O-b2VfmmbyA")
                     .build(),
 
             ContentSummaryDto.builder()
@@ -92,6 +97,7 @@ public class MockData {
                     .releaseDate(LocalDate.parse("2023-04-14"))
                     .posterPath("/7yyFEsuaLGTPul5UkHc5BhXnQ0k.jpg")
                     .backdropPath("/xwA90BwZXTh8ke3CVsQlj8EOkFr.jpg")
+                    .trailerId("O-b2VfmmbyA")
                     .build(),
 
             ContentSummaryDto.builder()

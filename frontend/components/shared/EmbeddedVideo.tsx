@@ -7,7 +7,7 @@ export default function EmbeddedVideo({
   youtubeId,
   setIsVideoPlaying,
 }: {
-  youtubeId: string;
+  youtubeId?: string;
   setIsVideoPlaying: (isPlaying: boolean) => void;
 }) {
   function handleClose() {
@@ -21,13 +21,19 @@ export default function EmbeddedVideo({
     >
       <div className="z-5 w-full sm:max-w-[80%] lg:max-w-[65%] xl:max-w-[50%] mx-auto sm:px-4">
         <div className="relative aspect-video sm:rounded-xl overflow-hidden">
-          <iframe
-            className="absolute top-0 left-0 w-full h-full"
-            src={`https://www.youtube.com/embed/${youtubeId}?playsinline=1&autoplay=1&modestbranding=1&rel=0`}
-            allow="accelerometer; clipboard-write; autoplay; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            loading="lazy"
-          />
+          {youtubeId ? (
+            <iframe
+              className="absolute top-0 left-0 w-full h-full"
+              src={`https://www.youtube.com/embed/${youtubeId}?playsinline=1&autoplay=1&modestbranding=1&rel=0&vq=highres`}
+              allow="accelerometer; clipboard-write; autoplay; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              loading="lazy"
+            />
+          ) : (
+            <div className="flex absolute top-0 left-0 w-full h-full justify-center items-center">
+              <p className="text-xl font-semibold">Trailer is not available</p>
+            </div>
+          )}
           <div className="absolute right-0 m-5">
             <Button variant={"secondary"} onClick={handleClose}>
               <XIcon />

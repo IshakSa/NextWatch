@@ -20,7 +20,7 @@ public class ContentService {
         return MockData.mockDataList;
     }
 
-    public List<ContentSummaryDto> getTrending(TimeWindow timeWindow) {
+    public List<ContentSummaryDto> getTrending(TimeWindow timeWindow, boolean includeTrailer) {
         return switch (timeWindow) {
             case DAY -> MockData.mockDataList.subList(0, 5);
             case WEEK -> MockData.mockDataList.subList(0, 10);
