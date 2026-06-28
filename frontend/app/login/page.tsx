@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/card";
 import { FieldGroup } from "@/components/ui/field";
 import Link from "next/link";
-import { FormProvider, useForm, UseFormReturn } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FieldInput from "../../components/auth/field/FieldInput";
@@ -23,12 +23,10 @@ const loginSchema = z.object({
   password: z.string().min(1, "Password is required"),
 });
 
-export type FormValues = z.infer<typeof loginSchema>;
-export type FormType = UseFormReturn<FormValues>;
-export type FieldNames = keyof FormValues;
+type LoginValues = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
-  const form = useForm<z.infer<typeof loginSchema>>({
+  const form = useForm<LoginValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "",
@@ -36,7 +34,7 @@ export default function LoginPage() {
     },
   });
 
-  async function handleSubmit(data: z.infer<typeof loginSchema>) {
+  async function handleSubmit(data: LoginValues) {
     console.log(data);
   }
 
@@ -59,14 +57,14 @@ export default function LoginPage() {
                 noValidate
               >
                 <FieldGroup className="flex flex-col gap-4 lg:gap-5 2xl:gap-6">
-                  <FieldInput
+                  <FieldInput<LoginValues>
                     name="email"
                     label="Email"
                     placeholder="Email"
                     type="email"
                   />
 
-                  <FieldInput
+                  <FieldInput<LoginValues>
                     name="password"
                     label="Password"
                     placeholder="Password"

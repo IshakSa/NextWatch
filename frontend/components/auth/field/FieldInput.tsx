@@ -1,5 +1,5 @@
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
-import { Controller } from "react-hook-form";
+import { Controller, FieldPath, FieldValues } from "react-hook-form";
 import { HTMLInputTypeAttribute } from "react";
 import { Input } from "../../ui/input";
 
@@ -7,18 +7,17 @@ import PasswordInput from "./PasswordInput";
 import TermsCheckbox from "./TermsCheckbox";
 import { useFormContext } from "react-hook-form";
 
-export default function FieldInput({
-  name,
-  label,
-  type,
-  placeholder,
-}: {
-  name: string;
+interface FieldInputProps<TFieldValues extends FieldValues> {
+  name: FieldPath<TFieldValues>;
   label: string;
   type: HTMLInputTypeAttribute;
   placeholder: string;
-}) {
-  const { control } = useFormContext();
+}
+
+export default function FieldInput<
+  TFieldValues extends FieldValues,
+>({ name, label, type, placeholder }: FieldInputProps<TFieldValues>) {
+  const { control } = useFormContext<TFieldValues>();
 
   return (
     <Controller

@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/card";
 import { FieldGroup } from "@/components/ui/field";
 import Link from "next/link";
-import { FormProvider, useForm, UseFormReturn } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FieldInput from "../../components/auth/field/FieldInput";
@@ -33,12 +33,10 @@ const registerSchema = z
     path: ["confirmPassword"],
   });
 
-export type FormValues = z.infer<typeof registerSchema>;
-export type FormType = UseFormReturn<FormValues>;
-export type FieldNames = keyof FormValues;
+type RegisterValues = z.infer<typeof registerSchema>;
 
 export default function RegisterPage() {
-  const form = useForm<z.infer<typeof registerSchema>>({
+  const form = useForm<RegisterValues>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
       username: "",
@@ -49,7 +47,7 @@ export default function RegisterPage() {
     },
   });
 
-  async function handleSubmit(data: z.infer<typeof registerSchema>) {
+  async function handleSubmit(data: RegisterValues) {
     console.log(data);
   }
 
@@ -72,35 +70,40 @@ export default function RegisterPage() {
                 noValidate
               >
                 <FieldGroup className="flex flex-col gap-4 lg:gap-5 2xl:gap-6">
-                  <FieldInput
+                  <FieldInput<RegisterValues>
                     name="username"
                     label="Username"
                     placeholder="Username"
                     type="text"
                   />
 
-                  <FieldInput
+                  <FieldInput<RegisterValues>
                     name="email"
                     label="Email"
                     placeholder="Email"
                     type="email"
                   />
 
-                  <FieldInput
+                  <FieldInput<RegisterValues>
                     name="password"
                     label="Password"
                     placeholder="Password"
                     type="password"
                   />
 
-                  <FieldInput
+                  <FieldInput<RegisterValues>
                     name="confirmPassword"
                     label="Confirm Password"
                     placeholder="Password"
                     type="password"
                   />
 
-                  <FieldInput name="terms" label="" placeholder="" type="" />
+                  <FieldInput<RegisterValues>
+                    name="terms"
+                    label=""
+                    placeholder=""
+                    type=""
+                  />
                 </FieldGroup>
               </form>
             </FormProvider>
