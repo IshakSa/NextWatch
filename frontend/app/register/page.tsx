@@ -17,6 +17,9 @@ import { FormProvider, useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FieldInput from "../../components/auth/field/FieldInput";
+import { registerUser } from "./actions";
+import { redirect } from "next/navigation";
+import { toast } from "sonner";
 
 const registerSchema = z
   .object({
@@ -33,7 +36,7 @@ const registerSchema = z
     path: ["confirmPassword"],
   });
 
-type RegisterValues = z.infer<typeof registerSchema>;
+export type RegisterValues = z.infer<typeof registerSchema>;
 
 export default function RegisterPage() {
   const form = useForm<RegisterValues>({
@@ -48,13 +51,24 @@ export default function RegisterPage() {
   });
 
   async function handleSubmit(data: RegisterValues) {
-    console.log(data);
+    let isSuccess = false;
+    try {
+      isSuccess = await registerUser(data);
+    } catch (error) {
+      toast.error("Registration failed", {
+        description: "Something went wrong. Please try again later.",
+      });
+    }
+    
+    if (isSuccess) {
+      redirect("/");
+    }
   }
 
   return (
     <main>
       <div className="container flex min-h-screen items-center mt-3 justify-center">
-        <Card className="w-full max-w-sm md:max-w-md">
+        <Card className="w-full max-w-sm">
           <CardHeader>
             <CardTitle>Register to start discovering</CardTitle>
             <CardDescription>

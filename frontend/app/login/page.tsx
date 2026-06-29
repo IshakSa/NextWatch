@@ -17,13 +17,16 @@ import { FormProvider, useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FieldInput from "../../components/auth/field/FieldInput";
+import { loginUser } from "./actions";
+import { toast } from "sonner";
+import { redirect } from "next/navigation";
 
 const loginSchema = z.object({
   email: z.email("Please enter a valid email address"),
   password: z.string().min(1, "Password is required"),
 });
 
-type LoginValues = z.infer<typeof loginSchema>;
+export type LoginValues = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
   const form = useForm<LoginValues>({
@@ -35,18 +38,27 @@ export default function LoginPage() {
   });
 
   async function handleSubmit(data: LoginValues) {
-    console.log(data);
+    let isSuccess = false;
+    try {
+      isSuccess = await loginUser(data);
+    } catch (error) {
+      toast.error("Login failed", {
+        description:
+          "Invalid email or password. Please check your credentials and try again.",
+      });
+    }
+    if (isSuccess) {
+      redirect("/");
+    }
   }
 
   return (
     <main>
       <div className="container flex min-h-screen items-center mt-3 justify-center">
-        <Card className="w-full max-w-sm md:max-w-md">
+        <Card className="w-full max-w-sm">
           <CardHeader>
             <CardTitle>Login to your account</CardTitle>
-            <CardDescription>
-              Enter your details to login
-            </CardDescription>
+            <CardDescription>Enter your details to login</CardDescription>
           </CardHeader>
 
           <CardContent>

@@ -54,6 +54,8 @@ export default function RootLayout({
                 description: "!text-xs !text-muted-foreground",
                 actionButton:
                   "!bg-primary !text-primary-foreground !text-xs !font-medium !px-3 !py-1.5 !rounded-md hover:!bg-primary/90 !transition-colors",
+                error:
+                  "[&_[data-title]]:!text-destructive [&_[data-description]]:!text-destructive/90 [&_[data-icon]]:!text-destructive",
               },
             }}
           />
