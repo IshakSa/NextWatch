@@ -13,10 +13,10 @@ export default function TermsCheckbox({
   const { value, ...checkboxProps } = field;
 
   return (
-    <div className="flex items-start gap-3 sm:items-center sm:justify-center">
+    <div className="flex gap-2 items-center justify-center">
       <Checkbox
         id="terms-checkbox"
-        className="mt-1 sm:mt-0 cursor-pointer"
+        className="cursor-pointer"
         aria-invalid={fieldState.invalid}
         {...checkboxProps}
         checked={value}
@@ -24,16 +24,16 @@ export default function TermsCheckbox({
         required
       />
       <FieldLabel htmlFor="terms-checkbox">
-        <span className="text-sm muted-text leading-relaxed">
-          I agree to our{" "}
+        <span className="text-sm muted-text tracking-tight">
+          I accept the{" "}
           <Link
             href="/privacy"
-            className="text-foreground hover:underline mx-1"
+            className="text-foreground hover:underline mx-0.5"
           >
             Privacy Policy
           </Link>{" "}
-          and{" "}
-          <Link href="/tos" className="text-foreground hover:underline mx-1">
+          &{" "}
+          <Link href="/tos" className="text-foreground hover:underline ml-0.5">
             Terms of Service
           </Link>
         </span>
