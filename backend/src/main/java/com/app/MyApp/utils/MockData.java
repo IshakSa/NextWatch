@@ -11,10 +11,13 @@ import com.app.MyApp.content.ContentDetailsDto.EpisodeDto;
 import com.app.MyApp.content.ContentDetailsDto.ProviderDetailsDto;
 import com.app.MyApp.content.ContentDetailsDto.ProviderOptionsDto;
 import com.app.MyApp.content.ContentDetailsDto.SeasonDto;
+import com.app.MyApp.user.RegisterDto;
 import com.app.MyApp.content.ContentSummaryDto;
 import com.app.MyApp.content.ContentType;
 
 public class MockData {
+        public static RegisterDto mockUser = RegisterDto.builder().username("John").email("john@mail.com").password("John1234!").acceptedTerms(true).build();
+        
     public static ContentSummaryDto mockMovie = ContentSummaryDto.builder()
             .id(640146)
             .title("Ant-Man and the Wasp: Quantumania")
