@@ -5,11 +5,17 @@ import NavbarDesktop from "./_components/NavbarDesktop";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import NavbarMobile from "./_components/NavbarMobile";
 import { useIsScrolled } from "@/hooks/useIsScrolled";
+import { useState } from "react";
 
 export default function Navbar() {
   const pathname = usePathname();
   const isScrolled = useIsScrolled();
   const isDesktop = useMediaQuery("(min-width: 768px)");
+  const [isSearchOverlayShown, setIsSearchOverlayShown] = useState(false);
+
+  function handleSearchOverlay() {
+    setIsSearchOverlayShown(!isSearchOverlayShown);
+  }
 
   const navLinks = [
     { name: "Home", href: "/" },
@@ -22,14 +28,24 @@ export default function Navbar() {
     <header
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
         isScrolled
-          ? "bg-zinc-950/70 backdrop-blur-md border-b border-white/10 shadow-lg"
+          ? `bg-zinc-950/70 ${!isSearchOverlayShown && "backdrop-blur-md"} border-b border-white/10 shadow-lg`
           : "bg-transparent border-transparent"
       }`}
     >
       {isDesktop ? (
-        <NavbarDesktop navLinks={navLinks} pathname={pathname} />
+        <NavbarDesktop
+          navLinks={navLinks}
+          pathname={pathname}
+          isSearchOverlayShown={isSearchOverlayShown}
+          handleSearchOverlay={handleSearchOverlay}
+        />
       ) : (
-        <NavbarMobile navLinks={navLinks} pathname={pathname} />
+        <NavbarMobile
+          navLinks={navLinks}
+          pathname={pathname}
+          isSearchOverlayShown={isSearchOverlayShown}
+          handleSearchOverlay={handleSearchOverlay}
+        />
       )}
     </header>
   );
