@@ -64,7 +64,7 @@
 
 @layer base {
   main {
-    @apply w-screen mx-auto flex flex-col ;
+    @apply w-screen mx-auto flex flex-col;
   }
 
   h1 {
@@ -73,7 +73,7 @@
 
   h2 {
     @apply text-2xl font-semibold;
-  } 
+  }
 
   * {
     @apply border-border outline-ring/50;
@@ -95,6 +95,11 @@
     @apply text-muted-foreground text-sm
   }
 }
+
+:root:has(.no-doc-scroll) {
+  overflow: hidden;
+}
+
 
 :root {
   --card: oklch(1 0 0);
