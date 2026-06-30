@@ -44,4 +44,9 @@ public class ContentController {
         return new ResponseEntity<>(contentService.getDetails(id, contentType, includeSimilar), HttpStatus.OK);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<ContentSummaryDto>> searchByName(@RequestParam String query) {
+        return new ResponseEntity<>(contentService.searchByName(query), HttpStatus.OK);
+    }
+
 }

@@ -10,13 +10,19 @@ import {
 import Link from "next/link";
 import { ModeToggle } from "@/components/layout/navbar/_components/ModeToggle";
 import AuthButton from "@/components/actions/AuthButton";
+import { Button } from "@/components/ui/button";
+import SearchOverlay from "./SearchOverlay";
 
 export default function NavbarMobile({
   navLinks,
   pathname,
+  isSearchOverlayShown,
+  handleSearchOverlay,
 }: {
   navLinks: { name: string; href: string }[];
   pathname: string;
+  isSearchOverlayShown: boolean;
+  handleSearchOverlay: () => void;
 }) {
   return (
     <nav className="p-5 max-w-150 justify-between text-white flex items-center mx-auto">
@@ -68,13 +74,16 @@ export default function NavbarMobile({
         </Link>
       </div>
 
-      <div className="flex items-center justify-end space-x-5">
-        <Link href={"/search"}>
-          <SearchIcon />
-        </Link>
+      <div className="flex items-center justify-end space-x-2">
+        <Button variant="ghost" onClick={handleSearchOverlay} className="rounded-lg">
+          <SearchIcon className="h-5.5! w-5.5!" />
+        </Button>
 
         <AuthButton type="login" />
       </div>
+      {isSearchOverlayShown && (
+        <SearchOverlay handleSearchOverlay={handleSearchOverlay} />
+      )}
     </nav>
   );
 }

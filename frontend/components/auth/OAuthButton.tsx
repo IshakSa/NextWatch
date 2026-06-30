@@ -14,7 +14,7 @@ export default function OAuthButton() {
         <div className="grow h-px bg-border" />
       </div>
 
-      <Button variant="outline" className="w-full gap-3 mb-3">
+      <Button variant="outline" className="w-full gap-3 rounded-lg mb-3">
         <Image
           src={"/icons/google.svg"}
           alt="Google logo"

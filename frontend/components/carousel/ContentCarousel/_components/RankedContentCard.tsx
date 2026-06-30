@@ -1,5 +1,6 @@
 import ImageLoader from "@/components/shared/ImageLoader";
 import { ImageSizes } from "@/lib/constants";
+import { toDisplayContentType } from "@/lib/utils";
 import { ContentItem } from "@/types";
 import { FilmIcon, StarIcon } from "lucide-react";
 import Link from "next/link";
@@ -35,7 +36,7 @@ export default function RankedContentCard({
         <div className="flex items-center">
           <StarIcon size={20} color="#eab308" fill="#eab308" />
           <p className="mx-1 font-semibold">{contentItem.rating}</p>
-          <p className="muted-text"> | {contentItem.type}</p>
+          <p className="muted-text"> | {toDisplayContentType(contentItem.type)}</p>
         </div>
       </div>
     </div>

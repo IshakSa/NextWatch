@@ -88,7 +88,7 @@ export default function LoginPage() {
           </CardContent>
 
           <CardFooter className="flex-col gap-2">
-            <Button type="submit" className="w-full" form="register-form">
+            <Button type="submit" className="w-full rounded-lg" form="register-form">
               Login
             </Button>
 
