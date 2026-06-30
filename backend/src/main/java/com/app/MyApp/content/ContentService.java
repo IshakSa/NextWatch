@@ -1,6 +1,8 @@
 package com.app.MyApp.content;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -39,5 +41,24 @@ public class ContentService {
                 mockMovie.trailerId(), MockData.creditsDto, MockData.providersMap,
                 contentType == ContentType.TV ? MockData.seasonsList : null,
                 includeSimilar ? MockData.mockDataList : null);
+    }
+
+    public List<ContentSummaryDto> searchByName(String query) {
+        final int MAX_RESULTS_AMOUNT = 20;
+
+        if (query.strip().isEmpty()) {
+            return List.of();
+        }
+
+        String cleanQuery = query.strip().toLowerCase();
+        List<ContentSummaryDto> matches = MockData.mockDataList
+                .stream()
+                .filter(item -> item.title().strip().toLowerCase().contains(cleanQuery))
+                .toList();
+
+        if (matches.size() <= MAX_RESULTS_AMOUNT) {
+            return matches;
+        }
+        return matches.subList(0, MAX_RESULTS_AMOUNT);
     }
 }
