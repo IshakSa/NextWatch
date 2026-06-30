@@ -44,7 +44,7 @@ export default function NavbarDesktop({
               className={
                 isActive
                   ? "pointer-events-none font-semibold"
-                  : "hover:text-white/80 text-muted-foreground transition-colors"
+                  : "hover:text-foreground text-muted-foreground transition-colors"
               }
             >
               {link.name}
