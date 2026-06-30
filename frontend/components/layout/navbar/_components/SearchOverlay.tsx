@@ -40,7 +40,7 @@ export default function SearchOverlay({
     <div className="no-doc-scroll fixed inset-0 z-1000 w-screen h-full flex flex-col items-center justify-start bg-zinc-950/70 backdrop-blur-md">
       <div className="container relative max-w-4xl flex flex-col gap-10 mt-20">
         <div className="absolute right-0 -top-10 mx-5">
-          <Button variant={"secondary"} onClick={handleSearchOverlay}>
+          <Button variant="secondary" className="rounded-lg" onClick={handleSearchOverlay}>
             <XIcon />
           </Button>
         </div>

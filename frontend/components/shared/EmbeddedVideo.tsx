@@ -35,7 +35,7 @@ export default function EmbeddedVideo({
             </div>
           )}
           <div className="absolute right-0 m-5">
-            <Button variant={"secondary"} onClick={handleClose}>
+            <Button variant="secondary" className="rounded-lg" onClick={handleClose}>
               <XIcon />
             </Button>
           </div>

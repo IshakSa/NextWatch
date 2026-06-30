@@ -124,7 +124,7 @@ export default function RegisterPage() {
           </CardContent>
 
           <CardFooter className="flex-col gap-2">
-            <Button type="submit" className="w-full" form="register-form">
+            <Button type="submit" className="w-full rounded-lg" form="register-form">
               Register
             </Button>
 
