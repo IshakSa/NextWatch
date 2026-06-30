@@ -6,8 +6,10 @@ import { ContentItem } from "@/types";
 
 export default function PosterContentCard({
   contentItem,
+  genreAmount = 2
 }: {
   contentItem: ContentItem;
+  genreAmount?: number
 }) {
   return (
     <div className="relative text-white">
@@ -23,7 +25,7 @@ export default function PosterContentCard({
         <div className="absolute bottom-0 left-0 z-10 p-4 md:p-3 w-full bg-linear-to-t from-black to-transparent rounded-b-xl">
           <InfoOverlay
             contentTitle={contentItem.title}
-            genres={contentItem.genres}
+            genres={contentItem.genres.slice(0, genreAmount)}
             rating={contentItem.rating}
           />
         </div>

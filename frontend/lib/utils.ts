@@ -19,3 +19,7 @@ export function toMovieLength(totalMinutes: number): string {
 
   return `${hours}h${minutes}m`;
 }
+
+export function toDisplayContentType(type: "movie" | "tv") {
+  return type === "tv" ? "Series" : "Movie";
+}
