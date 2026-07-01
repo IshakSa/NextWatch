@@ -37,7 +37,13 @@ const fillColorArray = [
   "#ca8a04",
 ];
 
-export default function WatchedButton({ className }: { className?: string }) {
+export default function WatchedButton({
+  className,
+  hideText,
+}: {
+  className?: string;
+  hideText?: boolean;
+}) {
   const [currentRating, setCurrentRating] = useState(0);
   const [savedRating, setSavedRating] = useState(0);
   const [watched, setWatched] = useState(false);
@@ -90,12 +96,12 @@ export default function WatchedButton({ className }: { className?: string }) {
               {watched ? (
                 <div className="flex space-x-2 items-center">
                   <CheckIcon />
-                  {isDesktop && <p>Watched</p>}
+                  {isDesktop && !hideText && <p>Watched</p>}
                 </div>
               ) : (
                 <div className="flex space-x-2 items-center">
                   <EyeIcon />
-                  {isDesktop && <p>Mark as Watched</p>}
+                  {isDesktop && !hideText && <p>Mark as Watched</p>}
                 </div>
               )}
             </Button>

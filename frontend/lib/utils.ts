@@ -20,6 +20,13 @@ export function toMovieLength(totalMinutes: number): string {
   return `${hours}h${minutes}m`;
 }
 
+export function toDisplayContentLength(type: "movie" | "tv", length: number, shortVersion?: boolean) {
+  if (type === "movie") {
+    return toMovieLength(length);
+  }
+  return `${length} ${shortVersion ? "Eps." : "Episodes"}`;
+}
+
 export function toDisplayContentType(type: "movie" | "tv") {
   return type === "tv" ? "Series" : "Movie";
 }

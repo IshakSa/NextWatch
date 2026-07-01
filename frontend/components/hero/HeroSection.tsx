@@ -9,7 +9,7 @@ import WatchedButton from "../actions/WatchedButton";
 import ShareButton from "../actions/ShareButton";
 import { useState } from "react";
 import EmbeddedVideo from "../shared/EmbeddedVideo";
-import { toDisplayContentType, toMovieLength } from "@/lib/utils";
+import { toDisplayContentLength, toDisplayContentType } from "@/lib/utils";
 import { ContentItem } from "@/types";
 
 export default function HeroSection({
@@ -49,7 +49,8 @@ export default function HeroSection({
         <h1>{contentItem.title}</h1>
 
         <p className="text-foreground/50 dark:text-muted-foreground text-sm my-2">
-          {contentItem.type === "movie" ? toMovieLength(contentItem.length) : `${contentItem.length} Episodes`} • {contentItem.releaseDate.slice(0, 4)} •{" "}
+          {toDisplayContentLength(contentItem.type, contentItem.length)} •{" "}
+          {contentItem.releaseDate.slice(0, 4)} •{" "}
           {contentItem.genres?.join(" • ")}
         </p>
 
