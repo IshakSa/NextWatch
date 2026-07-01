@@ -4,10 +4,12 @@ export default function InfoOverlay({
   contentTitle,
   rating,
   genres,
+  extras,
 }: {
   contentTitle: string;
   rating: number;
-  genres: string[];
+  genres?: string[];
+  extras?: string[];
 }) {
   return (
     <>
@@ -15,7 +17,8 @@ export default function InfoOverlay({
       <div className="flex items-center text-sm">
         <StarIcon size={20} color="#eab308" fill="#eab308" />
         <p className="mx-1 font-semibold">{rating}</p>
-        <p className="muted-text"> | {genres.join(" • ")}</p>
+        {genres && <p className="muted-text"> | {genres.join(" • ")}</p>}
+        {extras && <p className="muted-text"> | {extras.join(" • ")}</p>}
       </div>
     </>
   );
