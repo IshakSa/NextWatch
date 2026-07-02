@@ -31,10 +31,7 @@ export default function HeroSection({
 
       {/* TODO: add video from contentItem data */}
       {isVideoPlaying && (
-        <EmbeddedVideo
-          youtubeId={contentItem.trailerId}
-          setIsVideoPlaying={setIsVideoPlaying}
-        />
+        <EmbeddedVideo youtubeId={contentItem.trailerId} setIsVideoPlaying={setIsVideoPlaying} />
       )}
 
       <div className="container absolute left-1/2 bottom-0 -translate-x-1/2 flex flex-col z-1 px-4 sm:px-6 lg:px-8 mb-10">
@@ -50,8 +47,7 @@ export default function HeroSection({
 
         <p className="text-foreground/50 dark:text-muted-foreground text-sm my-2">
           {toDisplayContentLength(contentItem.type, contentItem.length)} •{" "}
-          {contentItem.releaseDate.slice(0, 4)} •{" "}
-          {contentItem.genres?.join(" • ")}
+          {contentItem.releaseDate.slice(0, 4)} • {contentItem.genres?.join(" • ")}
         </p>
 
         {page === "home" ? (
@@ -82,10 +78,7 @@ export default function HeroSection({
               />
             </div>
             <div className="flex gap-3">
-              <AddWatchlistButton
-                className="sm:hidden rounded-lg p-5 sm:w-auto"
-                page="details"
-              />
+              <AddWatchlistButton className="sm:hidden rounded-lg p-5 sm:w-auto" page="details" />
               <WatchedButton className="rounded-lg p-5 sm:w-auto" />
               <ShareButton className="rounded-lg p-5 sm:w-auto" />
             </div>

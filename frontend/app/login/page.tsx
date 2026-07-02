@@ -43,8 +43,7 @@ export default function LoginPage() {
       isSuccess = await loginUser(data);
     } catch (error) {
       toast.error("Login failed", {
-        description:
-          "Invalid email or password. Please check your credentials and try again.",
+        description: "Invalid email or password. Please check your credentials and try again.",
       });
     }
     if (isSuccess) {
@@ -63,11 +62,7 @@ export default function LoginPage() {
 
           <CardContent>
             <FormProvider {...form}>
-              <form
-                onSubmit={form.handleSubmit(handleSubmit)}
-                id="register-form"
-                noValidate
-              >
+              <form onSubmit={form.handleSubmit(handleSubmit)} id="register-form" noValidate>
                 <FieldGroup className="flex flex-col gap-4 lg:gap-5 2xl:gap-6">
                   <FieldInput<LoginValues>
                     name="email"

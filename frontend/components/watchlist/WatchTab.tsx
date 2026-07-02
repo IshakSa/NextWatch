@@ -3,22 +3,11 @@
 import { ContentItem } from "@/types";
 import ContentCarousel from "../carousel/ContentCarousel/ContentCarousel";
 import { capitalize, toMovieLength } from "@/lib/utils";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-} from "../ui/select";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger } from "../ui/select";
 import { Button } from "../ui/button";
 import { useState } from "react";
 import WatchlistCard from "../carousel/ContentCarousel/_components/WatchlistCard";
-import {
-  ChevronDownIcon,
-  ChevronUpIcon,
-  Trash2Icon,
-  Undo2Icon,
-} from "lucide-react";
+import { ChevronDownIcon, ChevronUpIcon, Trash2Icon, Undo2Icon } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 import { toast } from "sonner";
 
@@ -51,10 +40,7 @@ export default function WatchTab({
   }
 
   function handleTypeChange(value: "all" | "movie" | "tv") {
-    if (
-      value === "all" &&
-      (sortedBy === "runtime-asc" || sortedBy === "runtime-desc")
-    ) {
+    if (value === "all" && (sortedBy === "runtime-asc" || sortedBy === "runtime-desc")) {
       setSortedBy("added-desc");
     }
     setActiveType(value);
@@ -97,17 +83,13 @@ export default function WatchTab({
   }
 
   function deleteContentItemById(contentItemId: number) {
-    const deletedContentItem = localContent.find(
-      (contentItem) => contentItem.id === contentItemId,
-    );
+    const deletedContentItem = localContent.find((contentItem) => contentItem.id === contentItemId);
 
     if (!deletedContentItem) {
       return;
     }
 
-    setLocalContent(
-      localContent.filter((contentItem) => contentItem !== deletedContentItem),
-    );
+    setLocalContent(localContent.filter((contentItem) => contentItem !== deletedContentItem));
 
     // TODO: connect remove to backend
 
@@ -150,8 +132,7 @@ export default function WatchTab({
       case "release-desc":
         filteredContent.sort(
           (itemA, itemB) =>
-            new Date(itemB.releaseDate).getTime() -
-            new Date(itemA.releaseDate).getTime(),
+            new Date(itemB.releaseDate).getTime() - new Date(itemA.releaseDate).getTime(),
         );
         break;
 
@@ -164,9 +145,7 @@ export default function WatchTab({
         break;
 
       case "title-asc":
-        filteredContent.sort((itemA, itemB) =>
-          itemA.title.localeCompare(itemB.title),
-        );
+        filteredContent.sort((itemA, itemB) => itemA.title.localeCompare(itemB.title));
         break;
     }
 
@@ -182,11 +161,7 @@ export default function WatchTab({
       <p className="muted-text">Total saved: {getTotalSavedDisplay()}</p>
       <p className="muted-text">Total runtime: {getRuntimeDisplay()}</p>
       <div className="sm:flex justify-between my-5">
-        <Tabs
-          defaultValue="all"
-          onValueChange={handleTypeChange}
-          className="mr-3"
-        >
+        <Tabs defaultValue="all" onValueChange={handleTypeChange} className="mr-3">
           <TabsList>
             <TabsTrigger value="all">All</TabsTrigger>
             <TabsTrigger value="movie">Movies</TabsTrigger>

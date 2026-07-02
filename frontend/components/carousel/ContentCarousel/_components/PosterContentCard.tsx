@@ -6,10 +6,10 @@ import { ContentItem } from "@/types";
 
 export default function PosterContentCard({
   contentItem,
-  genreAmount = 2
+  genreAmount = 2,
 }: {
   contentItem: ContentItem;
-  genreAmount?: number
+  genreAmount?: number;
 }) {
   return (
     <div className="relative text-white">

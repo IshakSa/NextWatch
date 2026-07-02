@@ -26,10 +26,7 @@ export default function TermsCheckbox({
       <FieldLabel htmlFor="terms-checkbox">
         <span className="text-sm muted-text tracking-tight">
           I accept the{" "}
-          <Link
-            href="/privacy"
-            className="text-foreground hover:underline mx-0.5"
-          >
+          <Link href="/privacy" className="text-foreground hover:underline mx-0.5">
             Privacy Policy
           </Link>{" "}
           &{" "}

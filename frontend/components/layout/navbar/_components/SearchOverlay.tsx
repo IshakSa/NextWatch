@@ -1,10 +1,6 @@
 import PosterContentCard from "@/components/carousel/ContentCarousel/_components/PosterContentCard";
 import { Button } from "@/components/ui/button";
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupInput,
-} from "@/components/ui/input-group";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
 import { useDebounce } from "@/hooks/useDebounce";
 import { SearchIcon, XIcon } from "lucide-react";
 import { ChangeEvent, useEffect, useState } from "react";
@@ -48,9 +44,8 @@ export default function SearchOverlay({
         <div className="flex flex-col text-center items-center gap-3">
           <h1 className="text-4xl">Find exactly what you need</h1>
           <p className="text-foreground/70 max-w-xl">
-            Explore thousands of movies and series. Just type a title to start
-            your search and discover everything you need to know in a single
-            click.
+            Explore thousands of movies and series. Just type a title to start your search and
+            discover everything you need to know in a single click.
           </p>
         </div>
 
@@ -67,20 +62,11 @@ export default function SearchOverlay({
       </div>
 
       <div className="container grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 mt-10 mb-10 overflow-y-auto mask-[linear-gradient(to_bottom,transparent_0%,black_10%,black_90%,transparent_100%)] scrollbar-none [&::-webkit-scrollbar]:hidden">
-        {currentSearch.trim() && contentResults.length === 0 && (
-          <h2>No results found</h2>
-        )}
+        {currentSearch.trim() && contentResults.length === 0 && <h2>No results found</h2>}
 
         {contentResults.map((contentItem, index) => (
-          <div
-            key={index}
-            onClick={handleSearchOverlay}
-            className="cursor-pointer"
-          >
-            <PosterContentCard
-              contentItem={contentItem}
-              genreAmount={isDesktop ? 2 : 1}
-            />
+          <div key={index} onClick={handleSearchOverlay} className="cursor-pointer">
+            <PosterContentCard contentItem={contentItem} genreAmount={isDesktop ? 2 : 1} />
           </div>
         ))}
       </div>

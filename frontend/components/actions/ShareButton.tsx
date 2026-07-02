@@ -31,12 +31,7 @@ export default function ShareButton({ className }: { className?: string }) {
 
   return (
     <div>
-      <Button
-        variant={"outline"}
-        onClick={handleShare}
-        className={className}
-        size={"icon"}
-      >
+      <Button variant={"outline"} onClick={handleShare} className={className} size={"icon"}>
         <div className="flex space-x-2 items-center">
           <ShareIcon />
           {isDesktop && <p>{copied ? "Link Copied!" : "Share"}</p>}

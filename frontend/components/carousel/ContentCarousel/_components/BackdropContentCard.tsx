@@ -4,11 +4,7 @@ import { ImageSizes } from "@/lib/constants";
 import ImageLoader from "@/components/shared/ImageLoader";
 import { ContentItem } from "@/types";
 
-export default function BackdropContentCard({
-  contentItem,
-}: {
-  contentItem: ContentItem;
-}) {
+export default function BackdropContentCard({ contentItem }: { contentItem: ContentItem }) {
   return (
     <div className="relative">
       <Link href={`/${contentItem.type}/${contentItem.id}`}>

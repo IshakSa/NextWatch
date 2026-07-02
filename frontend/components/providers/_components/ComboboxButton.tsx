@@ -21,11 +21,7 @@ export default function ComboboxButton({
   }
 
   return (
-    <Combobox
-      items={countries}
-      value={selectedCountry}
-      onValueChange={handleCountryChange}
-    >
+    <Combobox items={countries} value={selectedCountry} onValueChange={handleCountryChange}>
       <ComboboxInput placeholder="Select a country" />
 
       <ComboboxContent>

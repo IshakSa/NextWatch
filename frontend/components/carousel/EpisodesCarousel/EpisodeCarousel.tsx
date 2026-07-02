@@ -24,9 +24,7 @@ export default function EpisodesCarousel({
   }
 
   function getSeasonByNumber(seasonNumber: number) {
-    const season = seasons.find(
-      (season) => season.seasonNumber === seasonNumber,
-    );
+    const season = seasons.find((season) => season.seasonNumber === seasonNumber);
 
     if (!season) {
       throw new Error(`Season number ${seasonNumber} not found.`);

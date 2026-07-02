@@ -59,7 +59,7 @@ export default function RegisterPage() {
         description: "Something went wrong. Please try again later.",
       });
     }
-    
+
     if (isSuccess) {
       redirect("/");
     }
@@ -71,18 +71,12 @@ export default function RegisterPage() {
         <Card className="w-full max-w-sm">
           <CardHeader>
             <CardTitle>Register to start discovering</CardTitle>
-            <CardDescription>
-              Enter your details to create your account
-            </CardDescription>
+            <CardDescription>Enter your details to create your account</CardDescription>
           </CardHeader>
 
           <CardContent>
             <FormProvider {...form}>
-              <form
-                onSubmit={form.handleSubmit(handleSubmit)}
-                id="register-form"
-                noValidate
-              >
+              <form onSubmit={form.handleSubmit(handleSubmit)} id="register-form" noValidate>
                 <FieldGroup className="flex flex-col gap-4 lg:gap-5 2xl:gap-6">
                   <FieldInput<RegisterValues>
                     name="username"
@@ -112,12 +106,7 @@ export default function RegisterPage() {
                     type="password"
                   />
 
-                  <FieldInput<RegisterValues>
-                    name="terms"
-                    label=""
-                    placeholder=""
-                    type=""
-                  />
+                  <FieldInput<RegisterValues> name="terms" label="" placeholder="" type="" />
                 </FieldGroup>
               </form>
             </FormProvider>

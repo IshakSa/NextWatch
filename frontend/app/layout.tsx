@@ -23,13 +23,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn(
-        "min-h-screen",
-        "h-full",
-        "antialiased",
-        "font-sans",
-        inter.variable,
-      )}
+      className={cn("min-h-screen", "h-full", "antialiased", "font-sans", inter.variable)}
     >
       <body className="min-h-full flex flex-col">
         <ThemeProvider
@@ -48,8 +42,7 @@ export default function RootLayout({
             richColors={false}
             toastOptions={{
               classNames: {
-                toast:
-                  "!bg-background !text-foreground !border-border !gap-3 !p-4 !rounded-xl",
+                toast: "!bg-background !text-foreground !border-border !gap-3 !p-4 !rounded-xl",
                 title: "!text-sm !font-semibold !tracking-tight",
                 description: "!text-xs !text-muted-foreground",
                 actionButton:

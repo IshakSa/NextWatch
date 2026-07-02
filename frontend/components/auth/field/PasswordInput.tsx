@@ -1,13 +1,8 @@
 import { useState } from "react";
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupInput,
-} from "@/components/ui/input-group";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
 import { Button } from "@/components/ui/button";
 import { EyeClosedIcon, EyeIcon } from "lucide-react";
 import { ControllerFieldState, FieldValues } from "react-hook-form";
-
 
 export default function PasswordInput({
   field,

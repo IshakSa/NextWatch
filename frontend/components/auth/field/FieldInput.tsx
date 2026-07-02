@@ -14,9 +14,12 @@ interface FieldInputProps<TFieldValues extends FieldValues> {
   placeholder: string;
 }
 
-export default function FieldInput<
-  TFieldValues extends FieldValues,
->({ name, label, type, placeholder }: FieldInputProps<TFieldValues>) {
+export default function FieldInput<TFieldValues extends FieldValues>({
+  name,
+  label,
+  type,
+  placeholder,
+}: FieldInputProps<TFieldValues>) {
   const { control } = useFormContext<TFieldValues>();
 
   return (
@@ -25,18 +28,12 @@ export default function FieldInput<
       control={control}
       render={({ field, fieldState }) => (
         <Field className="grid gap-2">
-          {field.name !== "terms" && (
-            <FieldLabel htmlFor={field.name}>{label}</FieldLabel>
-          )}
+          {field.name !== "terms" && <FieldLabel htmlFor={field.name}>{label}</FieldLabel>}
 
           {field.name === "terms" ? (
             <TermsCheckbox field={field} fieldState={fieldState} />
           ) : field.name === "password" || field.name === "confirmPassword" ? (
-            <PasswordInput
-              field={field}
-              fieldState={fieldState}
-              placeholder={placeholder}
-            />
+            <PasswordInput field={field} fieldState={fieldState} placeholder={placeholder} />
           ) : (
             <Input
               {...field}

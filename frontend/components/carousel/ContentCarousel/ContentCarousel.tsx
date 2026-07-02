@@ -14,13 +14,7 @@ import EpisodeCard from "./_components/EpisodeCard";
 import { Actor, ContentItem, Director, Episode } from "@/types";
 import WatchlistCard from "./_components/WatchlistCard";
 
-type AllowedCarouselTypes =
-  | "poster"
-  | "backdrop"
-  | "ranked"
-  | "credits"
-  | "episodes"
-  | "watchlist";
+type AllowedCarouselTypes = "poster" | "backdrop" | "ranked" | "credits" | "episodes" | "watchlist";
 
 type ContentCarouselProps<T extends AllowedCarouselTypes> = {
   rowName?: string;
@@ -31,9 +25,7 @@ type ContentCarouselProps<T extends AllowedCarouselTypes> = {
       ? Episode[]
       : ContentItem[];
   margin?: string;
-  deleteContentItemById: T extends "watchlist"
-    ? (contentItemId: number) => void
-    : never;
+  deleteContentItemById?: T extends "watchlist" ? (contentItemId: number) => void : undefined;
 };
 
 const CONTENT_STYLES = {
@@ -49,8 +41,7 @@ const ITEM_STYLES = {
   poster: "basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4",
   backdrop: "basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4",
   ranked: "basis-full md:basis-1/2 xl:basis-1/3",
-  credits:
-    "basis-full basis-1/2 sm:basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5 2xl:basis-1/6",
+  credits: "basis-full basis-1/2 sm:basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5 2xl:basis-1/6",
   episodes: "basis-full md:basis-1/2 xl:basis-1/3",
   watchlist: "basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4 2xl:basis-1/5",
 };
@@ -84,11 +75,8 @@ export default function ContentCarousel<T extends AllowedCarouselTypes>({
                 ) : carouselType === "backdrop" ? (
                   <BackdropContentCard contentItem={item as ContentItem} />
                 ) : carouselType === "ranked" ? (
-                  <RankedContentCard
-                    contentItem={item as ContentItem}
-                    rank={index + 1}
-                  />
-                ) : carouselType === "watchlist" ? (
+                  <RankedContentCard contentItem={item as ContentItem} rank={index + 1} />
+                ) : carouselType === "watchlist" && deleteContentItemById ? (
                   <WatchlistCard
                     contentItem={item as ContentItem}
                     deleteContentItemById={deleteContentItemById}

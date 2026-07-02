@@ -2,7 +2,7 @@
 
 import { LoginValues } from "./page";
 
-export async function loginUser({email, password}: LoginValues) {
+export async function loginUser({ email, password }: LoginValues) {
   const response = await fetch(`${process.env.BACKEND_URL}/api/user/login`, {
     method: "POST",
     headers: { "Content-type": "application/json" },

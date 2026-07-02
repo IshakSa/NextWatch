@@ -3,11 +3,7 @@
 import { useState } from "react";
 import { Rating } from "react-simple-star-rating";
 import { Button } from "../ui/button";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { CheckIcon, EyeIcon } from "lucide-react";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 
@@ -109,9 +105,7 @@ export default function WatchedButton({
         />
         <PopoverContent align="start" className="w-81 p-4">
           <div className="space-y-3">
-            <p className="text-sm font-medium leading-none text-foreground">
-              Rate it
-            </p>
+            <p className="text-sm font-medium leading-none text-foreground">Rate it</p>
 
             <div className="flex items-center [&>.react-simple-star-rating]:flex [&>.react-simple-star-rating]:items-center [&>.react-simple-star-rating]:gap-2">
               <Rating

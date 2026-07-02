@@ -1,21 +1,12 @@
 "use client";
 
-import {
-  Carousel,
-  CarouselApi,
-  CarouselContent,
-  CarouselItem,
-} from "@/components/ui/carousel";
+import { Carousel, CarouselApi, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import HeroSection from "./HeroSection";
 import { useEffect, useState } from "react";
 import { ContentItem } from "@/types";
 
-export default function HeroContentCarousel({
-  content,
-}: {
-  content: ContentItem[];
-}) {
+export default function HeroContentCarousel({ content }: { content: ContentItem[] }) {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [, setCount] = useState(0);

@@ -5,9 +5,7 @@ import { ContentItem } from "@/types";
 import { CheckIcon, EyeIcon } from "lucide-react";
 
 export default async function WatchlistPage() {
-  const response = await fetch(
-    `${process.env.BACKEND_URL}/api/content/top-rated/movie`,
-  );
+  const response = await fetch(`${process.env.BACKEND_URL}/api/content/top-rated/movie`);
   if (!response.ok) {
     throw new Error("couldn't fetch data");
   }

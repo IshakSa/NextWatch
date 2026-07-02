@@ -35,26 +35,18 @@ export default function NavbarMobile({
           <SheetContent side="top">
             <SheetHeader>
               <SheetDescription
-                render={
-                  <p className="pb-2 text-muted-foreground/60">Navigation</p>
-                }
+                render={<p className="pb-2 text-muted-foreground/60">Navigation</p>}
               />
 
               {navLinks.map((link) => {
-                const isActive =
-                  pathname === link.href ||
-                  pathname.startsWith(`${link.href}/`);
+                const isActive = pathname === link.href || pathname.startsWith(`${link.href}/`);
 
                 return (
                   <SheetClose key={link.name}>
                     <Link
                       href={link.href}
                       className={`flex text-3xl
-                      ${
-                        isActive
-                          ? "pointer-events-none font-semibold"
-                          : "text-muted-foreground"
-                      }
+                      ${isActive ? "pointer-events-none font-semibold" : "text-muted-foreground"}
                     `}
                     >
                       {link.name}
@@ -81,9 +73,7 @@ export default function NavbarMobile({
 
         <AuthButton type="login" />
       </div>
-      {isSearchOverlayShown && (
-        <SearchOverlay handleSearchOverlay={handleSearchOverlay} />
-      )}
+      {isSearchOverlayShown && <SearchOverlay handleSearchOverlay={handleSearchOverlay} />}
     </nav>
   );
 }

@@ -47,12 +47,7 @@ export default function AddWatchlistButton({
   }
 
   return (
-    <Button
-      variant={"outline"}
-      className={className}
-      size={"icon"}
-      onClick={handleAddWatchlist}
-    >
+    <Button variant={"outline"} className={className} size={"icon"} onClick={handleAddWatchlist}>
       <div className="flex space-x-2 items-center">
         <BookmarkIcon fill={isSaved ? "var(--foreground)" : "none"} />
         {((isDesktop && page === "details") || page === "home") && (
