@@ -18,19 +18,18 @@ import {
   ChevronUpIcon,
   Trash2Icon,
   Undo2Icon,
-  UndoIcon,
 } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 import { toast } from "sonner";
 
 const SORT_VALUE_MAP = {
-  newest: "Recently Added",
-  oldest: "Oldest Added",
-  "title-asc": "Title (A-Z)",
-  "title-desc": "Title (Z-A)",
-  "release-newest": "Release Year",
-  "runtime-asc": "Runtime (Shortest)",
-  "runtime-desc": "Runtime (Longest)",
+  "added-desc": "Recently added",
+  "added-asc": "Oldest added",
+  "rating-desc": "Top rated",
+  "release-desc": "Newest release",
+  "runtime-desc": "Longest",
+  "runtime-asc": "Shortest",
+  "title-asc": "Title (A–Z)",
 } as const;
 
 type SortKey = keyof typeof SORT_VALUE_MAP;
@@ -44,7 +43,7 @@ export default function WatchTab({
 }) {
   const [activeType, setActiveType] = useState<"all" | "movie" | "tv">("all");
   const [isExpanded, setIsExpanded] = useState(false);
-  const [sortedBy, setSortedBy] = useState<SortKey>("newest");
+  const [sortedBy, setSortedBy] = useState<SortKey>("added-desc");
   const [localContent, setLocalContent] = useState(content);
 
   function handleExpand() {
@@ -52,6 +51,12 @@ export default function WatchTab({
   }
 
   function handleTypeChange(value: "all" | "movie" | "tv") {
+    if (
+      value === "all" &&
+      (sortedBy === "runtime-asc" || sortedBy === "runtime-desc")
+    ) {
+      setSortedBy("added-desc");
+    }
     setActiveType(value);
   }
 
@@ -132,32 +137,36 @@ export default function WatchTab({
     }
 
     switch (sortedBy) {
-      case "newest": // TODO
+      case "added-desc": // TODO
         break;
-      case "oldest": // TODO
+
+      case "added-asc": // TODO
         break;
+
+      case "rating-desc":
+        filteredContent.sort((itemA, itemB) => itemB.rating - itemA.rating);
+        break;
+
+      case "release-desc":
+        filteredContent.sort(
+          (itemA, itemB) =>
+            new Date(itemB.releaseDate).getTime() -
+            new Date(itemA.releaseDate).getTime(),
+        );
+        break;
+
+      case "runtime-desc":
+        filteredContent.sort((itemA, itemB) => itemB.length - itemA.length);
+        break;
+
+      case "runtime-asc":
+        filteredContent.sort((itemA, itemB) => itemA.length - itemB.length);
+        break;
+
       case "title-asc":
         filteredContent.sort((itemA, itemB) =>
           itemA.title.localeCompare(itemB.title),
         );
-        break;
-      case "title-desc":
-        filteredContent.sort((itemA, itemB) =>
-          itemB.title.localeCompare(itemA.title),
-        );
-        break;
-      case "release-newest":
-        filteredContent.sort(
-          (itemA, itemB) =>
-            new Date(itemA.releaseDate).getTime() -
-            new Date(itemB.releaseDate).getTime(),
-        );
-        break;
-      case "runtime-asc":
-        filteredContent.sort((itemA, itemB) => itemA.length - itemB.length);
-        break;
-      case "runtime-desc":
-        filteredContent.sort((itemA, itemB) => itemB.length - itemA.length);
         break;
     }
 
@@ -186,22 +195,23 @@ export default function WatchTab({
         </Tabs>
 
         <div className="mt-3 sm:mt-0 flex flex-1 justify-between">
-          <Select defaultValue={"newest"} onValueChange={handleSortChange}>
-            <SelectTrigger className="w-41 rounded-lg">
+          <Select value={sortedBy} onValueChange={handleSortChange}>
+            <SelectTrigger className="w-40 rounded-lg">
               <span>{SORT_VALUE_MAP[sortedBy]}</span>
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectItem value="newest">Recently Added</SelectItem>
-                <SelectItem value="oldest">Oldest Added</SelectItem>
-
-                <SelectItem value="title-asc">Title (A-Z)</SelectItem>
-                <SelectItem value="title-desc">Title (Z-A)</SelectItem>
-
-                <SelectItem value="release-newest">Release Year</SelectItem>
-
-                <SelectItem value="runtime-asc">Runtime (Shortest)</SelectItem>
-                <SelectItem value="runtime-desc">Runtime (Longest)</SelectItem>
+                <SelectItem value="added-desc">Recently added</SelectItem>
+                <SelectItem value="added-asc">Oldest added</SelectItem>
+                <SelectItem value="rating-desc">Top rated</SelectItem>
+                <SelectItem value="release-desc">Newest release</SelectItem>
+                {activeType !== "all" && (
+                  <>
+                    <SelectItem value="runtime-asc">Shortest</SelectItem>
+                    <SelectItem value="runtime-desc">Longest</SelectItem>
+                  </>
+                )}
+                <SelectItem value="title-asc">Title (A–Z)</SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>
