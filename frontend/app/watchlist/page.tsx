@@ -1,5 +1,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import WatchTab from "@/components/WatchTab";
+import WatchTab from "@/components/watchlist/WatchTab";
+
 import { ContentItem } from "@/types";
 import { CheckIcon, EyeIcon } from "lucide-react";
 

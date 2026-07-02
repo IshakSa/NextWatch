@@ -31,6 +31,9 @@ type ContentCarouselProps<T extends AllowedCarouselTypes> = {
       ? Episode[]
       : ContentItem[];
   margin?: string;
+  deleteContentItemById: T extends "watchlist"
+    ? (contentItemId: number) => void
+    : never;
 };
 
 const CONTENT_STYLES = {
@@ -57,6 +60,7 @@ export default function ContentCarousel<T extends AllowedCarouselTypes>({
   carouselType,
   content,
   margin = "mt-25",
+  deleteContentItemById,
 }: ContentCarouselProps<T>) {
   const contentClassName = CONTENT_STYLES[carouselType];
   const itemClassName = ITEM_STYLES[carouselType];
@@ -85,7 +89,10 @@ export default function ContentCarousel<T extends AllowedCarouselTypes>({
                     rank={index + 1}
                   />
                 ) : carouselType === "watchlist" ? (
-                  <WatchlistCard contentItem={item as ContentItem} />
+                  <WatchlistCard
+                    contentItem={item as ContentItem}
+                    deleteContentItemById={deleteContentItemById}
+                  />
                 ) : carouselType === "credits" ? (
                   <CreditsCard person={item as Actor | Director} />
                 ) : (

@@ -1,7 +1,7 @@
 "use client";
 
 import { ContentItem } from "@/types";
-import ContentCarousel from "./carousel/ContentCarousel/ContentCarousel";
+import ContentCarousel from "../carousel/ContentCarousel/ContentCarousel";
 import { capitalize, toMovieLength } from "@/lib/utils";
 import {
   Select,
@@ -9,12 +9,12 @@ import {
   SelectGroup,
   SelectItem,
   SelectTrigger,
-} from "./ui/select";
-import { Button } from "./ui/button";
+} from "../ui/select";
+import { Button } from "../ui/button";
 import { useState } from "react";
-import WatchlistCard from "./carousel/ContentCarousel/_components/WatchlistCard";
+import WatchlistCard from "../carousel/ContentCarousel/_components/WatchlistCard";
 import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
-import { Tabs, TabsList, TabsTrigger } from "./ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 
 const SORT_VALUE_MAP = {
   newest: "Recently Added",
@@ -38,6 +38,7 @@ export default function WatchTab({
   const [activeType, setActiveType] = useState<"all" | "movie" | "tv">("all");
   const [isExpanded, setIsExpanded] = useState(false);
   const [sortedBy, setSortedBy] = useState<SortKey>("newest");
+  const [localContent, setLocalContent] = useState(content);
 
   function handleExpand() {
     setIsExpanded(!isExpanded);
@@ -83,12 +84,18 @@ export default function WatchTab({
     return total + " Shows";
   }
 
+  function deleteContentItemById(contentItemId: number) {
+    setLocalContent(
+      localContent.filter((contentItem) => contentItem.id !== contentItemId),
+    );
+  }
+
   function getDisplayedContent() {
     let filteredContent;
     if (activeType === "all") {
-      filteredContent = [...content];
+      filteredContent = [...localContent];
     } else {
-      filteredContent = content.filter((item) => item.type === activeType);
+      filteredContent = localContent.filter((item) => item.type === activeType);
     }
 
     switch (sortedBy) {
@@ -97,31 +104,27 @@ export default function WatchTab({
       case "oldest": // TODO
         break;
       case "title-asc":
-        filteredContent = filteredContent.sort((itemA, itemB) =>
+        filteredContent.sort((itemA, itemB) =>
           itemA.title.localeCompare(itemB.title),
         );
         break;
       case "title-desc":
-        filteredContent = filteredContent.sort((itemA, itemB) =>
+        filteredContent.sort((itemA, itemB) =>
           itemB.title.localeCompare(itemA.title),
         );
         break;
       case "release-newest":
-        filteredContent = filteredContent.sort(
+        filteredContent.sort(
           (itemA, itemB) =>
             new Date(itemA.releaseDate).getTime() -
             new Date(itemB.releaseDate).getTime(),
         );
         break;
       case "runtime-asc":
-        filteredContent = filteredContent.sort(
-          (itemA, itemB) => itemA.length - itemB.length,
-        );
+        filteredContent.sort((itemA, itemB) => itemA.length - itemB.length);
         break;
       case "runtime-desc":
-        filteredContent = filteredContent.sort(
-          (itemA, itemB) => itemB.length - itemA.length,
-        );
+        filteredContent.sort((itemA, itemB) => itemB.length - itemA.length);
         break;
     }
 
@@ -191,7 +194,10 @@ export default function WatchTab({
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-x-4 gap-y-6">
             {displayedContent.map((contentItem, index) => (
               <div key={index} className="cursor-pointer">
-                <WatchlistCard contentItem={contentItem} />
+                <WatchlistCard
+                  contentItem={contentItem}
+                  deleteContentItemById={deleteContentItemById}
+                />
               </div>
             ))}
           </div>
@@ -200,6 +206,7 @@ export default function WatchTab({
             carouselType="watchlist"
             content={displayedContent}
             margin="mt-0"
+            deleteContentItemById={deleteContentItemById}
           />
         )}
       </div>
