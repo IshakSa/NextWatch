@@ -2,26 +2,15 @@
 
 import { ContentItem } from "@/types";
 import ContentCarousel from "../carousel/ContentCarousel/ContentCarousel";
-import { capitalize, toMovieLength } from "@/lib/utils";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger } from "../ui/select";
-import { Button } from "../ui/button";
+import { capitalize } from "@/lib/utils";
 import { useState } from "react";
-import WatchlistCard from "../carousel/ContentCarousel/_components/WatchlistCard";
-import { ChevronDownIcon, ChevronUpIcon, Trash2Icon, Undo2Icon } from "lucide-react";
-import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
+import { Trash2Icon, Undo2Icon } from "lucide-react";
 import { toast } from "sonner";
-
-const SORT_VALUE_MAP = {
-  "added-desc": "Recently added",
-  "added-asc": "Oldest added",
-  "rating-desc": "Top rated",
-  "release-desc": "Newest release",
-  "runtime-desc": "Longest",
-  "runtime-asc": "Shortest",
-  "title-asc": "Title (A–Z)",
-} as const;
-
-type SortKey = keyof typeof SORT_VALUE_MAP;
+import TypeTabs, { ActiveType } from "./_components/TypeTabs";
+import SortButton, { SortKey } from "./_components/SortButton";
+import ExpandButton from "./_components/ExpandButton";
+import WatchInfo from "./_components/WatchInfo";
+import WatchGrid from "./_components/WatchGrid";
 
 export default function WatchTab({
   type,
@@ -30,57 +19,10 @@ export default function WatchTab({
   type: "watchlist" | "watched";
   content: ContentItem[];
 }) {
-  const [activeType, setActiveType] = useState<"all" | "movie" | "tv">("all");
+  const [activeType, setActiveType] = useState<ActiveType>("all");
   const [isExpanded, setIsExpanded] = useState(false);
   const [sortedBy, setSortedBy] = useState<SortKey>("added-desc");
   const [localContent, setLocalContent] = useState(content);
-
-  function handleExpand() {
-    setIsExpanded(!isExpanded);
-  }
-
-  function handleTypeChange(value: "all" | "movie" | "tv") {
-    if (value === "all" && (sortedBy === "runtime-asc" || sortedBy === "runtime-desc")) {
-      setSortedBy("added-desc");
-    }
-    setActiveType(value);
-  }
-
-  function handleSortChange(value: string | null) {
-    if (value) {
-      setSortedBy(value as SortKey);
-    }
-  }
-
-  function getTotalRuntime() {
-    let totalMovieLength = 0;
-    let totalEpisodes = 0;
-    for (const item of displayedContent) {
-      if (item.type === "tv") {
-        totalEpisodes += item.length;
-      } else {
-        totalMovieLength += item.length;
-      }
-    }
-    return { totalMovieLength, totalEpisodes };
-  }
-
-  function getRuntimeDisplay() {
-    const movieString = toMovieLength(totalMovieLength);
-    const tvString = `${totalEpisodes} Episodes`;
-
-    if (activeType === "movie") return movieString;
-    if (activeType === "tv") return tvString;
-    return `${movieString} | ${tvString}`;
-  }
-
-  function getTotalSavedDisplay() {
-    const total = displayedContent.length;
-
-    if (activeType === "all") return total + " Titles";
-    if (activeType === "movie") return total + " Movies";
-    return total + " Shows";
-  }
 
   function deleteContentItemById(contentItemId: number) {
     const deletedContentItem = localContent.find((contentItem) => contentItem.id === contentItemId);
@@ -93,6 +35,10 @@ export default function WatchTab({
 
     // TODO: connect remove to backend
 
+    displayDeletedAlert(deletedContentItem);
+  }
+
+  function displayDeletedAlert(deletedContentItem: ContentItem) {
     toast("Removed from watchlist", {
       icon: <Trash2Icon />,
       description: `"${deletedContentItem.title}" was removed.`,
@@ -153,72 +99,33 @@ export default function WatchTab({
   }
 
   const displayedContent = getDisplayedContent();
-  const { totalMovieLength, totalEpisodes } = getTotalRuntime();
 
   return (
     <div className="mt-5 sm:mt-10">
       <h1>{capitalize(type)}</h1>
-      <p className="muted-text">Total saved: {getTotalSavedDisplay()}</p>
-      <p className="muted-text">Total runtime: {getRuntimeDisplay()}</p>
+      <WatchInfo activeType={activeType} displayedContent={displayedContent} />
+
       <div className="sm:flex justify-between my-5">
-        <Tabs defaultValue="all" onValueChange={handleTypeChange} className="mr-3">
-          <TabsList>
-            <TabsTrigger value="all">All</TabsTrigger>
-            <TabsTrigger value="movie">Movies</TabsTrigger>
-            <TabsTrigger value="tv">Series</TabsTrigger>
-          </TabsList>
-        </Tabs>
+        <TypeTabs
+          activeType={activeType}
+          setActiveType={setActiveType}
+          setSortedBy={setSortedBy}
+          sortedBy={sortedBy}
+        />
 
         <div className="mt-3 sm:mt-0 flex flex-1 justify-between">
-          <Select value={sortedBy} onValueChange={handleSortChange}>
-            <SelectTrigger className="w-40 rounded-lg">
-              <span>{SORT_VALUE_MAP[sortedBy]}</span>
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectItem value="added-desc">Recently added</SelectItem>
-                <SelectItem value="added-asc">Oldest added</SelectItem>
-                <SelectItem value="rating-desc">Top rated</SelectItem>
-                <SelectItem value="release-desc">Newest release</SelectItem>
-                {activeType !== "all" && (
-                  <>
-                    <SelectItem value="runtime-asc">Shortest</SelectItem>
-                    <SelectItem value="runtime-desc">Longest</SelectItem>
-                  </>
-                )}
-                <SelectItem value="title-asc">Title (A–Z)</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+          <SortButton activeType={activeType} setSortedBy={setSortedBy} sortedBy={sortedBy} />
 
-          <Button variant="ghost" onClick={handleExpand}>
-            {isExpanded ? (
-              <>
-                Collapse
-                <ChevronUpIcon />
-              </>
-            ) : (
-              <>
-                Expand
-                <ChevronDownIcon />
-              </>
-            )}
-          </Button>
+          <ExpandButton isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
         </div>
       </div>
 
       <div>
         {isExpanded ? (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-x-4 gap-y-6">
-            {displayedContent.map((contentItem, index) => (
-              <div key={index} className="cursor-pointer">
-                <WatchlistCard
-                  contentItem={contentItem}
-                  deleteContentItemById={deleteContentItemById}
-                />
-              </div>
-            ))}
-          </div>
+          <WatchGrid
+            displayedContent={displayedContent}
+            deleteContentItemById={deleteContentItemById}
+          />
         ) : (
           <ContentCarousel
             carouselType="watchlist"
