@@ -1,4 +1,4 @@
-import { TrashIcon } from "lucide-react";
+import { Trash2Icon } from "lucide-react";
 import { Button } from "../ui/button";
 
 export default function DeleteButton({
@@ -8,7 +8,7 @@ export default function DeleteButton({
 }) {
   return (
     <Button variant="destructive" onClick={handleDeleteContentItem}>
-      <TrashIcon />
+      <Trash2Icon />
     </Button>
   );
 }

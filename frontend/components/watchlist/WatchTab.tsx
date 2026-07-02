@@ -13,8 +13,15 @@ import {
 import { Button } from "../ui/button";
 import { useState } from "react";
 import WatchlistCard from "../carousel/ContentCarousel/_components/WatchlistCard";
-import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
+import {
+  ChevronDownIcon,
+  ChevronUpIcon,
+  Trash2Icon,
+  Undo2Icon,
+  UndoIcon,
+} from "lucide-react";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
+import { toast } from "sonner";
 
 const SORT_VALUE_MAP = {
   newest: "Recently Added",
@@ -85,9 +92,35 @@ export default function WatchTab({
   }
 
   function deleteContentItemById(contentItemId: number) {
-    setLocalContent(
-      localContent.filter((contentItem) => contentItem.id !== contentItemId),
+    const deletedContentItem = localContent.find(
+      (contentItem) => contentItem.id === contentItemId,
     );
+
+    if (!deletedContentItem) {
+      return;
+    }
+
+    setLocalContent(
+      localContent.filter((contentItem) => contentItem !== deletedContentItem),
+    );
+
+    // TODO: connect remove to backend
+
+    toast("Removed from watchlist", {
+      icon: <Trash2Icon />,
+      description: `"${deletedContentItem.title}" was removed.`,
+      action: {
+        label: "Undo",
+        onClick: () => {
+          setLocalContent((prev) => [...prev, deletedContentItem]);
+          // TODO: connect undo to backend
+          toast.success("Restored to watchlist", {
+            icon: <Undo2Icon />,
+            description: `"${deletedContentItem.title}" is back on your list.`,
+          });
+        },
+      },
+    });
   }
 
   function getDisplayedContent() {
