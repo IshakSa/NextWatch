@@ -11,6 +11,7 @@ import SortButton, { SortKey } from "./_components/SortButton";
 import ExpandButton from "./_components/ExpandButton";
 import WatchInfo from "./_components/WatchInfo";
 import WatchGrid from "./_components/WatchGrid";
+import { WatchedItem, WatchlistItem } from "@/types/user";
 
 export type WatchTabType = "watchlist" | "watched";
 
@@ -19,11 +20,13 @@ export default function WatchTab({
   content,
 }: {
   type: WatchTabType;
-  content: ContentItem[];
+  content: WatchlistItem[] | WatchedItem[];
 }) {
   const [activeType, setActiveType] = useState<ActiveType>("all");
   const [isExpanded, setIsExpanded] = useState(false);
-  const [sortedBy, setSortedBy] = useState<SortKey>("added-desc");
+  const [sortedBy, setSortedBy] = useState<SortKey>(
+    type === "watchlist" ? "added-desc" : "watched-desc",
+  );
   const [localContent, setLocalContent] = useState(content);
 
   function deleteContentItemById(contentItemId: number) {
@@ -33,7 +36,11 @@ export default function WatchTab({
       return;
     }
 
-    setLocalContent(localContent.filter((contentItem) => contentItem !== deletedContentItem));
+    setLocalContent(
+      localContent.filter((contentItem) => contentItem !== deletedContentItem) as
+        | WatchlistItem[]
+        | WatchedItem[],
+    );
 
     // TODO: connect remove to backend
 
@@ -53,7 +60,9 @@ export default function WatchTab({
       action: {
         label: "Undo",
         onClick: () => {
-          setLocalContent((prev) => [...prev, deletedContentItem]);
+          setLocalContent(
+            (prev) => [...prev, deletedContentItem] as WatchlistItem[] | WatchedItem[],
+          );
           // TODO: connect undo to backend
           toast.success(undoTitle, {
             icon: <Undo2Icon />,
@@ -72,44 +81,55 @@ export default function WatchTab({
       filteredContent = localContent.filter((item) => item.type === activeType);
     }
 
-    switch (sortedBy) {
-      case "added-desc": // TODO
-        break;
+    const compareNum = (a: number, b: number, desc = true) => (desc ? b - a : a - b);
+    filteredContent.sort((itemA, itemB) => {
+      switch (sortedBy) {
+        case "added-desc":
+          return compareNum(
+            (itemA as WatchlistItem).addedTimestamp,
+            (itemB as WatchlistItem).addedTimestamp,
+          );
+        case "added-asc":
+          return compareNum(
+            (itemA as WatchlistItem).addedTimestamp,
+            (itemB as WatchlistItem).addedTimestamp,
+            false,
+          );
 
-      case "added-asc": // TODO
-        break;
+        case "watched-desc":
+          return compareNum(
+            (itemA as WatchedItem).watchedTimestamp,
+            (itemB as WatchedItem).watchedTimestamp,
+          );
+        case "watched-asc":
+          return compareNum(
+            (itemA as WatchedItem).watchedTimestamp,
+            (itemB as WatchedItem).watchedTimestamp,
+            false,
+          );
 
-      case "personal-rating-desc": // TODO
-        break;
-        
-      case "rating-desc":
-        filteredContent.sort((itemA, itemB) => itemB.rating - itemA.rating);
-        break;
+        case "runtime-desc":
+          return compareNum(itemA.length, itemB.length);
+        case "runtime-asc":
+          return compareNum(itemA.length, itemB.length, false);
 
-      case "release-desc":
-        filteredContent.sort(
-          (itemA, itemB) =>
-            new Date(itemB.releaseDate).getTime() - new Date(itemA.releaseDate).getTime(),
-        );
-        break;
+        case "personal-rating-desc":
+          return compareNum((itemA as WatchedItem).userRating, (itemB as WatchedItem).userRating);
+        case "rating-desc":
+          return compareNum(itemA.rating, itemB.rating);
 
-      case "runtime-desc":
-        filteredContent.sort((itemA, itemB) => itemB.length - itemA.length);
-        break;
+        case "title-asc":
+          return itemA.title.localeCompare(itemB.title);
 
-      case "runtime-asc":
-        filteredContent.sort((itemA, itemB) => itemA.length - itemB.length);
-        break;
-
-      case "title-asc":
-        filteredContent.sort((itemA, itemB) => itemA.title.localeCompare(itemB.title));
-        break;
-    }
+        case "release-desc":
+          return new Date(itemB.releaseDate).getTime() - new Date(itemA.releaseDate).getTime();
+      }
+    });
 
     return filteredContent;
   }
 
-  const displayedContent = getDisplayedContent();
+  const displayedContent = getDisplayedContent() as WatchlistItem[] | WatchedItem[];
 
   return (
     <div className="mt-5 sm:mt-10">
