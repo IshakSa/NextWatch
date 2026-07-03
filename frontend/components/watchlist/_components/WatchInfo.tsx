@@ -1,13 +1,16 @@
 import { toMovieLength } from "@/lib/utils";
 import { ActiveType } from "./TypeTabs";
 import { ContentItem } from "@/types";
+import { WatchTabType } from "../WatchTab";
 
 export default function WatchInfo({
   activeType,
   displayedContent,
+  type,
 }: {
   activeType: ActiveType;
   displayedContent: ContentItem[];
+  type: WatchTabType;
 }) {
   function getTotalRuntime() {
     let totalMovieLength = 0;
@@ -43,7 +46,9 @@ export default function WatchInfo({
 
   return (
     <>
-      <p className="muted-text">Total saved: {getTotalSavedDisplay()}</p>
+      <p className="muted-text">
+        Total {type === "watchlist" ? "saved" : "watched"}: {getTotalSavedDisplay()}
+      </p>
       <p className="muted-text">Total runtime: {getRuntimeDisplay()}</p>
     </>
   );

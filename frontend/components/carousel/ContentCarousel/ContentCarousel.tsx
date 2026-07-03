@@ -13,6 +13,7 @@ import CreditsCard from "./_components/CreditsCard";
 import EpisodeCard from "./_components/EpisodeCard";
 import { Actor, ContentItem, Director, Episode } from "@/types";
 import WatchlistCard from "./_components/WatchlistCard";
+import { WatchTabType } from "@/components/watchlist/WatchTab";
 
 type AllowedCarouselTypes = "poster" | "backdrop" | "ranked" | "credits" | "episodes" | "watchlist";
 
@@ -25,7 +26,12 @@ type ContentCarouselProps<T extends AllowedCarouselTypes> = {
       ? Episode[]
       : ContentItem[];
   margin?: string;
-  deleteContentItemById?: T extends "watchlist" ? (contentItemId: number) => void : undefined;
+  watchlistCardProps?: T extends "watchlist"
+    ? {
+        type: WatchTabType;
+        deleteContentItemById: (contentItemId: number) => void;
+      }
+    : undefined;
 };
 
 const CONTENT_STYLES = {
@@ -51,7 +57,7 @@ export default function ContentCarousel<T extends AllowedCarouselTypes>({
   carouselType,
   content,
   margin = "mt-25",
-  deleteContentItemById,
+  watchlistCardProps,
 }: ContentCarouselProps<T>) {
   const contentClassName = CONTENT_STYLES[carouselType];
   const itemClassName = ITEM_STYLES[carouselType];
@@ -76,10 +82,11 @@ export default function ContentCarousel<T extends AllowedCarouselTypes>({
                   <BackdropContentCard contentItem={item as ContentItem} />
                 ) : carouselType === "ranked" ? (
                   <RankedContentCard contentItem={item as ContentItem} rank={index + 1} />
-                ) : carouselType === "watchlist" && deleteContentItemById ? (
+                ) : carouselType === "watchlist" && watchlistCardProps ? (
                   <WatchlistCard
                     contentItem={item as ContentItem}
-                    deleteContentItemById={deleteContentItemById}
+                    deleteContentItemById={watchlistCardProps.deleteContentItemById}
+                    type={watchlistCardProps.type}
                   />
                 ) : carouselType === "credits" ? (
                   <CreditsCard person={item as Actor | Director} />

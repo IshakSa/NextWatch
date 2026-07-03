@@ -12,11 +12,13 @@ import ExpandButton from "./_components/ExpandButton";
 import WatchInfo from "./_components/WatchInfo";
 import WatchGrid from "./_components/WatchGrid";
 
+export type WatchTabType = "watchlist" | "watched";
+
 export default function WatchTab({
   type,
   content,
 }: {
-  type: "watchlist" | "watched";
+  type: WatchTabType;
   content: ContentItem[];
 }) {
   const [activeType, setActiveType] = useState<ActiveType>("all");
@@ -39,17 +41,23 @@ export default function WatchTab({
   }
 
   function displayDeletedAlert(deletedContentItem: ContentItem) {
-    toast("Removed from watchlist", {
+    const title = type === "watchlist" ? "Removed from Watchlist" : "Removed from Watched List";
+    const undoTitle = type === "watchlist" ? "Restored to Watchlist" : "Restored to Watched List";
+
+    const description = `"${deletedContentItem.title}" was removed.`;
+    const undoDescription = `"${deletedContentItem.title}" is back on your list.`;
+
+    toast(title, {
       icon: <Trash2Icon />,
-      description: `"${deletedContentItem.title}" was removed.`,
+      description: description,
       action: {
         label: "Undo",
         onClick: () => {
           setLocalContent((prev) => [...prev, deletedContentItem]);
           // TODO: connect undo to backend
-          toast.success("Restored to watchlist", {
+          toast.success(undoTitle, {
             icon: <Undo2Icon />,
-            description: `"${deletedContentItem.title}" is back on your list.`,
+            description: undoDescription,
           });
         },
       },
@@ -71,6 +79,9 @@ export default function WatchTab({
       case "added-asc": // TODO
         break;
 
+      case "personal-rating-desc": // TODO
+        break;
+        
       case "rating-desc":
         filteredContent.sort((itemA, itemB) => itemB.rating - itemA.rating);
         break;
@@ -103,7 +114,7 @@ export default function WatchTab({
   return (
     <div className="mt-5 sm:mt-10">
       <h1>{capitalize(type)}</h1>
-      <WatchInfo activeType={activeType} displayedContent={displayedContent} />
+      <WatchInfo activeType={activeType} displayedContent={displayedContent} type={type} />
 
       <div className="sm:flex justify-between my-5">
         <TypeTabs
@@ -114,7 +125,12 @@ export default function WatchTab({
         />
 
         <div className="mt-3 sm:mt-0 flex flex-1 justify-between">
-          <SortButton activeType={activeType} setSortedBy={setSortedBy} sortedBy={sortedBy} />
+          <SortButton
+            activeType={activeType}
+            setSortedBy={setSortedBy}
+            sortedBy={sortedBy}
+            type={type}
+          />
 
           <ExpandButton isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
         </div>
@@ -125,13 +141,14 @@ export default function WatchTab({
           <WatchGrid
             displayedContent={displayedContent}
             deleteContentItemById={deleteContentItemById}
+            type={type}
           />
         ) : (
           <ContentCarousel
             carouselType="watchlist"
             content={displayedContent}
             margin="mt-0"
-            deleteContentItemById={deleteContentItemById}
+            watchlistCardProps={{ type, deleteContentItemById }}
           />
         )}
       </div>

@@ -6,19 +6,23 @@ import Link from "next/link";
 import InfoOverlay from "./InfoOverlay";
 import { toDisplayContentLength, toDisplayContentType } from "@/lib/utils";
 import DeleteButton from "@/components/actions/DeleteButton";
+import { WatchTabType } from "@/components/watchlist/WatchTab";
+import EditRatingButton from "@/components/actions/EditRatingButton";
+import UserWatchInfo from "@/components/watchlist/_components/UserWatchInfo";
 
 export default function WatchlistCard({
   contentItem,
   deleteContentItemById,
+  type,
 }: {
   contentItem: ContentItem;
   deleteContentItemById: (contentItemId: number) => void;
+  type: WatchTabType;
 }) {
   function handleDeleteContentItem() {
     console.log("Deleted: ", contentItem.id);
     deleteContentItemById(contentItem.id);
   }
-
   return (
     <>
       <div className="relative text-white">
@@ -33,7 +37,7 @@ export default function WatchlistCard({
           />
         </Link>
         <div className="flex justify-between absolute bottom-0 left-0 z-10 p-4 md:p-3 w-full bg-linear-to-t from-black to-transparent rounded-b-xl">
-          <WatchedButton hideText={true} />
+          {type === "watched" ? <EditRatingButton /> : <WatchedButton hideText={true} />}
           <DeleteButton handleDeleteContentItem={handleDeleteContentItem} />
         </div>
       </div>
@@ -46,6 +50,8 @@ export default function WatchlistCard({
             toDisplayContentLength(contentItem.type, contentItem.length, true),
           ]}
         />
+        {/* TODO */}
+        {type === "watched" && <UserWatchInfo />}
       </div>
     </>
   );
