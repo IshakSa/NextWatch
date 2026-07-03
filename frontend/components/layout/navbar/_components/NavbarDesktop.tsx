@@ -21,9 +21,7 @@ export default function NavbarDesktop({
 
   return (
     <nav className="w-full flex justify-between items-center px-10 h-20 text-white max-w-7xl mx-auto">
-      {isSearchOverlayShown && (
-        <SearchOverlay handleSearchOverlay={handleSearchOverlay} />
-      )}
+      {isSearchOverlayShown && <SearchOverlay handleSearchOverlay={handleSearchOverlay} />}
 
       <div className="flex items-center flex-1 justify-start space-x-5">
         <Link href={"/"}>
@@ -34,8 +32,7 @@ export default function NavbarDesktop({
 
       <div className="flex items-center space-x-8 justify-center">
         {navLinks.map((link) => {
-          const isActive =
-            pathname === link.href || pathname.startsWith(`${link.href}/`);
+          const isActive = pathname === link.href || pathname.startsWith(`${link.href}/`);
 
           return (
             <Link

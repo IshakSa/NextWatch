@@ -7,21 +7,14 @@ import { countries, countryMap, watchOptionMap } from "./constants";
 import ProviderCard from "./_components/ProviderCard";
 import { Providers } from "@/types";
 
-export default function WatchProviders({
-  providers,
-}: {
-  providers: Providers;
-}) {
+export default function WatchProviders({ providers }: { providers: Providers }) {
   const [selectedCountry, setSelectedCountry] = useState(countries[0]);
   const [selectedWatchOption, setSelectedWatchOption] = useState("Stream");
 
   const countryCode = selectedCountry ? countryMap[selectedCountry] : null;
   const countryProviders = countryCode ? providers[countryCode] : null;
 
-  const currentWatchOption = watchOptionMap[selectedWatchOption] as
-    | "flatrate"
-    | "rent"
-    | "buy";
+  const currentWatchOption = watchOptionMap[selectedWatchOption] as "flatrate" | "rent" | "buy";
 
   const currentProviders = countryProviders?.[currentWatchOption] ?? [];
 
@@ -53,9 +46,7 @@ export default function WatchProviders({
           currentProviders
             .sort((a, b) => a.displayPriority - b.displayPriority)
             .slice(0, 4)
-            .map((provider) => (
-              <ProviderCard key={provider.providerId} provider={provider} />
-            ))}
+            .map((provider) => <ProviderCard key={provider.providerId} provider={provider} />)}
       </div>
       {!selectedCountry && (
         <p className="text-sm text-muted-foreground mt-4">

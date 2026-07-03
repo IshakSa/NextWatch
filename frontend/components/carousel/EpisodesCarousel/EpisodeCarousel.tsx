@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import SelectButton from "./_components/SelectButton";
-import ContentCarousel from "../ContentCarousel/ContentCarousel";
 import { Season } from "@/types";
+import ContentCarousel from "../ContentCarousel";
 
 export default function EpisodesCarousel({
   seasons,
@@ -24,9 +24,7 @@ export default function EpisodesCarousel({
   }
 
   function getSeasonByNumber(seasonNumber: number) {
-    const season = seasons.find(
-      (season) => season.seasonNumber === seasonNumber,
-    );
+    const season = seasons.find((season) => season.seasonNumber === seasonNumber);
 
     if (!season) {
       throw new Error(`Season number ${seasonNumber} not found.`);

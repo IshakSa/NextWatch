@@ -1,4 +1,4 @@
-import ContentCarousel from "@/components/carousel/ContentCarousel/ContentCarousel";
+import ContentCarousel from "@/components/carousel/ContentCarousel";
 import HeroContentCarousel from "@/components/hero/HeroContentCarousel";
 import { ContentItem } from "@/types/content";
 
@@ -23,9 +23,7 @@ async function getHero() {
 }
 
 async function getRanked() {
-  const response = await fetch(
-    `${process.env.BACKEND_URL}/api/content/trending/week`,
-  );
+  const response = await fetch(`${process.env.BACKEND_URL}/api/content/trending/week`);
   if (!response.ok) {
     throw new Error("failed to fetch data");
   }
@@ -34,9 +32,7 @@ async function getRanked() {
 }
 
 async function getMovies() {
-  const response = await fetch(
-    `${process.env.BACKEND_URL}/api/content/top-rated/movie`,
-  );
+  const response = await fetch(`${process.env.BACKEND_URL}/api/content/top-rated/movie`);
   if (!response.ok) {
     throw new Error("failed to fetch data");
   }
@@ -45,9 +41,7 @@ async function getMovies() {
 }
 
 async function getSeries() {
-  const response = await fetch(
-    `${process.env.BACKEND_URL}/api/content/top-rated/tv`,
-  );
+  const response = await fetch(`${process.env.BACKEND_URL}/api/content/top-rated/tv`);
   if (!response.ok) {
     throw new Error("failed to fetch data");
   }
@@ -62,14 +56,13 @@ export default async function Home() {
   const moviesData = getMovies();
   const seriesData = getSeries();
 
-  const [latest, hero, ranked, movies, series]: ContentItem[][] =
-    await Promise.all([
-      latestData,
-      heroData,
-      rankedData,
-      moviesData,
-      seriesData,
-    ]);
+  const [latest, hero, ranked, movies, series]: ContentItem[][] = await Promise.all([
+    latestData,
+    heroData,
+    rankedData,
+    moviesData,
+    seriesData,
+  ]);
 
   return (
     <main>
@@ -78,28 +71,12 @@ export default async function Home() {
       </section>
 
       <section className="container">
-        <ContentCarousel
-          carouselType="poster"
-          rowName="Just Release"
-          content={latest}
-        />
+        <ContentCarousel carouselType="poster" rowName="Just Release" content={latest} />
 
-        <ContentCarousel
-          carouselType="ranked"
-          rowName="Popular"
-          content={ranked}
-        />
+        <ContentCarousel carouselType="ranked" rowName="Popular" content={ranked} />
 
-        <ContentCarousel
-          carouselType="backdrop"
-          rowName="Movies"
-          content={movies}
-        />
-        <ContentCarousel
-          carouselType="backdrop"
-          rowName="Series"
-          content={series}
-        />
+        <ContentCarousel carouselType="backdrop" rowName="Movies" content={movies} />
+        <ContentCarousel carouselType="backdrop" rowName="Series" content={series} />
       </section>
     </main>
   );

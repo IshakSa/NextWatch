@@ -17,10 +17,7 @@ export default function SelectButton({
   seasonsAmount: number;
 }) {
   return (
-    <Select
-      value={`Season ${selectedSeason}`}
-      onValueChange={handleSeasonChange}
-    >
+    <Select value={`Season ${selectedSeason}`} onValueChange={handleSeasonChange}>
       <SelectTrigger className="w-45">
         <SelectValue placeholder="Select Watch Option" />
       </SelectTrigger>

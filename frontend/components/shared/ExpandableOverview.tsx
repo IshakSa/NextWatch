@@ -47,11 +47,7 @@ export default function ExpandableOverview({
           {!isExpanded && "..."}
           <span> </span>
           {shouldDisplayButton && (
-            <button
-              type="button"
-              className="text-primary cursor-pointer"
-              onClick={handleExpand}
-            >
+            <button type="button" className="text-primary cursor-pointer" onClick={handleExpand}>
               {isExpanded ? "Show less" : "Show more"}
             </button>
           )}

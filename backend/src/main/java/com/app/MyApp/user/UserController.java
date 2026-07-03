@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
 @RequestMapping("/user")
@@ -25,6 +26,11 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<RegisterDto> register(@RequestBody RegisterDto user) {
         return new ResponseEntity<>(userService.register(user), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/watchlist")
+    public ResponseEntity<UserWatchlistDto> getWatchlist() {
+        return new ResponseEntity<>(userService.getWatchlist(), HttpStatus.OK);
     }
 
 }

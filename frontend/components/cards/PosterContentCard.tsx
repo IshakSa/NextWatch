@@ -4,26 +4,28 @@ import { ImageSizes } from "@/lib/constants";
 import ImageLoader from "@/components/shared/ImageLoader";
 import { ContentItem } from "@/types";
 
-export default function BackdropContentCard({
+export default function PosterContentCard({
   contentItem,
+  genreAmount = 2,
 }: {
   contentItem: ContentItem;
+  genreAmount?: number;
 }) {
   return (
-    <div className="relative">
+    <div className="relative text-white">
       <Link href={`/${contentItem.type}/${contentItem.id}`}>
         <ImageLoader
-          src={contentItem.backdropPath}
-          alt="backdrop"
-          apiWidth={ImageSizes.backdrop}
-          width={ImageSizes.backdrop}
-          height={150}
+          src={contentItem.posterPath}
+          alt="poster"
+          apiWidth={ImageSizes.poster}
           className="rounded-xl"
+          width={ImageSizes.poster}
+          height={500}
         />
-        <div className="mt-2">
+        <div className="absolute bottom-0 left-0 z-10 p-4 md:p-3 w-full bg-linear-to-t from-black to-transparent rounded-b-xl">
           <InfoOverlay
             contentTitle={contentItem.title}
-            genres={contentItem.genres}
+            genres={contentItem.genres.slice(0, genreAmount)}
             rating={contentItem.rating}
           />
         </div>

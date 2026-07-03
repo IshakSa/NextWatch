@@ -1,5 +1,5 @@
-import Image from "next/image";
 import { Button } from "../ui/button";
+import GoogleIcon from "../icons/GoogleIcon";
 
 export default function OAuthButton() {
   return (
@@ -15,12 +15,7 @@ export default function OAuthButton() {
       </div>
 
       <Button variant="outline" className="w-full gap-3 rounded-lg mb-3">
-        <Image
-          src={"/icons/google.svg"}
-          alt="Google logo"
-          width={20}
-          height={20}
-        />
+        <GoogleIcon className="size-5" />
         <p>Continue with Google</p>
       </Button>
     </>

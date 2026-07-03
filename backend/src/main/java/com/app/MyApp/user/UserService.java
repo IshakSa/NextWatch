@@ -18,4 +18,8 @@ public class UserService {
             throw new RuntimeException("login failed");
     }
 
+    public UserWatchlistDto getWatchlist() {
+        return MockData.userWatchlist;
+    }
+
 }

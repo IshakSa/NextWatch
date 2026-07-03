@@ -7,8 +7,8 @@ export default function Footer() {
         <div className="flex flex-col lg:flex-row justify-between">
           <h1 className="pb-10 lg:w-1/2">
             No more endless searching. <br />
-            Scroll through personalized recommendations, discover hidden gems,
-            and save your favorites.
+            Scroll through personalized recommendations, discover hidden gems, and save your
+            favorites.
           </h1>
           <div className="flex gap-3 mb-5 justify-center items-baseline">
             <Link href={"/"}>Home</Link> <span>/</span>
