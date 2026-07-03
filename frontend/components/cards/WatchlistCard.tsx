@@ -3,7 +3,7 @@ import ImageLoader from "@/components/shared/ImageLoader";
 import { ImageSizes } from "@/lib/constants";
 import Link from "next/link";
 import InfoOverlay from "./InfoOverlay";
-import { toDisplayContentLength, toDisplayContentType } from "@/lib/utils";
+import { toDisplayContentLength, toDisplayContentType, toWatchedDateDisplay } from "@/lib/utils";
 import DeleteButton from "@/components/actions/DeleteButton";
 import { WatchTabType } from "@/components/watchlist/WatchTab";
 import EditRatingButton from "@/components/actions/EditRatingButton";
@@ -50,8 +50,8 @@ export default function WatchlistCard({
             toDisplayContentLength(contentItem.type, contentItem.length, true),
           ]}
         />
-        {/* TODO */}
-        {type === "watched" && <UserWatchInfo watchedItem={contentItem as WatchedItem} />}
+
+        <UserWatchInfo contentItem={contentItem} type={type} />
       </div>
     </>
   );
