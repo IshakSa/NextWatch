@@ -6,15 +6,15 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 
-import PosterContentCard from "./_components/PosterContentCard";
-import BackdropContentCard from "./_components/BackdropContentCard";
-import RankedContentCard from "./_components/RankedContentCard";
-import CreditsCard from "./_components/CreditsCard";
-import EpisodeCard from "./_components/EpisodeCard";
 import { Actor, ContentItem, Director, Episode } from "@/types";
-import WatchlistCard from "./_components/WatchlistCard";
 import { WatchTabType } from "@/components/watchlist/WatchTab";
 import { WatchedItem, WatchlistItem } from "@/types/user";
+import BackdropContentCard from "../cards/BackdropContentCard";
+import CreditsCard from "../cards/CreditsCard";
+import EpisodeCard from "../cards/EpisodeCard";
+import PosterContentCard from "../cards/PosterContentCard";
+import RankedContentCard from "../cards/RankedContentCard";
+import WatchlistCard from "../cards/WatchlistCard";
 
 type AllowedCarouselTypes = "poster" | "backdrop" | "ranked" | "credits" | "episodes" | "watchlist";
 

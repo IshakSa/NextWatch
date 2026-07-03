@@ -1,4 +1,4 @@
-import PosterContentCard from "@/components/carousel/ContentCarousel/_components/PosterContentCard";
+import PosterContentCard from "@/components/cards/PosterContentCard";
 import { Button } from "@/components/ui/button";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
 import { useDebounce } from "@/hooks/useDebounce";

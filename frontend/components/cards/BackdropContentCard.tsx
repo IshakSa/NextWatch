@@ -1,8 +1,8 @@
-import InfoOverlay from "./InfoOverlay";
 import Link from "next/link";
 import { ImageSizes } from "@/lib/constants";
 import ImageLoader from "@/components/shared/ImageLoader";
 import { ContentItem } from "@/types";
+import InfoOverlay from "./InfoOverlay";
 
 export default function BackdropContentCard({ contentItem }: { contentItem: ContentItem }) {
   return (

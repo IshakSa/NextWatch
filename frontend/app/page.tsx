@@ -1,4 +1,4 @@
-import ContentCarousel from "@/components/carousel/ContentCarousel/ContentCarousel";
+import ContentCarousel from "@/components/carousel/ContentCarousel";
 import HeroContentCarousel from "@/components/hero/HeroContentCarousel";
 import { ContentItem } from "@/types/content";
 

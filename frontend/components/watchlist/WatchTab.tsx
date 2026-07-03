@@ -1,7 +1,6 @@
 "use client";
 
 import { ContentItem } from "@/types";
-import ContentCarousel from "../carousel/ContentCarousel/ContentCarousel";
 import { capitalize } from "@/lib/utils";
 import { useState } from "react";
 import { Trash2Icon, Undo2Icon } from "lucide-react";
@@ -12,6 +11,7 @@ import ExpandButton from "./_components/ExpandButton";
 import WatchInfo from "./_components/WatchInfo";
 import WatchGrid from "./_components/WatchGrid";
 import { WatchedItem, WatchlistItem } from "@/types/user";
+import ContentCarousel from "../carousel/ContentCarousel";
 
 export type WatchTabType = "watchlist" | "watched";
 
@@ -132,7 +132,7 @@ export default function WatchTab({
   const displayedContent = getDisplayedContent() as WatchlistItem[] | WatchedItem[];
 
   return (
-    <div className="mt-5 sm:mt-10">
+    <section className="mt-5 sm:mt-10">
       <h1>{capitalize(type)}</h1>
       <WatchInfo activeType={activeType} displayedContent={displayedContent} type={type} />
 
@@ -172,6 +172,6 @@ export default function WatchTab({
           />
         )}
       </div>
-    </div>
+    </section>
   );
 }

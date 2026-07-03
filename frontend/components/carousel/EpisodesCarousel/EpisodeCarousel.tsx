@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import SelectButton from "./_components/SelectButton";
-import ContentCarousel from "../ContentCarousel/ContentCarousel";
 import { Season } from "@/types";
+import ContentCarousel from "../ContentCarousel";
 
 export default function EpisodesCarousel({
   seasons,

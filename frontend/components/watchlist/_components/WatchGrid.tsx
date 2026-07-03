@@ -1,4 +1,4 @@
-import WatchlistCard from "@/components/carousel/ContentCarousel/_components/WatchlistCard";
+import WatchlistCard from "@/components/cards/WatchlistCard";
 import { WatchTabType } from "../WatchTab";
 import { WatchedItem, WatchlistItem } from "@/types/user";
 
