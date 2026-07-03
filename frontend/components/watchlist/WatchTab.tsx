@@ -89,29 +89,15 @@ export default function WatchTab({
             (itemA as WatchlistItem).addedTimestamp,
             (itemB as WatchlistItem).addedTimestamp,
           );
-        case "added-asc":
-          return compareNum(
-            (itemA as WatchlistItem).addedTimestamp,
-            (itemB as WatchlistItem).addedTimestamp,
-            false,
-          );
 
         case "watched-desc":
           return compareNum(
             (itemA as WatchedItem).watchedTimestamp,
             (itemB as WatchedItem).watchedTimestamp,
           );
-        case "watched-asc":
-          return compareNum(
-            (itemA as WatchedItem).watchedTimestamp,
-            (itemB as WatchedItem).watchedTimestamp,
-            false,
-          );
 
         case "runtime-desc":
           return compareNum(itemA.length, itemB.length);
-        case "runtime-asc":
-          return compareNum(itemA.length, itemB.length, false);
 
         case "personal-rating-desc":
           return compareNum((itemA as WatchedItem).userRating, (itemB as WatchedItem).userRating);
