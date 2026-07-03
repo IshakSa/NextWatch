@@ -1,7 +1,6 @@
 import WatchedButton from "@/components/actions/WatchedButton";
 import ImageLoader from "@/components/shared/ImageLoader";
 import { ImageSizes } from "@/lib/constants";
-import { ContentItem } from "@/types";
 import Link from "next/link";
 import InfoOverlay from "./InfoOverlay";
 import { toDisplayContentLength, toDisplayContentType } from "@/lib/utils";
@@ -9,13 +8,14 @@ import DeleteButton from "@/components/actions/DeleteButton";
 import { WatchTabType } from "@/components/watchlist/WatchTab";
 import EditRatingButton from "@/components/actions/EditRatingButton";
 import UserWatchInfo from "@/components/watchlist/_components/UserWatchInfo";
+import { WatchedItem, WatchlistItem } from "@/types/user";
 
 export default function WatchlistCard({
   contentItem,
   deleteContentItemById,
   type,
 }: {
-  contentItem: ContentItem;
+  contentItem: WatchlistItem | WatchedItem;
   deleteContentItemById: (contentItemId: number) => void;
   type: WatchTabType;
 }) {
@@ -51,7 +51,7 @@ export default function WatchlistCard({
           ]}
         />
         {/* TODO */}
-        {type === "watched" && <UserWatchInfo />}
+        {type === "watched" && <UserWatchInfo watchedItem={contentItem as WatchedItem} />}
       </div>
     </>
   );

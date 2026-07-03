@@ -1,14 +1,13 @@
 import WatchlistCard from "@/components/carousel/ContentCarousel/_components/WatchlistCard";
-import { ContentItem } from "@/types";
-import React from "react";
 import { WatchTabType } from "../WatchTab";
+import { WatchedItem, WatchlistItem } from "@/types/user";
 
 export default function WatchGrid({
   displayedContent,
   deleteContentItemById,
   type,
 }: {
-  displayedContent: ContentItem[];
+  displayedContent: WatchlistItem[] | WatchedItem[];
   deleteContentItemById: (contentItemId: number) => void;
   type: WatchTabType;
 }) {

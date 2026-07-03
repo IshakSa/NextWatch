@@ -14,6 +14,7 @@ import EpisodeCard from "./_components/EpisodeCard";
 import { Actor, ContentItem, Director, Episode } from "@/types";
 import WatchlistCard from "./_components/WatchlistCard";
 import { WatchTabType } from "@/components/watchlist/WatchTab";
+import { WatchedItem, WatchlistItem } from "@/types/user";
 
 type AllowedCarouselTypes = "poster" | "backdrop" | "ranked" | "credits" | "episodes" | "watchlist";
 
@@ -24,7 +25,9 @@ type ContentCarouselProps<T extends AllowedCarouselTypes> = {
     ? Actor[] | Director[]
     : T extends "episodes"
       ? Episode[]
-      : ContentItem[];
+      : T extends "watchlist"
+        ? WatchlistItem[] | WatchedItem[]
+        : ContentItem[];
   margin?: string;
   watchlistCardProps?: T extends "watchlist"
     ? {
@@ -84,7 +87,7 @@ export default function ContentCarousel<T extends AllowedCarouselTypes>({
                   <RankedContentCard contentItem={item as ContentItem} rank={index + 1} />
                 ) : carouselType === "watchlist" && watchlistCardProps ? (
                   <WatchlistCard
-                    contentItem={item as ContentItem}
+                    contentItem={item as WatchlistItem | WatchedItem}
                     deleteContentItemById={watchlistCardProps.deleteContentItemById}
                     type={watchlistCardProps.type}
                   />
