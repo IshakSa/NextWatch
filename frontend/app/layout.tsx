@@ -52,7 +52,7 @@ export default function RootLayout({
               },
             }}
           />
-          <Footer />
+          {/* <Footer /> */}
         </ThemeProvider>
       </body>
     </html>
