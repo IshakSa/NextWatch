@@ -1,7 +1,7 @@
 "use client";
 
 import { toDisplayContentType, toDisplayContentLength } from "@/lib/utils";
-import { StarIcon } from "lucide-react";
+import { BookmarkIcon, StarIcon } from "lucide-react";
 import ExpandableOverview from "../shared/ExpandableOverview";
 import { Carousel, CarouselApi, CarouselContent, CarouselItem } from "../ui/carousel";
 import { Badge } from "../ui/badge";
@@ -13,7 +13,7 @@ import WatchedButton from "../actions/WatchedButton";
 import ShareButton from "../actions/ShareButton";
 import DiscoverEmbeddedVideo from "../shared/DiscoverEmbeddedVideo";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import AddWatchlistButton from "../actions/AddWatchlistButton";
+import AddWatchlistButton, { ChildRefActions } from "../actions/AddWatchlistButton";
 
 export default function DiscoverCarousel({ content }: { content: ContentItem[] }) {
   const [api, setApi] = useState<CarouselApi>();
@@ -22,6 +22,9 @@ export default function DiscoverCarousel({ content }: { content: ContentItem[] }
   const [currentSlide, setCurrentSlide] = useState(0);
   const isDesktop = useMediaQuery("(min-width: 1024px)");
   const isHighScreen = useMediaQuery("(min-height: 768px)");
+  const isDoubleClickLocked = useRef(false);
+  const addWatchlistButtonRefs = useRef<ChildRefActions[]>([]);
+  const [animatingSlideIndex, setAnimatingSlideIndex] = useState<number | null>(null);
 
   useEffect(() => {
     const container = sliderRef.current;
@@ -54,8 +57,32 @@ export default function DiscoverCarousel({ content }: { content: ContentItem[] }
     });
   }, [api]);
 
+  function handleDoubleClick() {
+    if (isDoubleClickLocked.current) return;
+
+    isDoubleClickLocked.current = true;
+    addWatchlistButtonRefs.current[currentSlide]?.triggerChildFunction();
+    setTimeout(() => {
+      isDoubleClickLocked.current = false;
+    }, 400);
+
+    if (!addWatchlistButtonRefs.current[currentSlide]?.isSavedState) {
+      setAnimatingSlideIndex(currentSlide);
+
+      setTimeout(() => {
+        setAnimatingSlideIndex(null);
+      }, 700);
+    }
+  }
+
   return (
-    <Carousel orientation="vertical" className="w-full" setApi={setApi} ref={sliderRef}>
+    <Carousel
+      orientation="vertical"
+      className="w-full"
+      setApi={setApi}
+      ref={sliderRef}
+      onDoubleClick={handleDoubleClick}
+    >
       <CarouselContent className="-mt-1 h-screen">
         {content.map((item, index) => {
           const imagePath = isDesktop ? item.backdropPath : item.posterPath;
@@ -65,6 +92,17 @@ export default function DiscoverCarousel({ content }: { content: ContentItem[] }
           return (
             <CarouselItem key={index} className="relative">
               <>
+                {animatingSlideIndex === index && (
+                  <div className="absolute inset-0 z-40 flex items-center justify-center pointer-events-none">
+                    <div className="animate-ping-fade-up flex flex-col items-center justify-center p-6 rounded-3xl bg-zinc-950/40 backdrop-blur-sm border border-white/10 shadow-2xl">
+                      <BookmarkIcon size={64} className="text-primary" fill="currentColor" />
+                      <span className="text-white text-sm font-semibold mt-2 tracking-wide drop-shadow-md">
+                        Saved
+                      </span>
+                    </div>
+                  </div>
+                )}
+
                 <div className="h-full items-center justify-center bg-zinc-950/70 backdrop-blur-md">
                   <ImageLoader
                     src={imagePath}
@@ -81,7 +119,7 @@ export default function DiscoverCarousel({ content }: { content: ContentItem[] }
                 </div>
 
                 <div
-                  className={`absolute ${isHighScreen ? "bottom-20" : "bottom-15"} w-8/10 z-100 flex justify-between container`}
+                  className={`absolute ${isHighScreen ? "bottom-20" : "bottom-15"} w-8/10 z-100 flex justify-between select-none container`}
                 >
                   <div>
                     {isHighScreen && (
@@ -107,7 +145,7 @@ export default function DiscoverCarousel({ content }: { content: ContentItem[] }
                       </Badge>
                     </div>
 
-                    <h1 className="tracking-tight">{item.title}</h1>
+                    <h1 className="tracking-tight text-xl">{item.title}</h1>
 
                     <p className="text-foreground/50 dark:text-muted-foreground text-sm my-2">
                       {toDisplayContentLength(item.type, item.length)} •{" "}
@@ -125,6 +163,9 @@ export default function DiscoverCarousel({ content }: { content: ContentItem[] }
                     <AddWatchlistButton
                       page="details"
                       className="flex h-12 w-12 rounded-full backdrop-blur-xl"
+                      ref={(currentButton) => {
+                        if (currentButton) addWatchlistButtonRefs.current[index] = currentButton;
+                      }}
                     />
                     <span className="text-xs text-foreground/95">Save</span>
                   </div>
