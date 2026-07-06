@@ -2,12 +2,11 @@
 
 import { XIcon } from "lucide-react";
 import { Button } from "../ui/button";
+import { YouTubeEmbed } from "@next/third-parties/google";
 
 export default function EmbeddedVideo({
   youtubeId,
   setIsVideoPlaying,
-  autoplay = true,
-  blurBg = true,
 }: {
   youtubeId?: string;
   setIsVideoPlaying: (isPlaying: boolean) => void;
@@ -21,18 +20,14 @@ export default function EmbeddedVideo({
   return (
     <div
       onClick={handleClose}
-      className={
-        blurBg
-          ? `z-10 w-screen h-full flex items-center justify-center bg-zinc-950/70 backdrop-blur-md`
-          : ""
-      }
+      className="z-10 w-screen h-full flex items-center justify-center bg-zinc-950/70 backdrop-blur-md"
     >
       <div className="z-5 w-full sm:max-w-[80%] lg:max-w-[65%] xl:max-w-[50%] mx-auto sm:px-4">
         <div className="relative aspect-video sm:rounded-xl overflow-hidden">
           {youtubeId ? (
             <iframe
               className="absolute top-0 left-0 w-full h-full"
-              src={`https://www.youtube.com/embed/${youtubeId}?playsinline=1&autoplay=${autoplay ? "1" : "0"}&modestbranding=1&rel=0&vq=highres`}
+              src={`https://www.youtube.com/embed/${youtubeId}?playsinline=1&autoplay=1&modestbranding=1&rel=0&vq=highres`}
               allow="accelerometer; clipboard-write; autoplay; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
               loading="lazy"
