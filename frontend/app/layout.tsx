@@ -4,7 +4,6 @@ import "./globals.css";
 import Navbar from "@/components/layout/navbar/Navbar";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/layout/ThemeProvider";
-import Footer from "@/components/layout/Footer";
 import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
@@ -52,7 +51,7 @@ export default function RootLayout({
               },
             }}
           />
-          {/* <Footer /> */}
+          
         </ThemeProvider>
       </body>
     </html>
