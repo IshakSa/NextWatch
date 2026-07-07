@@ -1,19 +1,16 @@
 "use client";
 
-import { toDisplayContentType, toDisplayContentLength } from "@/lib/utils";
-import { BookmarkIcon, StarIcon } from "lucide-react";
-import ExpandableOverview from "../../shared/ExpandableOverview";
 import { Carousel, CarouselApi, CarouselContent, CarouselItem } from "../../ui/carousel";
-import { Badge } from "../../ui/badge";
 import { ContentItem } from "@/types";
 import { useEffect, useRef, useState } from "react";
 import ImageLoader from "../../shared/ImageLoader";
 import { ImageSizes } from "@/lib/constants";
-import WatchedButton from "../../actions/WatchedButton";
-import ShareButton from "../../actions/ShareButton";
 import DiscoverEmbeddedVideo from "../../shared/DiscoverEmbeddedVideo";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import AddWatchlistButton, { ChildRefActions } from "../../actions/AddWatchlistButton";
+import { ChildRefActions } from "../../actions/AddWatchlistButton";
+import DiscoverDetails from "./DiscoverDetails";
+import DiscoverActions from "./DiscoverActions";
+import SavedFlash from "./SavedFlash";
 
 export default function DiscoverCarousel({ content }: { content: ContentItem[] }) {
   const [api, setApi] = useState<CarouselApi>();
@@ -21,7 +18,6 @@ export default function DiscoverCarousel({ content }: { content: ContentItem[] }
   const alreadyScrolled = useRef<boolean>(false);
   const [currentSlide, setCurrentSlide] = useState(0);
   const isDesktop = useMediaQuery("(min-width: 1024px)");
-  const isHighScreen = useMediaQuery("(min-height: 768px)");
   const isDoubleClickLocked = useRef(false);
   const addWatchlistButtonRefs = useRef<ChildRefActions[]>([]);
   const [animatingSlideIndex, setAnimatingSlideIndex] = useState<number | null>(null);
@@ -93,16 +89,7 @@ export default function DiscoverCarousel({ content }: { content: ContentItem[] }
           return (
             <CarouselItem key={index} className="relative">
               <>
-                {animatingSlideIndex === index && (
-                  <div className="absolute inset-0 z-40 flex items-center justify-center pointer-events-none">
-                    <div className="animate-ping-fade-up flex flex-col items-center justify-center p-6 rounded-3xl bg-zinc-950/40 backdrop-blur-sm border border-white/10 shadow-2xl">
-                      <BookmarkIcon size={64} className="text-primary" fill="currentColor" />
-                      <span className="text-white text-sm font-semibold mt-2 tracking-wide drop-shadow-md">
-                        Saved
-                      </span>
-                    </div>
-                  </div>
-                )}
+                {animatingSlideIndex === index && <SavedFlash />}
 
                 <div className="h-full items-center justify-center bg-zinc-950/70 backdrop-blur-md">
                   <ImageLoader
@@ -119,74 +106,13 @@ export default function DiscoverCarousel({ content }: { content: ContentItem[] }
                   <DiscoverEmbeddedVideo youtubeId={item.trailerId} showVideo={isVideoShown} />
                 </div>
 
-                <div
-                  className={`absolute ${isHighScreen ? "bottom-20" : "bottom-15"} w-8/10 z-100 flex justify-between select-none container`}
-                >
-                  <div>
-                    {isHighScreen && (
-                      <ImageLoader
-                        src={item.posterPath}
-                        alt={item.title}
-                        apiWidth={ImageSizes.poster}
-                        width={88}
-                        height={132}
-                        className="mb-5 rounded-xl shadow-2xl ring-1 ring-white/10"
-                      />
-                    )}
+                <DiscoverDetails item={item} />
 
-                    <div className="flex space-x-2 mb-4">
-                      <Badge variant="outline" className="p-3">
-                        {toDisplayContentType(item.type)}
-                      </Badge>
-                      <Badge className="p-3" variant="outline">
-                        <div className="flex items-center text-sm">
-                          <StarIcon size={15} color="#eab308" fill="#eab308" />
-                          <p className="mx-1">{item.rating}</p>
-                        </div>
-                      </Badge>
-                    </div>
-
-                    <h1 className="tracking-tight text-2xl">{item.title}</h1>
-
-                    <p className="text-foreground/50 dark:text-muted-foreground text-sm my-2">
-                      {toDisplayContentLength(item.type, item.length)} •{" "}
-                      {item.releaseDate.slice(0, 4)} • {item.genres?.join(" • ")}
-                    </p>
-
-                    <ExpandableOverview page="home" text={item.overview} />
-                  </div>
-                </div>
-
-                <div
-                  className={`absolute right-4 ${isHighScreen ? "bottom-30" : "bottom-15"} z-50 flex flex-col items-center gap-7`}
-                >
-                  <div className="flex w-16 flex-col items-center gap-2 scale-105">
-                    <AddWatchlistButton
-                      className="flex h-12 w-12 rounded-full backdrop-blur-xl"
-                      ref={(currentButton) => {
-                        if (currentButton) addWatchlistButtonRefs.current[index] = currentButton;
-                      }}
-                      hideText
-                    />
-                    <span className="text-xs text-foreground/95">Save</span>
-                  </div>
-
-                  <div className="flex w-16 flex-col items-center gap-2 scale-105">
-                    <WatchedButton
-                      hideText
-                      className="flex h-12 w-12 rounded-full backdrop-blur-xl"
-                    />
-                    <span className="text-xs text-foreground/95">Watched</span>
-                  </div>
-
-                  <div className="flex w-16 flex-col items-center gap-2 scale-105">
-                    <ShareButton
-                      className="flex h-12 w-12 rounded-full backdrop-blur-xl"
-                      hideText
-                    />
-                    <span className="text-xs text-foreground/95">Share</span>
-                  </div>
-                </div>
+                <DiscoverActions
+                  onRegisterRef={(currentButton) => {
+                    if (currentButton) addWatchlistButtonRefs.current[index] = currentButton;
+                  }}
+                />
               </>
             </CarouselItem>
           );
