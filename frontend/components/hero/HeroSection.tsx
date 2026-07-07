@@ -35,7 +35,7 @@ export default function HeroSection({
       )}
 
       <div className="container absolute left-1/2 bottom-0 -translate-x-1/2 flex flex-col z-1 px-4 sm:px-6 lg:px-8 mb-10">
-        <div className="flex space-x-2 mb-5">
+        <div className="flex space-x-2 mb-3 md:mb-5">
           <Badge variant="secondary" className="px-3 py-2.5">
             {toDisplayContentType(contentItem.type)}
           </Badge>

@@ -115,7 +115,7 @@ export default function DiscoverCarousel({ content }: { content: ContentItem[] }
                   <div className="dark absolute bottom-0 left-0 right-0 h-full bg-linear-to-t from-background to-transparent" />
                 </div>
 
-                <div className="absolute mb-0 z-10 bottom-1/6 w-screen h-screen">
+                <div className="absolute mb-0 z-10 bottom-1/7 w-screen h-screen">
                   <DiscoverEmbeddedVideo youtubeId={item.trailerId} showVideo={isVideoShown} />
                 </div>
 
@@ -134,11 +134,11 @@ export default function DiscoverCarousel({ content }: { content: ContentItem[] }
                       />
                     )}
 
-                    <div className="flex space-x-2 mb-5">
-                      <Badge variant="secondary" className="px-3 py-2.5">
+                    <div className="flex space-x-2 mb-4">
+                      <Badge variant="outline" className="p-3">
                         {toDisplayContentType(item.type)}
                       </Badge>
-                      <Badge className="px-3 py-2.5" variant="secondary">
+                      <Badge className="p-3" variant="outline">
                         <div className="flex items-center text-sm">
                           <StarIcon size={15} color="#eab308" fill="#eab308" />
                           <p className="mx-1">{item.rating}</p>
@@ -146,7 +146,7 @@ export default function DiscoverCarousel({ content }: { content: ContentItem[] }
                       </Badge>
                     </div>
 
-                    <h1 className="tracking-tight text-xl">{item.title}</h1>
+                    <h1 className="tracking-tight text-2xl">{item.title}</h1>
 
                     <p className="text-foreground/50 dark:text-muted-foreground text-sm my-2">
                       {toDisplayContentLength(item.type, item.length)} •{" "}

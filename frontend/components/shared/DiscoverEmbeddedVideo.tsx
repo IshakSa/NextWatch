@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import YouTube, { YouTubeProps } from "react-youtube";
 import { Button } from "@/components/ui/button"; // Passe den Importpfad für deine Button-Komponente an
 import { Volume2Icon, VolumeOffIcon } from "lucide-react";
@@ -13,6 +13,14 @@ export default function DiscoverEmbeddedVideo({
   const [isMuted, setIsMuted] = useState(true);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const playerRef = useRef<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // synchronize isLoading with wether video is currently shown
+    // otherwise, it wont update the state to true if the video has been loaded once before and needs to reload again
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (!showVideo) setIsLoading(true);
+  }, [showVideo]);
 
   function handleMute() {
     if (playerRef.current) {
@@ -48,6 +56,8 @@ export default function DiscoverEmbeddedVideo({
     } else {
       playerRef.current.unMute();
     }
+
+    setIsLoading(false);
   };
 
   return (
@@ -58,11 +68,18 @@ export default function DiscoverEmbeddedVideo({
             <>
               {youtubeId ? (
                 <>
+                  {isLoading && (
+                    // TODO: add proper loading ui
+                    <div className="flex backdrop-blur-xl absolute z-100 top-0 left-0 w-full h-full justify-center items-center">
+                      <p className="text-xl font-semibold">Loading...</p>
+                    </div>
+                  )}
+
                   <YouTube
                     videoId={youtubeId}
                     opts={opts}
                     onReady={onPlayerReady}
-                    className="absolute top-0 left-0 w-full h-full"
+                    className={`${isLoading && "hidden"} absolute top-0 left-0 w-full h-full`}
                     iframeClassName="w-full h-full"
                   />
 
