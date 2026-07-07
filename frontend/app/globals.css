@@ -100,7 +100,7 @@
   }
 
   .animate-ping-fade-up {
-    animation: ping-fade-up 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    animation: ping-fade-up 0.95s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
   }
 
   .container {
@@ -118,23 +118,27 @@
 
 @keyframes ping-fade-up {
   0% {
-    transform: scale(0.4) translateY(20px);
+    transform: scale(0.5) translateY(25px);
     opacity: 0;
   }
+  /* Nach ~0.14s: Sanfter, hochelastischer Pop-In ohne harten Aufprall */
   15% {
-    transform: scale(1.1) translateY(0px);
-    opacity: 0.9;
+    transform: scale(1.08) translateY(-3px);
+    opacity: 1;
   }
-  25% {
+  /* Nach ~0.28s: Pendelt sich ein und beginnt SOFORT zu gleiten */
+  30% {
     transform: scale(1) translateY(0px);
     opacity: 1;
   }
+  /* Bis ~0.76s: Das Element steht nicht still, sondern gleitet 4px nach oben */
   80% {
-    transform: scale(1) translateY(-10px);
+    transform: scale(1) translateY(-4px);
     opacity: 1;
   }
+  /* Ab ~0.76s: Fließender Übergang in den rasanten Abgang nach oben */
   100% {
-    transform: scale(0.8) translateY(-40px);
+    transform: scale(0.85) translateY(-45px);
     opacity: 0;
   }
 }

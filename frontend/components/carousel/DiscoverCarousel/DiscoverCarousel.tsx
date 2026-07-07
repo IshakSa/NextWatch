@@ -73,7 +73,7 @@ export default function DiscoverCarousel({ content }: { content: ContentItem[] }
 
     setTimeout(() => {
       setAnimatingSlideIndex(null);
-    }, 700);
+    }, 950);
   }
 
   return (
@@ -162,11 +162,11 @@ export default function DiscoverCarousel({ content }: { content: ContentItem[] }
                 >
                   <div className="flex w-16 flex-col items-center gap-2 scale-105">
                     <AddWatchlistButton
-                      page="details"
                       className="flex h-12 w-12 rounded-full backdrop-blur-xl"
                       ref={(currentButton) => {
                         if (currentButton) addWatchlistButtonRefs.current[index] = currentButton;
                       }}
+                      hideText
                     />
                     <span className="text-xs text-foreground/95">Save</span>
                   </div>
@@ -180,7 +180,10 @@ export default function DiscoverCarousel({ content }: { content: ContentItem[] }
                   </div>
 
                   <div className="flex w-16 flex-col items-center gap-2 scale-105">
-                    <ShareButton className="flex h-12 w-12 rounded-full backdrop-blur-xl" />
+                    <ShareButton
+                      className="flex h-12 w-12 rounded-full backdrop-blur-xl"
+                      hideText
+                    />
                     <span className="text-xs text-foreground/95">Share</span>
                   </div>
                 </div>

@@ -59,10 +59,7 @@ export default function HeroSection({
                 className="p-5 rounded-lg flex-1 w-auto sm:flex-initial"
                 setIsVideoPlaying={setIsVideoPlaying}
               />
-              <AddWatchlistButton
-                className="p-5 rounded-lg flex-1 w-auto sm:flex-initial"
-                page="home"
-              />
+              <AddWatchlistButton className="p-5 rounded-lg flex-1 w-auto sm:flex-initial" />
             </div>
           </>
         ) : (
@@ -72,13 +69,10 @@ export default function HeroSection({
                 className="p-5 rounded-lg flex-1 sm:flex-initial"
                 setIsVideoPlaying={setIsVideoPlaying}
               />
-              <AddWatchlistButton
-                className="hidden sm:inline-flex p-5 rounded-lg w-auto sm:flex-initial"
-                page="details"
-              />
+              <AddWatchlistButton className="hidden sm:inline-flex p-5 rounded-lg w-auto sm:flex-initial" />
             </div>
             <div className="flex gap-3">
-              <AddWatchlistButton className="sm:hidden rounded-lg p-5 sm:w-auto" page="details" />
+              <AddWatchlistButton className="sm:hidden rounded-lg p-5 sm:w-auto" hideText />
               <WatchedButton className="rounded-lg p-5 sm:w-auto" />
               <ShareButton className="rounded-lg p-5 sm:w-auto" />
             </div>

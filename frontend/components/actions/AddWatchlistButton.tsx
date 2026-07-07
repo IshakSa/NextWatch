@@ -2,7 +2,6 @@
 
 import { BookmarkCheck, BookmarkIcon } from "lucide-react";
 import { Button } from "../ui/button";
-import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { forwardRef, useImperativeHandle, useState } from "react";
 import { toast } from "sonner";
 
@@ -13,13 +12,12 @@ export interface ChildRefActions {
 
 interface AddWatchlistButtonProps {
   className?: string;
-  page: "home" | "details";
+  hideText?: boolean;
 }
 
 const AddWatchlistButton = forwardRef<ChildRefActions, AddWatchlistButtonProps>(
-  ({ className, page }: AddWatchlistButtonProps, ref) => {
+  ({ className, hideText }: AddWatchlistButtonProps, ref) => {
     const [isSaved, setIsSaved] = useState(false);
-    const isDesktop = useMediaQuery("(min-width: 640px)");
 
     const removedToast = () => {
       toast.success("Removed from watchlist");
@@ -60,9 +58,7 @@ const AddWatchlistButton = forwardRef<ChildRefActions, AddWatchlistButtonProps>(
       <Button variant={"outline"} className={className} size={"icon"} onClick={handleAddWatchlist}>
         <div className="flex space-x-2 items-center">
           <BookmarkIcon fill={isSaved ? "var(--foreground)" : "none"} />
-          {((isDesktop && page === "details") || page === "home") && (
-            <p>{isSaved ? "Added to Watchlist" : "Add Watchlist"}</p>
-          )}
+          {!hideText && <p>{isSaved ? "Added to Watchlist" : "Add Watchlist"}</p>}
         </div>
       </Button>
     );
