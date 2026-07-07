@@ -87,6 +87,22 @@
 }
 
 @layer components {
+  .mode-dark {
+    color-scheme: dark;
+    color: var(--foreground);
+    background-color: var(--background);
+  }
+
+  .mode-light {
+    color-scheme: light;
+    color: var(--foreground);
+    background-color: var(--background);
+  }
+
+  .animate-ping-fade-up {
+    animation: ping-fade-up 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  }
+
   .container {
     @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
   }
@@ -123,11 +139,6 @@
   }
 }
 
-.animate-ping-fade-up {
-  animation: ping-fade-up 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-}
-
-
 :root {
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
@@ -163,7 +174,7 @@
   --foreground: oklch(0.145 0 0);
 }
 
-.dark {
+:is(.dark, .mode-dark) {
   --background: oklch(15.698% 0.0065 300.753);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);

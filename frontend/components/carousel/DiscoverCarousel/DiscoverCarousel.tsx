@@ -2,18 +2,18 @@
 
 import { toDisplayContentType, toDisplayContentLength } from "@/lib/utils";
 import { BookmarkIcon, StarIcon } from "lucide-react";
-import ExpandableOverview from "../shared/ExpandableOverview";
-import { Carousel, CarouselApi, CarouselContent, CarouselItem } from "../ui/carousel";
-import { Badge } from "../ui/badge";
+import ExpandableOverview from "../../shared/ExpandableOverview";
+import { Carousel, CarouselApi, CarouselContent, CarouselItem } from "../../ui/carousel";
+import { Badge } from "../../ui/badge";
 import { ContentItem } from "@/types";
 import { useEffect, useRef, useState } from "react";
-import ImageLoader from "../shared/ImageLoader";
+import ImageLoader from "../../shared/ImageLoader";
 import { ImageSizes } from "@/lib/constants";
-import WatchedButton from "../actions/WatchedButton";
-import ShareButton from "../actions/ShareButton";
-import DiscoverEmbeddedVideo from "../shared/DiscoverEmbeddedVideo";
+import WatchedButton from "../../actions/WatchedButton";
+import ShareButton from "../../actions/ShareButton";
+import DiscoverEmbeddedVideo from "../../shared/DiscoverEmbeddedVideo";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import AddWatchlistButton, { ChildRefActions } from "../actions/AddWatchlistButton";
+import AddWatchlistButton, { ChildRefActions } from "../../actions/AddWatchlistButton";
 
 export default function DiscoverCarousel({ content }: { content: ContentItem[] }) {
   const [api, setApi] = useState<CarouselApi>();
@@ -61,24 +61,25 @@ export default function DiscoverCarousel({ content }: { content: ContentItem[] }
     if (isDoubleClickLocked.current) return;
 
     isDoubleClickLocked.current = true;
-    addWatchlistButtonRefs.current[currentSlide]?.triggerChildFunction();
+
     setTimeout(() => {
       isDoubleClickLocked.current = false;
     }, 400);
 
     if (!addWatchlistButtonRefs.current[currentSlide]?.isSavedState) {
-      setAnimatingSlideIndex(currentSlide);
-
-      setTimeout(() => {
-        setAnimatingSlideIndex(null);
-      }, 700);
+      addWatchlistButtonRefs.current[currentSlide]?.triggerChildFunction();
     }
+    setAnimatingSlideIndex(currentSlide);
+
+    setTimeout(() => {
+      setAnimatingSlideIndex(null);
+    }, 700);
   }
 
   return (
     <Carousel
       orientation="vertical"
-      className="w-full"
+      className="w-full dark"
       setApi={setApi}
       ref={sliderRef}
       onDoubleClick={handleDoubleClick}

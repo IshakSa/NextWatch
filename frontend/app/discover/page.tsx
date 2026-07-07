@@ -1,4 +1,4 @@
-import DiscoverCarousel from "@/components/carousel/DiscoverCarousel";
+import DiscoverCarousel from "@/components/carousel/DiscoverCarousel/DiscoverCarousel";
 import { ContentItem } from "@/types";
 
 export default async function DiscoverPage() {
@@ -9,10 +9,8 @@ export default async function DiscoverPage() {
   const content: ContentItem[] = await response.json();
 
   return (
-    <main>
-      <div>
-        <DiscoverCarousel content={content} />
-      </div>
+    <main className="mode-dark">
+      <DiscoverCarousel content={content} />
     </main>
   );
 }
