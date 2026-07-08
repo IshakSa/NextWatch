@@ -8,7 +8,7 @@ export default function ExpandableOverview({
   page,
 }: {
   text: string;
-  page: "home" | "details" | "episodes";
+  page: "home" | "details" | "episodes" | "discover";
 }) {
   const isDesktop = useMediaQuery("(min-width: 1280px)");
   const [isExpanded, setIsExpanded] = useState(false);
@@ -24,6 +24,7 @@ export default function ExpandableOverview({
   function getMaxWidthClass() {
     if (page === "home") return "sm:max-w-2/3 lg:max-w-2/5";
     if (page === "details") return "lg:max-w-2/3";
+    if (page === "discover") return "";
     return "";
   }
 
@@ -40,7 +41,7 @@ export default function ExpandableOverview({
   const shouldDisplayButton = text.length < MAX_LENGTH ? false : true;
 
   return (
-    <p className={`max-w-screen ${getMaxWidthClass()}`}>
+    <div className={`max-w-screen ${getMaxWidthClass()}`}>
       {isExpanded ? text : text.slice(0, MAX_LENGTH)}
       {shouldTruncate && (
         <>
@@ -53,6 +54,6 @@ export default function ExpandableOverview({
           )}
         </>
       )}
-    </p>
+    </div>
   );
 }

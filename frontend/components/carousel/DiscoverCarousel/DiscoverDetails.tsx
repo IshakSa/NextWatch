@@ -1,18 +1,20 @@
 import ExpandableOverview from "@/components/shared/ExpandableOverview";
 import ImageLoader from "@/components/shared/ImageLoader";
 import { Badge } from "@/components/ui/badge";
-import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { ImageSizes } from "@/lib/constants";
 import { toDisplayContentLength, toDisplayContentType } from "@/lib/utils";
 import { ContentItem } from "@/types";
 import { StarIcon } from "lucide-react";
 
-export default function DiscoverDetails({ item }: { item: ContentItem }) {
-  const isHighScreen = useMediaQuery("(min-height: 768px)");
+export default function DiscoverDetails({
+  item,
+  isHighScreen,
+}: {
+  item: ContentItem;
+  isHighScreen: boolean;
+}) {
   return (
-    <div
-      className={`absolute ${isHighScreen ? "bottom-20" : "bottom-15"} w-8/10 z-100 flex justify-between select-none container`}
-    >
+    <div className="w-8/10 select-none">
       <div>
         {isHighScreen && (
           <ImageLoader
@@ -44,7 +46,9 @@ export default function DiscoverDetails({ item }: { item: ContentItem }) {
           {item.genres?.join(" • ")}
         </p>
 
-        <ExpandableOverview page="home" text={item.overview} />
+        <div className="max-w-xl">
+          <ExpandableOverview page="discover" text={item.overview} />
+        </div>
       </div>
     </div>
   );

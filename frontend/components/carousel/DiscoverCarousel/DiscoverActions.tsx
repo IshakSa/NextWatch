@@ -1,19 +1,16 @@
 import AddWatchlistButton, { ChildRefActions } from "@/components/actions/AddWatchlistButton";
 import ShareButton from "@/components/actions/ShareButton";
 import WatchedButton from "@/components/actions/WatchedButton";
-import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 export default function DiscoverActions({
   onRegisterRef,
+  screen,
 }: {
   onRegisterRef: (currentButton: ChildRefActions) => void;
+  screen: "desktop" | "mobile";
 }) {
-  const isHighScreen = useMediaQuery("(min-height: 768px)");
-
   return (
-    <div
-      className={`absolute right-4 ${isHighScreen ? "bottom-30" : "bottom-15"} z-50 flex flex-col items-center gap-7`}
-    >
+    <div className={`flex ${screen === "mobile" ? "flex-col" : "flex-row"} items-center gap-7`}>
       <div className="flex w-16 flex-col items-center gap-2 scale-105">
         <AddWatchlistButton
           className="flex h-12 w-12 rounded-full backdrop-blur-xl"

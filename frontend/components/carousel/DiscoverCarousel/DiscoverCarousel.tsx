@@ -1,16 +1,13 @@
 "use client";
 
-import { Carousel, CarouselApi, CarouselContent, CarouselItem } from "../../ui/carousel";
+import { Carousel, CarouselApi, CarouselContent } from "../../ui/carousel";
 import { ContentItem } from "@/types";
 import { useEffect, useRef, useState } from "react";
-import ImageLoader from "../../shared/ImageLoader";
 import { ImageSizes } from "@/lib/constants";
-import DiscoverEmbeddedVideo from "../../shared/DiscoverEmbeddedVideo";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { ChildRefActions } from "../../actions/AddWatchlistButton";
-import DiscoverDetails from "./DiscoverDetails";
-import DiscoverActions from "./DiscoverActions";
-import SavedFlash from "./SavedFlash";
+import MobileDiscoverItem from "./MobileDiscoverItem";
+import DesktopDiscoverItem from "./DesktopDiscoverItem";
 
 export default function DiscoverCarousel({ content }: { content: ContentItem[] }) {
   const [api, setApi] = useState<CarouselApi>();
@@ -87,34 +84,35 @@ export default function DiscoverCarousel({ content }: { content: ContentItem[] }
           const isVideoShown = currentSlide === index ? true : false;
 
           return (
-            <CarouselItem key={index} className="relative">
-              <>
-                {animatingSlideIndex === index && <SavedFlash />}
-
-                <div className="h-full items-center justify-center bg-zinc-950/70 backdrop-blur-md">
-                  <ImageLoader
-                    src={imagePath}
-                    alt="content backdrop"
-                    apiWidth={imageSize}
-                    className="object-cover "
-                    fill
-                  />
-                  <div className="dark absolute bottom-0 left-0 right-0 h-full bg-linear-to-t from-background to-transparent" />
-                </div>
-
-                <div className="absolute mb-0 z-10 bottom-1/7 w-screen h-screen">
-                  <DiscoverEmbeddedVideo youtubeId={item.trailerId} showVideo={isVideoShown} />
-                </div>
-
-                <DiscoverDetails item={item} />
-
-                <DiscoverActions
+            <>
+              {isDesktop ? (
+                <DesktopDiscoverItem
+                  key={item.id}
+                  item={item}
+                  imagePath={imagePath}
+                  imageSize={imageSize}
+                  animatingSlideIndex={animatingSlideIndex}
+                  index={index}
                   onRegisterRef={(currentButton) => {
                     if (currentButton) addWatchlistButtonRefs.current[index] = currentButton;
                   }}
+                  isVideoShown={isVideoShown}
                 />
-              </>
-            </CarouselItem>
+              ) : (
+                <MobileDiscoverItem
+                  key={item.id}
+                  item={item}
+                  imagePath={imagePath}
+                  imageSize={imageSize}
+                  animatingSlideIndex={animatingSlideIndex}
+                  index={index}
+                  onRegisterRef={(currentButton) => {
+                    if (currentButton) addWatchlistButtonRefs.current[index] = currentButton;
+                  }}
+                  isVideoShown={isVideoShown}
+                />
+              )}
+            </>
           );
         })}
       </CarouselContent>

@@ -1,14 +1,18 @@
 import { useState, useRef, useEffect } from "react";
 import YouTube, { YouTubeProps } from "react-youtube";
-import { Button } from "@/components/ui/button"; // Passe den Importpfad für deine Button-Komponente an
+import { Button } from "@/components/ui/button";
 import { Volume2Icon, VolumeOffIcon } from "lucide-react";
 
 export default function DiscoverEmbeddedVideo({
   youtubeId,
   showVideo,
+  videoSizes,
+  justify = "justify-center"
 }: {
   youtubeId?: string;
   showVideo: boolean;
+  videoSizes?: string;
+  justify?: string
 }) {
   const [isMuted, setIsMuted] = useState(true);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -61,9 +65,11 @@ export default function DiscoverEmbeddedVideo({
   };
 
   return (
-    <div className="z-10 w-screen h-full flex items-center justify-center bg-zinc-950/70 backdrop-blur-md">
-      <div className="z-5 w-full sm:max-w-[80%] lg:max-w-[65%] mx-auto sm:px-4">
-        <div className="relative aspect-video sm:rounded-xl overflow-hidden">
+    <div className={`z-10 w-full h-full flex items-center ${justify}`}>
+      <div
+        className={`z-5 w-full ${videoSizes ? videoSizes : "sm:max-w-[80%] lg:max-w-[65%]"} sm:px-4`}
+      >
+        <div className="relative aspect-video sm:rounded-xl overflow-hidden bg-zinc-950/70 backdrop-blur-md">
           {showVideo && (
             <>
               {youtubeId ? (
@@ -84,7 +90,7 @@ export default function DiscoverEmbeddedVideo({
                   />
 
                   <Button
-                    className="absolute bottom-4 right-4 backdrop-blur-xl"
+                    className="absolute bottom-4 right-4 backdrop-blur-xl "
                     onClick={handleMute}
                     variant="outline"
                   >
