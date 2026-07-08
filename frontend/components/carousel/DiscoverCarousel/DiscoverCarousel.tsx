@@ -6,8 +6,8 @@ import { useEffect, useRef, useState } from "react";
 import { ImageSizes } from "@/lib/constants";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { ChildRefActions } from "../../actions/AddWatchlistButton";
-import MobileDiscoverItem from "./MobileDiscoverItem";
-import DesktopDiscoverItem from "./DesktopDiscoverItem";
+import MobileDiscoverItem from "./_components/MobileDiscoverItem";
+import DesktopDiscoverItem from "./_components/DesktopDiscoverItem";
 
 export default function DiscoverCarousel({ content }: { content: ContentItem[] }) {
   const [api, setApi] = useState<CarouselApi>();

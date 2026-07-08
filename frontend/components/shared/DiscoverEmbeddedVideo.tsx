@@ -90,7 +90,7 @@ export default function DiscoverEmbeddedVideo({
                   />
 
                   <Button
-                    className="absolute bottom-4 right-4 backdrop-blur-xl "
+                    className="absolute bottom-4 right-4 backdrop-blur-xl"
                     onClick={handleMute}
                     variant="outline"
                   >
