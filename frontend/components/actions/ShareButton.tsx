@@ -1,9 +1,10 @@
 "use client";
 
-import { ShareIcon } from "lucide-react";
+import { Check, CheckIcon, ShareIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import { useState } from "react";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { toast } from "sonner";
 
 export default function ShareButton({
   className,
@@ -31,6 +32,11 @@ export default function ShareButton({
         await navigator.clipboard.writeText(window.location.href);
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
+
+        toast("Link copied", {
+          description: "The link has been saved to your clipboard.",
+          icon: <Check className="text-primary" />,
+        });
       } catch {}
     }
   };
@@ -39,7 +45,7 @@ export default function ShareButton({
     <div>
       <Button variant={"outline"} onClick={handleShare} className={className} size={"icon"}>
         <div className="flex space-x-2 items-center">
-          <ShareIcon />
+          {copied ? <CheckIcon /> : <ShareIcon />}
           {isDesktop && !hideText && <p>{copied ? "Link Copied!" : "Share"}</p>}
         </div>
       </Button>
