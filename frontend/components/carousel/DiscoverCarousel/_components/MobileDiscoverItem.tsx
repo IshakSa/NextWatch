@@ -7,7 +7,7 @@ import DiscoverEmbeddedVideo from "@/components/shared/DiscoverEmbeddedVideo";
 import DiscoverDetails from "./DiscoverDetails";
 import DiscoverActions from "./DiscoverActions";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import FilterButton from "@/components/actions/FilterButton";
+import FilterButton from "@/components/actions/FilterButton/FilterButton";
 
 export default function MobileDiscoverItem({
   item,

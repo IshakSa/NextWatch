@@ -1,5 +1,5 @@
 import AddWatchlistButton, { ChildRefActions } from "@/components/actions/AddWatchlistButton";
-import FilterButton from "@/components/actions/FilterButton";
+import FilterButton from "@/components/actions/FilterButton/FilterButton";
 import ShareButton from "@/components/actions/ShareButton";
 import WatchedButton from "@/components/actions/WatchedButton";
 
