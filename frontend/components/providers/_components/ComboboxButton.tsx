@@ -6,30 +6,30 @@ import {
   ComboboxItem,
   ComboboxList,
 } from "@/components/ui/combobox";
+import { COUNTRIES, CountryObject } from "../constants";
 
 export default function ComboboxButton({
-  countries,
   selectedCountry,
   setSelectedCountry,
 }: {
-  countries: string[];
-  selectedCountry: string | null;
-  setSelectedCountry: (newSelectedCountry: string) => void;
+  selectedCountry: CountryObject;
+  setSelectedCountry: (newSelectedCountry: CountryObject) => void;
 }) {
   function handleCountryChange(value: string | null) {
-    if (value) setSelectedCountry(value);
+    const country = COUNTRIES.find((country) => country.name === value);
+    if (country) setSelectedCountry(country);
   }
 
   return (
-    <Combobox items={countries} value={selectedCountry} onValueChange={handleCountryChange}>
-      <ComboboxInput placeholder="Select a country" />
+    <Combobox items={COUNTRIES} value={selectedCountry.name} onValueChange={handleCountryChange}>
+      <ComboboxInput placeholder="Select a country" className="rounded-lg" />
 
-      <ComboboxContent>
+      <ComboboxContent className="w-45" align="center" alignOffset={13}>
         <ComboboxEmpty>Country not found.</ComboboxEmpty>
         <ComboboxList>
-          {(country) => (
-            <ComboboxItem key={country} value={country}>
-              {country}
+          {(country: CountryObject) => (
+            <ComboboxItem key={country.code} value={country.name}>
+              {country.name}
             </ComboboxItem>
           )}
         </ComboboxList>

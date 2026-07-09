@@ -51,7 +51,7 @@ export default function MobileDiscoverItem({
         </div>
 
         <div
-          className="absolute mb-0 z-10 bottom-1/7 w-screen h-screen"
+          className="absolute z-10 bottom-1/7 w-screen h-screen"
           onDoubleClick={handleDoubleClick}
         >
           <DiscoverEmbeddedVideo youtubeId={item.trailerId} showVideo={isVideoShown} />

@@ -25,29 +25,17 @@ import {
 } from "@/components/ui/combobox";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { defaultFilterPayload, FilterPayload, WatchOptions } from "../constants";
+import {
+  AVAILABLE_PROVIDERS,
+  defaultFilterPayload,
+  FilterPayload,
+  genres,
+  WatchOptions,
+} from "../constants";
 import { useFilter } from "@/components/carousel/DiscoverCarousel/_components/FilterContext";
-
-const COUNTRIES = [
-  { code: "DE", name: "Deutschland 🇩🇪" },
-  { code: "AT", name: "Österreich 🇦🇹" },
-  { code: "CH", name: "Schweiz 🇨🇭" },
-  { code: "US", name: "USA 🇺🇸" },
-  { code: "GB", name: "Großbritannien 🇬🇧" },
-];
-
-const MOCK_PROVIDERS: Record<string, { id: number; name: string }[]> = {
-  DE: [
-    { id: 8, name: "Netflix" },
-    { id: 9, name: "Amazon Prime" },
-    { id: 337, name: "Disney+" },
-  ],
-  AT: [
-    { id: 8, name: "Netflix" },
-    { id: 9, name: "Amazon Prime" },
-    { id: 150, name: "Sky X" },
-  ],
-};
+import { COUNTRIES } from "@/components/providers/constants";
+import ImageLoader from "@/components/shared/ImageLoader";
+import { ImageSizes } from "@/lib/constants";
 
 export default function FilterUi() {
   const {
@@ -63,7 +51,7 @@ export default function FilterUi() {
   const anchor = useComboboxAnchor();
 
   const activeProviders = currentFilterPayload.country
-    ? MOCK_PROVIDERS[currentFilterPayload.country] || []
+    ? AVAILABLE_PROVIDERS[currentFilterPayload.country] || []
     : [];
 
   function resetFilter() {
@@ -114,18 +102,6 @@ export default function FilterUi() {
   function isDefaultChanged() {
     return currentFilterPayload !== defaultFilterPayload;
   }
-
-  const genres = [
-    "Action",
-    "Comedy",
-    "Documentary",
-    "Drama",
-    "Fantasy",
-    "Horror",
-    "Romance",
-    "Sci-Fi",
-    "Thriller",
-  ] as const;
 
   return (
     <div className="flex flex-col gap-5">
@@ -266,16 +242,18 @@ export default function FilterUi() {
               <ScrollArea className="h-32 pr-2">
                 <div className="space-y-1">
                   {activeProviders
-                    .filter((p) => p.name.toLowerCase().includes(providerSearch.toLowerCase()))
+                    .filter((p) =>
+                      p.providerName.toLowerCase().includes(providerSearch.toLowerCase()),
+                    )
                     .map((p) => {
-                      const isSelected = currentFilterPayload.providers.includes(p.id);
+                      const isSelected = currentFilterPayload.providers.includes(p.providerId);
                       return (
                         <button
-                          key={p.id}
+                          key={p.providerId}
                           onClick={() => {
                             const newProviders = isSelected
-                              ? currentFilterPayload.providers.filter((id) => id !== p.id)
-                              : [...currentFilterPayload.providers, p.id];
+                              ? currentFilterPayload.providers.filter((id) => id !== p.providerId)
+                              : [...currentFilterPayload.providers, p.providerId];
                             updateCurrentPayloadField("providers", newProviders);
                           }}
                           className={cn(
@@ -283,7 +261,18 @@ export default function FilterUi() {
                             isSelected ? "bg-accent/40 font-medium" : "hover:bg-accent/50",
                           )}
                         >
-                          <span className="truncate">{p.name}</span>
+                          <div className="flex gap-2 items-center">
+                            <div className="rounded-full overflow-hidden">
+                              <ImageLoader
+                                src={p.logoPath}
+                                alt="provider logo"
+                                apiWidth={ImageSizes.provider}
+                                width={30}
+                                height={30}
+                              />
+                            </div>
+                            <span className="truncate">{p.providerName}</span>
+                          </div>
 
                           {isSelected && <Check className="h-4 w-4 text-primary shrink-0 ml-2" />}
                         </button>

@@ -48,7 +48,7 @@ export default function DesktopDiscoverItem({
         <div className="absolute inset-0 z-0 bg-zinc-950/70 backdrop-blur-md pointer-events-none h-screen" />
 
         <div className="absolute top-1/2 -translate-y-1/2 z-50 gap-5 flex items-center w-full h-full">
-          <div className="flex-1 h-full flex items-center" onDoubleClick={handleDoubleClick}>
+          <div className="flex-1 h-full flex items-center select-none" onDoubleClick={handleDoubleClick}>
             <DiscoverEmbeddedVideo
               youtubeId={item.trailerId}
               showVideo={isVideoShown}

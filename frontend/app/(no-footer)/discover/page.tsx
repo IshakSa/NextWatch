@@ -9,7 +9,7 @@ export default async function DiscoverPage() {
   const content: ContentItem[] = await response.json();
 
   return (
-    <main className="mode-dark">
+    <main className="mode-dark no-doc-scroll">
       <DiscoverCarousel content={content} />
     </main>
   );

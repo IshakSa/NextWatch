@@ -43,7 +43,9 @@ export default function FilterButton({
             </PopoverDescription>
           </PopoverHeader>
 
-          <FilterUi />
+          <div className="max-h-[50vh] overflow-y-auto no-scrollbar">
+            <FilterUi />
+          </div>
         </PopoverContent>
       </Popover>
     );
