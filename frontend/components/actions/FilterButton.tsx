@@ -20,9 +20,6 @@ import {
   ComboboxValue,
   useComboboxAnchor,
 } from "@/components/ui/combobox";
-import ComboboxButton from "../providers/_components/ComboboxButton";
-import SelectButton from "../providers/_components/SelectButton";
-import { countries, countryMap, watchOptionMap } from "../providers/constants";
 import { useState } from "react";
 import { Slider } from "@/components/ui/slider";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../ui/accordion";
@@ -54,6 +51,27 @@ const MOCK_PROVIDERS: Record<string, { id: number; name: string }[]> = {
 };
 
 type TypeValue = "all" | "movies" | "series";
+type WatchOptions = ("flatrate" | "rent" | "buy")[];
+
+interface FilterPayload {
+  genres: string[];
+  contentType: TypeValue;
+  country: string;
+  providers: number[];
+  watchOptions: WatchOptions;
+  minRating: number;
+  yearRange: number[];
+}
+
+const defaultFilterPayload: FilterPayload = {
+  genres: [],
+  contentType: "all",
+  country: "",
+  providers: [],
+  watchOptions: ["flatrate"],
+  minRating: 1,
+  yearRange: [1970, new Date().getFullYear()],
+};
 
 export default function FilterButton({
   className,
@@ -62,21 +80,65 @@ export default function FilterButton({
   className?: string;
   screen: "mobile" | "desktop";
 }) {
-  const [selectedCountry, setSelectedCountry] = useState<string>("");
-  const [selectedProviders, setSelectedProviders] = useState<number[]>([]);
-  const [selectedWatchOptions, setSelectedWatchOptions] = useState<string[]>(["flatrate"]);
+  const [currentFilterPayload, setCurrentFilterPayload] = useState(defaultFilterPayload);
+  const [activeFilterPayload, setActiveFilterPayload] = useState(defaultFilterPayload);
 
   const [countrySearch, setCountrySearch] = useState("");
   const [providerSearch, setProviderSearch] = useState("");
 
-  const activeProviders = selectedCountry ? MOCK_PROVIDERS[selectedCountry] || [] : [];
-
-  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
-  const [selectedContentType, setSelectedContentType] = useState<TypeValue>("all");
-  const [selectedMinRating, setSelectedMinRating] = useState(0);
-  const [selectedYearRange, setSelectedYearRange] = useState([1900, 2026]);
-
   const anchor = useComboboxAnchor();
+
+  const activeProviders = currentFilterPayload.country
+    ? MOCK_PROVIDERS[currentFilterPayload.country] || []
+    : [];
+
+  function resetFilter() {
+    setCurrentFilterPayload(defaultFilterPayload);
+    applyFilter(true);
+  }
+
+  function applyFilter(resetFilter?: boolean) {
+    const newFilterPayload: FilterPayload = resetFilter
+      ? defaultFilterPayload
+      : {
+          genres: currentFilterPayload.genres,
+          contentType: currentFilterPayload.contentType,
+          country: currentFilterPayload.country,
+          providers: currentFilterPayload.providers,
+          watchOptions: currentFilterPayload.watchOptions,
+          minRating: currentFilterPayload.minRating,
+          yearRange: currentFilterPayload.yearRange,
+        };
+
+    setActiveFilterPayload(newFilterPayload);
+  }
+
+  function updateCurrentPayloadField<K extends keyof FilterPayload>(
+    key: K,
+    newValue: FilterPayload[K],
+  ) {
+    const newCurrentFilterPayload = {
+      ...currentFilterPayload,
+      [key]: newValue,
+    };
+    setCurrentFilterPayload(newCurrentFilterPayload);
+  }
+
+  function isCurrentFilterPayloadChanged() {
+    type FilterKey = keyof FilterPayload;
+    const keysCurrent = Object.keys(currentFilterPayload) as FilterKey[];
+
+    const isSame = keysCurrent.every(
+      (key) => currentFilterPayload[key] === activeFilterPayload[key],
+    );
+
+    if (isSame) return false;
+    return true;
+  }
+
+  function isDefaultChanged() {
+    return currentFilterPayload !== defaultFilterPayload;
+  }
 
   const genres = [
     "Action",
@@ -112,8 +174,8 @@ export default function FilterButton({
             multiple
             autoHighlight
             items={genres}
-            value={selectedGenres}
-            onValueChange={(value) => setSelectedGenres(value)}
+            value={currentFilterPayload.genres}
+            onValueChange={(newGenres) => updateCurrentPayloadField("genres", newGenres)}
           >
             <ComboboxChips ref={anchor} className="w-full max-w-xs">
               <ComboboxValue>
@@ -123,7 +185,7 @@ export default function FilterButton({
                       <ComboboxChip key={value}>{value}</ComboboxChip>
                     ))}
                     <ComboboxChipsInput
-                      placeholder={`${selectedGenres.length === 0 ? "Select a genre..." : ""}`}
+                      placeholder={`${currentFilterPayload.genres.length === 0 ? "Select a genre..." : ""}`}
                     />
                   </>
                 )}
@@ -146,8 +208,10 @@ export default function FilterButton({
           <p className="font-semibold">Type</p>
           <Tabs
             className="mr-3"
-            value={selectedContentType}
-            onValueChange={(value) => setSelectedContentType(value)}
+            value={currentFilterPayload.contentType}
+            onValueChange={(newContentType) =>
+              updateCurrentPayloadField("contentType", newContentType)
+            }
           >
             <TabsList>
               <TabsTrigger value="all">All</TabsTrigger>
@@ -166,8 +230,10 @@ export default function FilterButton({
                 <span className="flex items-center gap-2">
                   <Globe className="h-4 w-4 text-muted-foreground" />
                   <span>Region</span>
-                  {selectedCountry && (
-                    <span className="text-xs font-bold text-primary">({selectedCountry})</span>
+                  {currentFilterPayload.country && (
+                    <span className="text-xs font-bold text-primary">
+                      ({currentFilterPayload.country})
+                    </span>
                   )}
                 </span>
               </AccordionTrigger>
@@ -186,8 +252,8 @@ export default function FilterButton({
                       <button
                         key={c.code}
                         onClick={() => {
-                          setSelectedCountry(c.code);
-                          setSelectedProviders([]);
+                          updateCurrentPayloadField("country", c.code);
+                          updateCurrentPayloadField("providers", []);
 
                           setTimeout(() => {
                             document.getElementById("trigger-providers")?.click();
@@ -195,13 +261,13 @@ export default function FilterButton({
                         }}
                         className={cn(
                           "flex w-full items-center justify-between rounded-lg px-3 h-10 sm:h-9 text-sm sm:text-xs text-left transition-colors active:bg-accent/80",
-                          selectedCountry === c.code
+                          currentFilterPayload.country === c.code
                             ? "bg-accent font-semibold text-accent-foreground"
                             : "hover:bg-accent/50",
                         )}
                       >
                         <span className="truncate">{c.name}</span>
-                        {selectedCountry === c.code && (
+                        {currentFilterPayload.country === c.code && (
                           <Check className="h-4 w-4 text-primary shrink-0 ml-2" />
                         )}
                       </button>
@@ -211,9 +277,16 @@ export default function FilterButton({
               </AccordionContent>
             </AccordionItem>
 
-            <AccordionItem value="providers" className="border-b" disabled={!selectedCountry}>
+            <AccordionItem
+              value="providers"
+              className="border-b"
+              disabled={!currentFilterPayload.country}
+            >
               <AccordionTrigger
-                className={cn("text-sm py-2 hover:no-underline", !selectedCountry && "opacity-40")}
+                className={cn(
+                  "text-sm py-2 hover:no-underline",
+                  !currentFilterPayload.country && "opacity-40",
+                )}
               >
                 <span className="flex items-center gap-2">
                   <Tv className="h-4 w-4 text-muted-foreground" />
@@ -232,15 +305,16 @@ export default function FilterButton({
                     {activeProviders
                       .filter((p) => p.name.toLowerCase().includes(providerSearch.toLowerCase()))
                       .map((p) => {
-                        const isSelected = selectedProviders.includes(p.id);
+                        const isSelected = currentFilterPayload.providers.includes(p.id);
                         return (
                           <button
                             key={p.id}
-                            onClick={() =>
-                              setSelectedProviders((prev) =>
-                                isSelected ? prev.filter((id) => id !== p.id) : [...prev, p.id],
-                              )
-                            }
+                            onClick={() => {
+                              const newProviders = isSelected
+                                ? currentFilterPayload.providers.filter((id) => id !== p.id)
+                                : [...currentFilterPayload.providers, p.id];
+                              updateCurrentPayloadField("providers", newProviders);
+                            }}
                             className={cn(
                               "flex w-full items-center justify-between rounded-lg px-3 h-10 sm:h-9 text-sm sm:text-xs text-left transition-colors active:bg-accent/80",
                               isSelected ? "bg-accent/40 font-medium" : "hover:bg-accent/50",
@@ -267,8 +341,11 @@ export default function FilterButton({
               <AccordionContent className="pt-2 pb-2">
                 <ToggleGroup
                   multiple
-                  value={selectedWatchOptions}
-                  onValueChange={(v) => v.length > 0 && setSelectedWatchOptions(v)}
+                  value={currentFilterPayload.watchOptions}
+                  onValueChange={(newWatchOptions) =>
+                    newWatchOptions.length > 0 &&
+                    updateCurrentPayloadField("watchOptions", newWatchOptions as WatchOptions)
+                  }
                   className="gap-2 w-full"
                 >
                   <ToggleGroupItem value="flatrate" variant="outline" className="flex-1 text-xs">
@@ -289,31 +366,48 @@ export default function FilterButton({
         <div className="flex flex-col gap-3">
           <p className="font-semibold flex gap-3 items-center">
             Min. Rating: <StarIcon />
-            {selectedMinRating}
+            {currentFilterPayload.minRating}
           </p>
           <Slider
             max={10}
             step={0.5}
-            value={selectedMinRating}
-            onValueChange={(value) => setSelectedMinRating(value as number)}
+            value={currentFilterPayload.minRating}
+            onValueChange={(newMinRating) =>
+              updateCurrentPayloadField("minRating", newMinRating as number)
+            }
           />
         </div>
 
         <div className="flex flex-col gap-3">
-          <p className="font-semibold">Release Year range: {selectedYearRange.join(" - ")}</p>
+          <p className="font-semibold">
+            Release Year range: {currentFilterPayload.yearRange.join(" - ")}
+          </p>
           <Slider
             className="mx-auto w-full max-w-xs"
-            min={1900}
-            max={2026}
+            min={1970}
+            max={new Date().getFullYear()}
             step={1}
-            value={selectedYearRange}
-            onValueChange={(value) => setSelectedYearRange(value as number[])}
+            value={currentFilterPayload.yearRange}
+            onValueChange={(newYearRange) =>
+              updateCurrentPayloadField("yearRange", newYearRange as number[])
+            }
           />
         </div>
 
         <div className="flex justify-between gap-4">
-          <Button className="flex-1 rounded-lg">Apply</Button>
-          <Button className="flex-1 rounded-lg" variant="secondary">
+          <Button
+            className="flex-1 rounded-lg"
+            onClick={() => applyFilter()}
+            disabled={!isCurrentFilterPayloadChanged()}
+          >
+            Apply
+          </Button>
+          <Button
+            className="flex-1 rounded-lg"
+            variant="secondary"
+            onClick={resetFilter}
+            disabled={!isDefaultChanged()}
+          >
             Reset
           </Button>
         </div>
