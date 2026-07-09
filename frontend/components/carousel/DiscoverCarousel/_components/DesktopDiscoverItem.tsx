@@ -16,6 +16,7 @@ export default function DesktopDiscoverItem({
   index,
   onRegisterRef,
   isVideoShown,
+  handleDoubleClick,
 }: {
   item: ContentItem;
   imagePath: string;
@@ -24,6 +25,7 @@ export default function DesktopDiscoverItem({
   index: number;
   onRegisterRef: (currentButton: ChildRefActions) => void;
   isVideoShown: boolean;
+  handleDoubleClick: () => void;
 }) {
   const isHighScreen = useMediaQuery("(min-height: 768px)");
 
@@ -45,8 +47,8 @@ export default function DesktopDiscoverItem({
 
         <div className="absolute inset-0 z-0 bg-zinc-950/70 backdrop-blur-md pointer-events-none h-screen" />
 
-        <div className="absolute top-1/2 -translate-y-1/2 z-50 gap-5 flex items-center w-full h-full ">
-          <div className="flex-1 h-full flex items-center">
+        <div className="absolute top-1/2 -translate-y-1/2 z-50 gap-5 flex items-center w-full h-full">
+          <div className="flex-1 h-full flex items-center" onDoubleClick={handleDoubleClick}>
             <DiscoverEmbeddedVideo
               youtubeId={item.trailerId}
               showVideo={isVideoShown}
@@ -56,7 +58,8 @@ export default function DesktopDiscoverItem({
           </div>
 
           <div className="w-full mr-10 xl:mr-15 2xl:mr-30 max-w-xs xl:max-w-sm shrink-0 flex flex-col gap-10 rounded-2xl bg-zinc-900/50 backdrop-blur-xl border border-border p-6 shadow-2xl">
-            <DiscoverDetails item={item} isHighScreen={isHighScreen} />
+            <DiscoverDetails item={item} isHighScreen={isHighScreen} onDoubleClick={handleDoubleClick} />
+
             <DiscoverActions onRegisterRef={onRegisterRef} screen="desktop" />
           </div>
         </div>

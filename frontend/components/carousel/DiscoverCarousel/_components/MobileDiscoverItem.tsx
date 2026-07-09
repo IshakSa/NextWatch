@@ -17,6 +17,7 @@ export default function MobileDiscoverItem({
   index,
   onRegisterRef,
   isVideoShown,
+  handleDoubleClick,
 }: {
   item: ContentItem;
   imagePath: string;
@@ -25,6 +26,7 @@ export default function MobileDiscoverItem({
   index: number;
   onRegisterRef: (currentButton: ChildRefActions) => void;
   isVideoShown: boolean;
+  handleDoubleClick: () => void;
 }) {
   const isHighScreen = useMediaQuery("(min-height: 768px)");
 
@@ -48,14 +50,21 @@ export default function MobileDiscoverItem({
           <FilterButton className="flex backdrop-blur-xl" screen="mobile" />
         </div>
 
-        <div className="absolute mb-0 z-10 bottom-1/7 w-screen h-screen">
+        <div
+          className="absolute mb-0 z-10 bottom-1/7 w-screen h-screen"
+          onDoubleClick={handleDoubleClick}
+        >
           <DiscoverEmbeddedVideo youtubeId={item.trailerId} showVideo={isVideoShown} />
         </div>
 
         <div className="absolute z-1 w-screen bottom-0 h-screen bg-zinc-950/70 backdrop-blur-md" />
 
         <div className={`absolute ${isHighScreen ? "bottom-20" : "bottom-15"} z-100 left-4`}>
-          <DiscoverDetails item={item} isHighScreen={isHighScreen} />
+          <DiscoverDetails
+            item={item}
+            isHighScreen={isHighScreen}
+            onDoubleClick={handleDoubleClick}
+          />
         </div>
 
         <div className={`absolute right-4 ${isHighScreen ? "bottom-30" : "bottom-15"} z-100`}>

@@ -38,7 +38,9 @@ export default function FilterButton({
         <PopoverContent className="gap-5 overflow-y-scroll ">
           <PopoverHeader>
             <PopoverTitle>Filter</PopoverTitle>
-            <PopoverDescription>Description text here.</PopoverDescription>
+            <PopoverDescription>
+              Tune your Discover page by filtering what appears next in your feed.
+            </PopoverDescription>
           </PopoverHeader>
 
           <FilterUi />
@@ -60,7 +62,9 @@ export default function FilterButton({
       <DialogContent className="gap-5">
         <DialogHeader>
           <DialogTitle>Filter</DialogTitle>
-          <DialogDescription>Description text here.</DialogDescription>
+          <DialogDescription>
+            Tune your Discover page by filtering what appears next in your feed.
+          </DialogDescription>
         </DialogHeader>
 
         <div className="max-h-[70vh] overflow-y-auto no-scrollbar">

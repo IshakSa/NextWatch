@@ -9,12 +9,14 @@ import { StarIcon } from "lucide-react";
 export default function DiscoverDetails({
   item,
   isHighScreen,
+  onDoubleClick,
 }: {
   item: ContentItem;
   isHighScreen: boolean;
+  onDoubleClick: () => void;
 }) {
   return (
-    <div className="w-8/10 select-none">
+    <div className="w-8/10 select-none" onDoubleClick={onDoubleClick}>
       <div>
         {isHighScreen && (
           <ImageLoader

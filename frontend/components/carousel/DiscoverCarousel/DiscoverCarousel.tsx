@@ -2,7 +2,7 @@
 
 import { Carousel, CarouselApi, CarouselContent } from "../../ui/carousel";
 import { ContentItem } from "@/types";
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { ImageSizes } from "@/lib/constants";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { ChildRefActions } from "../../actions/AddWatchlistButton";
@@ -76,7 +76,6 @@ export default function DiscoverCarousel({ content }: { content: ContentItem[] }
       className="w-full dark"
       setApi={setApi}
       ref={sliderRef}
-      onDoubleClick={handleDoubleClick}
     >
       <CarouselContent className="-mt-1 h-screen">
         <FilterProvider>
@@ -86,10 +85,9 @@ export default function DiscoverCarousel({ content }: { content: ContentItem[] }
             const isVideoShown = currentSlide === index ? true : false;
 
             return (
-              <>
+              <Fragment key={item.id}>
                 {isDesktop ? (
                   <DesktopDiscoverItem
-                    key={item.id}
                     item={item}
                     imagePath={imagePath}
                     imageSize={imageSize}
@@ -99,10 +97,10 @@ export default function DiscoverCarousel({ content }: { content: ContentItem[] }
                       if (currentButton) addWatchlistButtonRefs.current[index] = currentButton;
                     }}
                     isVideoShown={isVideoShown}
+                    handleDoubleClick={handleDoubleClick}
                   />
                 ) : (
                   <MobileDiscoverItem
-                    key={item.id}
                     item={item}
                     imagePath={imagePath}
                     imageSize={imageSize}
@@ -112,9 +110,10 @@ export default function DiscoverCarousel({ content }: { content: ContentItem[] }
                       if (currentButton) addWatchlistButtonRefs.current[index] = currentButton;
                     }}
                     isVideoShown={isVideoShown}
+                    handleDoubleClick={handleDoubleClick}
                   />
                 )}
-              </>
+              </Fragment>
             );
           })}
         </FilterProvider>
