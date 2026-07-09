@@ -25,6 +25,8 @@ import {
 } from "@/components/ui/combobox";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { defaultFilterPayload, FilterPayload, WatchOptions } from "../constants";
+import { useFilter } from "@/components/carousel/DiscoverCarousel/_components/FilterContext";
 
 const COUNTRIES = [
   { code: "DE", name: "Deutschland 🇩🇪" },
@@ -47,32 +49,13 @@ const MOCK_PROVIDERS: Record<string, { id: number; name: string }[]> = {
   ],
 };
 
-type TypeValue = "all" | "movies" | "series";
-type WatchOptions = ("flatrate" | "rent" | "buy")[];
-
-interface FilterPayload {
-  genres: string[];
-  contentType: TypeValue;
-  country: string;
-  providers: number[];
-  watchOptions: WatchOptions;
-  minRating: number;
-  yearRange: number[];
-}
-
-const defaultFilterPayload: FilterPayload = {
-  genres: [],
-  contentType: "all",
-  country: "",
-  providers: [],
-  watchOptions: ["flatrate"],
-  minRating: 1,
-  yearRange: [1970, new Date().getFullYear()],
-};
-
 export default function FilterUi() {
-  const [currentFilterPayload, setCurrentFilterPayload] = useState(defaultFilterPayload);
-  const [activeFilterPayload, setActiveFilterPayload] = useState(defaultFilterPayload);
+  const {
+    currentFilterPayload,
+    setCurrentFilterPayload,
+    activeFilterPayload,
+    setActiveFilterPayload,
+  } = useFilter();
 
   const [countrySearch, setCountrySearch] = useState("");
   const [providerSearch, setProviderSearch] = useState("");

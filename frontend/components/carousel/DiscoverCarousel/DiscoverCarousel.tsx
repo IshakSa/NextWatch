@@ -8,6 +8,7 @@ import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { ChildRefActions } from "../../actions/AddWatchlistButton";
 import MobileDiscoverItem from "./_components/MobileDiscoverItem";
 import DesktopDiscoverItem from "./_components/DesktopDiscoverItem";
+import { FilterProvider } from "./_components/FilterContext";
 
 export default function DiscoverCarousel({ content }: { content: ContentItem[] }) {
   const [api, setApi] = useState<CarouselApi>();
@@ -78,43 +79,45 @@ export default function DiscoverCarousel({ content }: { content: ContentItem[] }
       onDoubleClick={handleDoubleClick}
     >
       <CarouselContent className="-mt-1 h-screen">
-        {content.map((item, index) => {
-          const imagePath = isDesktop ? item.backdropPath : item.posterPath;
-          const imageSize = isDesktop ? ImageSizes.backdrop : ImageSizes.poster;
-          const isVideoShown = currentSlide === index ? true : false;
+        <FilterProvider>
+          {content.map((item, index) => {
+            const imagePath = isDesktop ? item.backdropPath : item.posterPath;
+            const imageSize = isDesktop ? ImageSizes.backdrop : ImageSizes.poster;
+            const isVideoShown = currentSlide === index ? true : false;
 
-          return (
-            <>
-              {isDesktop ? (
-                <DesktopDiscoverItem
-                  key={item.id}
-                  item={item}
-                  imagePath={imagePath}
-                  imageSize={imageSize}
-                  animatingSlideIndex={animatingSlideIndex}
-                  index={index}
-                  onRegisterRef={(currentButton) => {
-                    if (currentButton) addWatchlistButtonRefs.current[index] = currentButton;
-                  }}
-                  isVideoShown={isVideoShown}
-                />
-              ) : (
-                <MobileDiscoverItem
-                  key={item.id}
-                  item={item}
-                  imagePath={imagePath}
-                  imageSize={imageSize}
-                  animatingSlideIndex={animatingSlideIndex}
-                  index={index}
-                  onRegisterRef={(currentButton) => {
-                    if (currentButton) addWatchlistButtonRefs.current[index] = currentButton;
-                  }}
-                  isVideoShown={isVideoShown}
-                />
-              )}
-            </>
-          );
-        })}
+            return (
+              <>
+                {isDesktop ? (
+                  <DesktopDiscoverItem
+                    key={item.id}
+                    item={item}
+                    imagePath={imagePath}
+                    imageSize={imageSize}
+                    animatingSlideIndex={animatingSlideIndex}
+                    index={index}
+                    onRegisterRef={(currentButton) => {
+                      if (currentButton) addWatchlistButtonRefs.current[index] = currentButton;
+                    }}
+                    isVideoShown={isVideoShown}
+                  />
+                ) : (
+                  <MobileDiscoverItem
+                    key={item.id}
+                    item={item}
+                    imagePath={imagePath}
+                    imageSize={imageSize}
+                    animatingSlideIndex={animatingSlideIndex}
+                    index={index}
+                    onRegisterRef={(currentButton) => {
+                      if (currentButton) addWatchlistButtonRefs.current[index] = currentButton;
+                    }}
+                    isVideoShown={isVideoShown}
+                  />
+                )}
+              </>
+            );
+          })}
+        </FilterProvider>
       </CarouselContent>
     </Carousel>
   );
