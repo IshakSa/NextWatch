@@ -117,11 +117,12 @@ export default function FilterButton({
     key: K,
     newValue: FilterPayload[K],
   ) {
-    const newCurrentFilterPayload = {
-      ...currentFilterPayload,
-      [key]: newValue,
-    };
-    setCurrentFilterPayload(newCurrentFilterPayload);
+    setCurrentFilterPayload((previousFilterPayload) => {
+      return {
+        ...previousFilterPayload,
+        [key]: newValue,
+      };
+    });
   }
 
   function isCurrentFilterPayloadChanged() {
@@ -364,10 +365,13 @@ export default function FilterButton({
         </div>
 
         <div className="flex flex-col gap-3">
-          <p className="font-semibold flex gap-3 items-center">
-            Min. Rating: <StarIcon />
-            {currentFilterPayload.minRating}
-          </p>
+          <div className="font-semibold flex gap-2 items-center">
+            Min. Rating:
+            <div className="flex items-center gap-1">
+              <StarIcon size={15} fill="var(--star)" color="var(--star)" />
+              {currentFilterPayload.minRating}
+            </div>
+          </div>
           <Slider
             max={10}
             step={0.5}
@@ -379,9 +383,7 @@ export default function FilterButton({
         </div>
 
         <div className="flex flex-col gap-3">
-          <p className="font-semibold">
-            Release Year range: {currentFilterPayload.yearRange.join(" - ")}
-          </p>
+          <p className="font-semibold">Released: {currentFilterPayload.yearRange.join(" - ")}</p>
           <Slider
             className="mx-auto w-full max-w-xs"
             min={1970}
