@@ -33,7 +33,7 @@ export default function DiscoverDetails({
           </Badge>
           <Badge className="p-3" variant="outline">
             <div className="flex items-center text-sm">
-              <StarIcon size={15} color="#eab308" fill="#eab308" />
+              <StarIcon size={15} color="var(--star)" fill="var(--star)" />
               <p className="mx-1">{item.rating}</p>
             </div>
           </Badge>

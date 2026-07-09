@@ -34,7 +34,7 @@ export default function RankedContentCard({
           <p>{contentItem.genres.join(" • ")}</p>
         </div>
         <div className="flex items-center">
-          <StarIcon size={20} color="#eab308" fill="#eab308" />
+          <StarIcon size={20} color="var(--star)" fill="var(--star)" />
           <p className="mx-1 font-semibold">{contentItem.rating}</p>
           <p className="muted-text"> | {toDisplayContentType(contentItem.type)}</p>
         </div>

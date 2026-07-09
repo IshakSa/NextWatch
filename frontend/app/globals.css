@@ -59,6 +59,8 @@
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
 
+  --color-star: var(--star);
+  --color-primary-highlight: var(--primary-highlight);
   --breakpoint-xs: 30rem;
 }
 
@@ -176,6 +178,8 @@
   --sidebar-ring: oklch(0.708 0 0);
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
+  --star: oklch(79.524% 0.1616 86.05);
+  --primary-highlight: oklch(69.6% 0.17 162.48);
 }
 
 :is(.dark, .mode-dark) {
@@ -210,4 +214,6 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+  --star: oklch(79.524% 0.1616 86.05);
+  --primary-highlight: oklch(69.6% 0.17 162.48);
 }

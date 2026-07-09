@@ -30,7 +30,7 @@ export default function UserWatchInfo({
           <div className="flex items-center gap-1">
             <span>My rating:</span>
             <div className="flex items-center gap-0.5 font-semibold">
-              <StarIcon className="size-4 text-emerald-500 fill-emerald-500 shrink-0" />
+              <StarIcon className="size-4 text-primary-highlight fill-primary-highlight shrink-0" />
               <span>{(contentItem as WatchedItem).userRating}</span>
               <span className="text-xs text-muted-foreground font-normal">/10</span>
             </div>
