@@ -185,13 +185,13 @@ export default function FilterUi() {
               />
               <ScrollArea className="h-28 pr-2">
                 <div className="space-y-1">
-                  {COUNTRIES.filter((c) =>
-                    c.name.toLowerCase().includes(countrySearch.toLowerCase()),
-                  ).map((c) => (
+                  {COUNTRIES.filter((country) =>
+                    country.name.toLowerCase().includes(countrySearch.toLowerCase()),
+                  ).map((country) => (
                     <button
-                      key={c.code}
+                      key={country.code}
                       onClick={() => {
-                        updateCurrentPayloadField("country", c.code);
+                        updateCurrentPayloadField("country", country.code);
                         updateCurrentPayloadField("providers", []);
 
                         setTimeout(() => {
@@ -200,13 +200,13 @@ export default function FilterUi() {
                       }}
                       className={cn(
                         "flex w-full items-center justify-between rounded-lg px-3 h-10 sm:h-9 text-sm sm:text-xs text-left transition-colors active:bg-accent/80",
-                        currentFilterPayload.country === c.code
+                        currentFilterPayload.country === country.code
                           ? "bg-accent font-semibold text-accent-foreground"
                           : "hover:bg-accent/50",
                       )}
                     >
-                      <span className="truncate">{c.name}</span>
-                      {currentFilterPayload.country === c.code && (
+                      <span className="truncate">{country.name}</span>
+                      {currentFilterPayload.country === country.code && (
                         <Check className="h-4 w-4 text-primary shrink-0 ml-2" />
                       )}
                     </button>
@@ -242,18 +242,22 @@ export default function FilterUi() {
               <ScrollArea className="h-32 pr-2">
                 <div className="space-y-1">
                   {activeProviders
-                    .filter((p) =>
-                      p.providerName.toLowerCase().includes(providerSearch.toLowerCase()),
+                    .filter((provider) =>
+                      provider.providerName.toLowerCase().includes(providerSearch.toLowerCase()),
                     )
-                    .map((p) => {
-                      const isSelected = currentFilterPayload.providers.includes(p.providerId);
+                    .map((provider) => {
+                      const isSelected = currentFilterPayload.providers.includes(
+                        provider.providerId,
+                      );
                       return (
                         <button
-                          key={p.providerId}
+                          key={provider.providerId}
                           onClick={() => {
                             const newProviders = isSelected
-                              ? currentFilterPayload.providers.filter((id) => id !== p.providerId)
-                              : [...currentFilterPayload.providers, p.providerId];
+                              ? currentFilterPayload.providers.filter(
+                                  (id) => id !== provider.providerId,
+                                )
+                              : [...currentFilterPayload.providers, provider.providerId];
                             updateCurrentPayloadField("providers", newProviders);
                           }}
                           className={cn(
@@ -264,14 +268,14 @@ export default function FilterUi() {
                           <div className="flex gap-2 items-center">
                             <div className="rounded-full overflow-hidden">
                               <ImageLoader
-                                src={p.logoPath}
+                                src={provider.logoPath}
                                 alt="provider logo"
                                 apiWidth={ImageSizes.provider}
                                 width={30}
                                 height={30}
                               />
                             </div>
-                            <span className="truncate">{p.providerName}</span>
+                            <span className="truncate">{provider.providerName}</span>
                           </div>
 
                           {isSelected && <Check className="h-4 w-4 text-primary shrink-0 ml-2" />}
@@ -326,7 +330,7 @@ export default function FilterUi() {
         <Slider
           max={10}
           step={0.5}
-          value={currentFilterPayload.minRating}
+          value={[currentFilterPayload.minRating]}
           onValueChange={(newMinRating) =>
             updateCurrentPayloadField("minRating", newMinRating as number)
           }
