@@ -2,6 +2,7 @@
 
 import { XIcon } from "lucide-react";
 import { Button } from "../ui/button";
+import { YouTubeEmbed } from "@next/third-parties/google";
 
 export default function EmbeddedVideo({
   youtubeId,
@@ -9,6 +10,8 @@ export default function EmbeddedVideo({
 }: {
   youtubeId?: string;
   setIsVideoPlaying: (isPlaying: boolean) => void;
+  autoplay?: boolean;
+  blurBg?: boolean;
 }) {
   function handleClose() {
     setIsVideoPlaying(false);

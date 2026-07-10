@@ -14,3 +14,7 @@ export interface ProviderInfo {
   providerName: string;
   displayPriority: number;
 }
+
+export interface AvailableProviders {
+  [countryCode: string]: ProviderInfo[];
+}

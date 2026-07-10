@@ -4,7 +4,6 @@ import "./globals.css";
 import Navbar from "@/components/layout/navbar/Navbar";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/layout/ThemeProvider";
-import Footer from "@/components/layout/Footer";
 import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
@@ -25,7 +24,7 @@ export default function RootLayout({
       suppressHydrationWarning
       className={cn("min-h-screen", "h-full", "antialiased", "font-sans", inter.variable)}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col has-[.mode-dark]:bg-black">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -52,7 +51,7 @@ export default function RootLayout({
               },
             }}
           />
-          <Footer />
+          
         </ThemeProvider>
       </body>
     </html>

@@ -3,19 +3,17 @@
 import { useState } from "react";
 import SelectButton from "./_components/SelectButton";
 import ComboboxButton from "./_components/ComboboxButton";
-import { countries, countryMap, watchOptionMap } from "./constants";
+import { COUNTRIES, watchOptionMap } from "./constants";
 import ProviderCard from "./_components/ProviderCard";
 import { Providers } from "@/types";
 
 export default function WatchProviders({ providers }: { providers: Providers }) {
-  const [selectedCountry, setSelectedCountry] = useState(countries[0]);
+  const [selectedCountry, setSelectedCountry] = useState(COUNTRIES[0]);
   const [selectedWatchOption, setSelectedWatchOption] = useState("Stream");
 
-  const countryCode = selectedCountry ? countryMap[selectedCountry] : null;
-  const countryProviders = countryCode ? providers[countryCode] : null;
+  const countryProviders = providers[selectedCountry.code];
 
   const currentWatchOption = watchOptionMap[selectedWatchOption] as "flatrate" | "rent" | "buy";
-
   const currentProviders = countryProviders?.[currentWatchOption] ?? [];
 
   return (
@@ -24,9 +22,8 @@ export default function WatchProviders({ providers }: { providers: Providers }) 
         <h2>Available On</h2>
 
         <div className="flex space-x-3">
-          <div className="flex max-w-40">
+          <div className="flex max-w-40 rounded-lg">
             <ComboboxButton
-              countries={countries}
               selectedCountry={selectedCountry}
               setSelectedCountry={setSelectedCountry}
             />
@@ -48,11 +45,6 @@ export default function WatchProviders({ providers }: { providers: Providers }) 
             .slice(0, 4)
             .map((provider) => <ProviderCard key={provider.providerId} provider={provider} />)}
       </div>
-      {!selectedCountry && (
-        <p className="text-sm text-muted-foreground mt-4">
-          Please select a country to see streaming providers.
-        </p>
-      )}
     </div>
   );
 }

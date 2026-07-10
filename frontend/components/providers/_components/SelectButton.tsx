@@ -22,7 +22,7 @@ export default function SelectButton({
 
   return (
     <Select value={selectedWatchOption} onValueChange={handleWatchOptionChange}>
-      <SelectTrigger className="w-45">
+      <SelectTrigger className="w-45 rounded-lg">
         <SelectValue placeholder="Select Watch Option" />
       </SelectTrigger>
       <SelectContent>

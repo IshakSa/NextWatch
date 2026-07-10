@@ -59,6 +59,8 @@
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
 
+  --color-star: var(--star);
+  --color-primary-highlight: var(--primary-highlight);
   --breakpoint-xs: 30rem;
 }
 
@@ -87,6 +89,22 @@
 }
 
 @layer components {
+  .mode-dark {
+    color-scheme: dark;
+    color: var(--foreground);
+    background-color: var(--background);
+  }
+
+  .mode-light {
+    color-scheme: light;
+    color: var(--foreground);
+    background-color: var(--background);
+  }
+
+  .animate-ping-fade-up {
+    animation: ping-fade-up 0.95s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  }
+
   .container {
     @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
   }
@@ -100,6 +118,32 @@
   overflow: hidden;
 }
 
+@keyframes ping-fade-up {
+  0% {
+    transform: scale(0.5) translateY(25px);
+    opacity: 0;
+  }
+  
+  15% {
+    transform: scale(1.08) translateY(-3px);
+    opacity: 1;
+  }
+ 
+  30% {
+    transform: scale(1) translateY(0px);
+    opacity: 1;
+  }
+  
+  80% {
+    transform: scale(1) translateY(-4px);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(0.85) translateY(-45px);
+    opacity: 0;
+  }
+}
 
 :root {
   --card: oklch(1 0 0);
@@ -134,9 +178,11 @@
   --sidebar-ring: oklch(0.708 0 0);
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
+  --star: oklch(79.524% 0.1616 86.05);
+  --primary-highlight: oklch(69.6% 0.17 162.48);
 }
 
-.dark {
+:is(.dark, .mode-dark) {
   --background: oklch(15.698% 0.0065 300.753);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
@@ -168,4 +214,6 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+  --star: oklch(79.524% 0.1616 86.05);
+  --primary-highlight: oklch(69.6% 0.17 162.48);
 }
