@@ -1,5 +1,13 @@
 package com.app.MyApp.utils;
 
+import com.app.MyApp.content.ContentDetailsDto.*;
+import com.app.MyApp.content.ContentSummaryDto;
+import com.app.MyApp.content.ContentType;
+import com.app.MyApp.user.dtos.RegisterDto;
+import com.app.MyApp.watchlist.WatchlistDto;
+import com.app.MyApp.watchlist.WatchlistDto.SavedItem;
+import com.app.MyApp.watchlist.WatchlistDto.WatchedItem;
+
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -7,23 +15,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import com.app.MyApp.content.ContentDetailsDto.ActorDto;
-import com.app.MyApp.content.ContentDetailsDto.CreditsDto;
-import com.app.MyApp.content.ContentDetailsDto.DirectorDto;
-import com.app.MyApp.content.ContentDetailsDto.EpisodeDto;
-import com.app.MyApp.content.ContentDetailsDto.ProviderDetailsDto;
-import com.app.MyApp.content.ContentDetailsDto.ProviderOptionsDto;
-import com.app.MyApp.content.ContentDetailsDto.SeasonDto;
-import com.app.MyApp.user.RegisterDto;
-import com.app.MyApp.user.UserWatchlistDto;
-import com.app.MyApp.user.UserWatchlistDto.WatchedContentItem;
-import com.app.MyApp.user.UserWatchlistDto.WatchlistContentItem;
-import com.app.MyApp.content.ContentSummaryDto;
-import com.app.MyApp.content.ContentType;
-
 public class MockData {
     public static RegisterDto mockUser = RegisterDto.builder().username("John").email("john@mail.com")
-            .password("John1234!").acceptedTerms(true).build();
+            .password("John1234!").acceptedTos(true).build();
 
     public static ContentSummaryDto mockMovie = ContentSummaryDto.builder()
             .id(640146)
@@ -242,137 +236,6 @@ public class MockData {
                     .posterPath("/qNz4l8UgTkD8rlqiKZ556pCJ9iO.jpg")
                     .backdropPath("/eNJhWy7xFzR74SYaSJHqJZuroDm.jpg")
                     .build());
-
-    static SeasonDto season1 = SeasonDto.builder()
-            .seasonNumber(1)
-            .episodes(List.of(
-                    EpisodeDto.builder().runtime(62).episodeNumber(1).name("Winter Is Coming")
-                            .overview("Jon Arryn, the Hand of the King, is dead...")
-                            .stillPath("/9hGF3WUkBf7cSjMg0cdMDHJkByd.jpg").build(),
-                    EpisodeDto.builder().runtime(56).episodeNumber(2).name("The Kingsroad")
-                            .overview("While Bran recovers from his fall, Ned takes only his daughters...")
-                            .stillPath("/l0GJx3IR8YasbztTJi5uK0XqkEo.jpg").build(),
-                    EpisodeDto.builder().runtime(58).episodeNumber(3).name("Lord Snow")
-                            .overview("Lord Stark and his daughters arrive at King's Landing...")
-                            .stillPath("/8HjOlb4slc1xusMgOtoNpxuTgSI.jpg").build(),
-                    EpisodeDto.builder().runtime(56).episodeNumber(4)
-                            .name("Cripples, Bastards, and Broken Things")
-                            .overview("Eddard investigates Jon Arryn's murder...")
-                            .stillPath("/Ai2UPMWv38xGjOgNBuA1o8w8dUI.jpg").build(),
-                    EpisodeDto.builder().runtime(55).episodeNumber(5).name("The Wolf and the Lion")
-                            .overview("Catelyn has captured Tyrion and plans to bring him to her sister...")
-                            .stillPath("/u7e1qSWE6v8jfY9vGNrckX47DGN.jpg").build(),
-                    EpisodeDto.builder().runtime(53).episodeNumber(6).name("A Golden Crown")
-                            .overview("While recovering from his battle with Jamie, Eddard is forced...")
-                            .stillPath("/6FcfWGFlDyWZ2JvQi8uvkxbDx1z.jpg").build(),
-                    EpisodeDto.builder().runtime(58).episodeNumber(7).name("You Win or You Die")
-                            .overview("Robert has been injured while hunting and is dying...")
-                            .stillPath("/o6ldSDhIINGNKZR62mHf2m64dD.jpg").build(),
-                    EpisodeDto.builder().runtime(59).episodeNumber(8).name("The Pointy End")
-                            .overview("Eddard and his men are betrayed and captured by the Lannisters...")
-                            .stillPath("/hH0U1QISWGGjoFutvCLdw28MGiq.jpg").build(),
-                    EpisodeDto.builder().runtime(57).episodeNumber(9).name("Baelor")
-                            .overview("Robb goes to war against the Lannisters...")
-                            .stillPath("/fAmBhmw1pQc6fucrdmnRM5FOpXD.jpg").build(),
-                    EpisodeDto.builder().runtime(53).episodeNumber(10).name("Fire and Blood")
-                            .overview("With Ned dead, Robb vows to get revenge on the Lannisters...")
-                            .stillPath("/y1BXkhEqBQS3ewQeqqdHpjhTts0.jpg").build()))
-            .build();
-
-    static SeasonDto season2 = SeasonDto.builder()
-            .seasonNumber(2)
-            .episodes(List.of(
-                    EpisodeDto.builder().runtime(62).episodeNumber(1).name("Winter Is Coming")
-                            .overview("Jon Arryn, the Hand of the King, is dead...")
-                            .stillPath("/9hGF3WUkBf7cSjMg0cdMDHJkByd.jpg").build(),
-                    EpisodeDto.builder().runtime(56).episodeNumber(2).name("The Kingsroad")
-                            .overview("While Bran recovers from his fall, Ned takes only his daughters...")
-                            .stillPath("/l0GJx3IR8YasbztTJi5uK0XqkEo.jpg").build(),
-                    EpisodeDto.builder().runtime(58).episodeNumber(3).name("Lord Snow")
-                            .overview("Lord Stark and his daughters arrive at King's Landing...")
-                            .stillPath("/8HjOlb4slc1xusMgOtoNpxuTgSI.jpg").build(),
-                    EpisodeDto.builder().runtime(56).episodeNumber(4)
-                            .name("Cripples, Bastards, and Broken Things")
-                            .overview("Eddard investigates Jon Arryn's murder...")
-                            .stillPath("/Ai2UPMWv38xGjOgNBuA1o8w8dUI.jpg").build(),
-                    EpisodeDto.builder().runtime(55).episodeNumber(5).name("The Wolf and the Lion")
-                            .overview("Catelyn has captured Tyrion and plans to bring him to her sister...")
-                            .stillPath("/u7e1qSWE6v8jfY9vGNrckX47DGN.jpg").build(),
-                    EpisodeDto.builder().runtime(53).episodeNumber(6).name("A Golden Crown")
-                            .overview("While recovering from his battle with Jamie, Eddard is forced...")
-                            .stillPath("/6FcfWGFlDyWZ2JvQi8uvkxbDx1z.jpg").build(),
-                    EpisodeDto.builder().runtime(58).episodeNumber(7).name("You Win or You Die")
-                            .overview("Robert has been injured while hunting and is dying...")
-                            .stillPath("/o6ldSDhIINGNKZR62mHf2m64dD.jpg").build(),
-                    EpisodeDto.builder().runtime(59).episodeNumber(8).name("The Pointy End")
-                            .overview("Eddard and his men are betrayed and captured by the Lannisters...")
-                            .stillPath("/hH0U1QISWGGjoFutvCLdw28MGiq.jpg").build(),
-                    EpisodeDto.builder().runtime(57).episodeNumber(9).name("Baelor")
-                            .overview("Robb goes to war against the Lannisters...")
-                            .stillPath("/fAmBhmw1pQc6fucrdmnRM5FOpXD.jpg").build(),
-                    EpisodeDto.builder().runtime(53).episodeNumber(10).name("Fire and Blood")
-                            .overview("With Ned dead, Robb vows to get revenge on the Lannisters...")
-                            .stillPath("/y1BXkhEqBQS3ewQeqqdHpjhTts0.jpg").build()))
-            .build();
-
-    public static List<SeasonDto> seasonsList = List.of(season1, season2);
-
-    static ProviderOptionsDto providersDE = ProviderOptionsDto.builder()
-            .flatrate(List.of(
-                    ProviderDetailsDto.builder().logoPath("/7rwgEs15tFwyR9NPQ5vpzxTj19Q.jpg")
-                            .providerId(337)
-                            .providerName("Disney Plus").displayPriority(2).build(),
-                    ProviderDetailsDto.builder().logoPath("/2joD3S2goOB6lmepX35A8dmaqgM.jpg")
-                            .providerId(421)
-                            .providerName("Joyn Plus").displayPriority(49).build()))
-            .buy(List.of(
-                    ProviderDetailsDto.builder().logoPath("/peURlLlr8jggOwK53fJ5wdQl05y.jpg")
-                            .providerId(2)
-                            .providerName("Apple TV").displayPriority(4).build(),
-                    ProviderDetailsDto.builder().logoPath("/5NyLm42TmCqCMOZFvH4fcoSNKEW.jpg")
-                            .providerId(10)
-                            .providerName("Amazon Video").displayPriority(7).build(),
-                    ProviderDetailsDto.builder().logoPath("/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg")
-                            .providerId(3)
-                            .providerName("Google Play Movies").displayPriority(8).build()))
-            .rent(List.of(
-                    ProviderDetailsDto.builder().logoPath("/peURlLlr8jggOwK53fJ5wdQl05y.jpg")
-                            .providerId(2)
-                            .providerName("Apple TV").displayPriority(4).build(),
-                    ProviderDetailsDto.builder().logoPath("/5NyLm42TmCqCMOZFvH4fcoSNKEW.jpg")
-                            .providerId(10)
-                            .providerName("Amazon Video").displayPriority(7).build()))
-            .build();
-
-    static ProviderOptionsDto providersUS = ProviderOptionsDto.builder()
-            .flatrate(List.of(
-                    ProviderDetailsDto.builder().logoPath("/jPXksae158ukMLFhhlNvzsvaEyt.jpg")
-                            .providerId(257)
-                            .providerName("fuboTV").displayPriority(5).build(),
-                    ProviderDetailsDto.builder().logoPath("/zxrVdFjIjLqkfnwyghnfywTn3Lh.jpg")
-                            .providerId(15)
-                            .providerName("Hulu").displayPriority(6).build()))
-            .buy(List.of(
-                    ProviderDetailsDto.builder().logoPath("/peURlLlr8jggOwK53fJ5wdQl05y.jpg")
-                            .providerId(2)
-                            .providerName("Apple TV").displayPriority(4).build(),
-                    ProviderDetailsDto.builder().logoPath("/5NyLm42TmCqCMOZFvH4fcoSNKEW.jpg")
-                            .providerId(10)
-                            .providerName("Amazon Video").displayPriority(13).build()))
-            .rent(List.of(
-                    ProviderDetailsDto.builder().logoPath("/5NyLm42TmCqCMOZFvH4fcoSNKEW.jpg")
-                            .providerId(10)
-                            .providerName("Amazon Video").displayPriority(13).build(),
-                    ProviderDetailsDto.builder().logoPath("/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg")
-                            .providerId(3)
-                            .providerName("Google Play Movies").displayPriority(14)
-                            .build()))
-            .build();
-
-    public static Map<String, ProviderOptionsDto> providersMap = Map.of(
-            "DE", providersDE,
-            "US", providersUS);
-
     public static CreditsDto creditsDto = CreditsDto.builder()
             .cast(List.of(
                     ActorDto.builder().name("Edward Norton")
@@ -410,91 +273,219 @@ public class MockData {
                             .profilePath("/tpEczFclQZeKAiCeKZZ0adRvtfz.jpg")
                             .build()))
             .build();
+    public static WatchlistDto userWatchlist = WatchlistDto.builder()
+            .saved(getWatchlist())
+            .watched(getWatchedList())
+            .build();
+    static SeasonDto season1 = SeasonDto.builder()
+            .seasonNumber(1)
+            .episodes(List.of(
+                    EpisodeDto.builder().runtime(62).episodeNumber(1).name("Winter Is Coming")
+                            .overview("Jon Arryn, the Hand of the King, is dead...")
+                            .stillPath("/9hGF3WUkBf7cSjMg0cdMDHJkByd.jpg").build(),
+                    EpisodeDto.builder().runtime(56).episodeNumber(2).name("The Kingsroad")
+                            .overview("While Bran recovers from his fall, Ned takes only his daughters...")
+                            .stillPath("/l0GJx3IR8YasbztTJi5uK0XqkEo.jpg").build(),
+                    EpisodeDto.builder().runtime(58).episodeNumber(3).name("Lord Snow")
+                            .overview("Lord Stark and his daughters arrive at King's Landing...")
+                            .stillPath("/8HjOlb4slc1xusMgOtoNpxuTgSI.jpg").build(),
+                    EpisodeDto.builder().runtime(56).episodeNumber(4)
+                            .name("Cripples, Bastards, and Broken Things")
+                            .overview("Eddard investigates Jon Arryn's murder...")
+                            .stillPath("/Ai2UPMWv38xGjOgNBuA1o8w8dUI.jpg").build(),
+                    EpisodeDto.builder().runtime(55).episodeNumber(5).name("The Wolf and the Lion")
+                            .overview("Catelyn has captured Tyrion and plans to bring him to her sister...")
+                            .stillPath("/u7e1qSWE6v8jfY9vGNrckX47DGN.jpg").build(),
+                    EpisodeDto.builder().runtime(53).episodeNumber(6).name("A Golden Crown")
+                            .overview("While recovering from his battle with Jamie, Eddard is forced...")
+                            .stillPath("/6FcfWGFlDyWZ2JvQi8uvkxbDx1z.jpg").build(),
+                    EpisodeDto.builder().runtime(58).episodeNumber(7).name("You Win or You Die")
+                            .overview("Robert has been injured while hunting and is dying...")
+                            .stillPath("/o6ldSDhIINGNKZR62mHf2m64dD.jpg").build(),
+                    EpisodeDto.builder().runtime(59).episodeNumber(8).name("The Pointy End")
+                            .overview("Eddard and his men are betrayed and captured by the Lannisters...")
+                            .stillPath("/hH0U1QISWGGjoFutvCLdw28MGiq.jpg").build(),
+                    EpisodeDto.builder().runtime(57).episodeNumber(9).name("Baelor")
+                            .overview("Robb goes to war against the Lannisters...")
+                            .stillPath("/fAmBhmw1pQc6fucrdmnRM5FOpXD.jpg").build(),
+                    EpisodeDto.builder().runtime(53).episodeNumber(10).name("Fire and Blood")
+                            .overview("With Ned dead, Robb vows to get revenge on the Lannisters...")
+                            .stillPath("/y1BXkhEqBQS3ewQeqqdHpjhTts0.jpg").build()))
+            .build();
+    static SeasonDto season2 = SeasonDto.builder()
+            .seasonNumber(2)
+            .episodes(List.of(
+                    EpisodeDto.builder().runtime(62).episodeNumber(1).name("Winter Is Coming")
+                            .overview("Jon Arryn, the Hand of the King, is dead...")
+                            .stillPath("/9hGF3WUkBf7cSjMg0cdMDHJkByd.jpg").build(),
+                    EpisodeDto.builder().runtime(56).episodeNumber(2).name("The Kingsroad")
+                            .overview("While Bran recovers from his fall, Ned takes only his daughters...")
+                            .stillPath("/l0GJx3IR8YasbztTJi5uK0XqkEo.jpg").build(),
+                    EpisodeDto.builder().runtime(58).episodeNumber(3).name("Lord Snow")
+                            .overview("Lord Stark and his daughters arrive at King's Landing...")
+                            .stillPath("/8HjOlb4slc1xusMgOtoNpxuTgSI.jpg").build(),
+                    EpisodeDto.builder().runtime(56).episodeNumber(4)
+                            .name("Cripples, Bastards, and Broken Things")
+                            .overview("Eddard investigates Jon Arryn's murder...")
+                            .stillPath("/Ai2UPMWv38xGjOgNBuA1o8w8dUI.jpg").build(),
+                    EpisodeDto.builder().runtime(55).episodeNumber(5).name("The Wolf and the Lion")
+                            .overview("Catelyn has captured Tyrion and plans to bring him to her sister...")
+                            .stillPath("/u7e1qSWE6v8jfY9vGNrckX47DGN.jpg").build(),
+                    EpisodeDto.builder().runtime(53).episodeNumber(6).name("A Golden Crown")
+                            .overview("While recovering from his battle with Jamie, Eddard is forced...")
+                            .stillPath("/6FcfWGFlDyWZ2JvQi8uvkxbDx1z.jpg").build(),
+                    EpisodeDto.builder().runtime(58).episodeNumber(7).name("You Win or You Die")
+                            .overview("Robert has been injured while hunting and is dying...")
+                            .stillPath("/o6ldSDhIINGNKZR62mHf2m64dD.jpg").build(),
+                    EpisodeDto.builder().runtime(59).episodeNumber(8).name("The Pointy End")
+                            .overview("Eddard and his men are betrayed and captured by the Lannisters...")
+                            .stillPath("/hH0U1QISWGGjoFutvCLdw28MGiq.jpg").build(),
+                    EpisodeDto.builder().runtime(57).episodeNumber(9).name("Baelor")
+                            .overview("Robb goes to war against the Lannisters...")
+                            .stillPath("/fAmBhmw1pQc6fucrdmnRM5FOpXD.jpg").build(),
+                    EpisodeDto.builder().runtime(53).episodeNumber(10).name("Fire and Blood")
+                            .overview("With Ned dead, Robb vows to get revenge on the Lannisters...")
+                            .stillPath("/y1BXkhEqBQS3ewQeqqdHpjhTts0.jpg").build()))
+            .build();
+    public static List<SeasonDto> seasonsList = List.of(season1, season2);
+    static ProviderOptionsDto providersDE = ProviderOptionsDto.builder()
+            .flatrate(List.of(
+                    ProviderDetailsDto.builder().logoPath("/7rwgEs15tFwyR9NPQ5vpzxTj19Q.jpg")
+                            .providerId(337)
+                            .providerName("Disney Plus").displayPriority(2).build(),
+                    ProviderDetailsDto.builder().logoPath("/2joD3S2goOB6lmepX35A8dmaqgM.jpg")
+                            .providerId(421)
+                            .providerName("Joyn Plus").displayPriority(49).build()))
+            .buy(List.of(
+                    ProviderDetailsDto.builder().logoPath("/peURlLlr8jggOwK53fJ5wdQl05y.jpg")
+                            .providerId(2)
+                            .providerName("Apple TV").displayPriority(4).build(),
+                    ProviderDetailsDto.builder().logoPath("/5NyLm42TmCqCMOZFvH4fcoSNKEW.jpg")
+                            .providerId(10)
+                            .providerName("Amazon Video").displayPriority(7).build(),
+                    ProviderDetailsDto.builder().logoPath("/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg")
+                            .providerId(3)
+                            .providerName("Google Play Movies").displayPriority(8).build()))
+            .rent(List.of(
+                    ProviderDetailsDto.builder().logoPath("/peURlLlr8jggOwK53fJ5wdQl05y.jpg")
+                            .providerId(2)
+                            .providerName("Apple TV").displayPriority(4).build(),
+                    ProviderDetailsDto.builder().logoPath("/5NyLm42TmCqCMOZFvH4fcoSNKEW.jpg")
+                            .providerId(10)
+                            .providerName("Amazon Video").displayPriority(7).build()))
+            .build();
+    static ProviderOptionsDto providersUS = ProviderOptionsDto.builder()
+            .flatrate(List.of(
+                    ProviderDetailsDto.builder().logoPath("/jPXksae158ukMLFhhlNvzsvaEyt.jpg")
+                            .providerId(257)
+                            .providerName("fuboTV").displayPriority(5).build(),
+                    ProviderDetailsDto.builder().logoPath("/zxrVdFjIjLqkfnwyghnfywTn3Lh.jpg")
+                            .providerId(15)
+                            .providerName("Hulu").displayPriority(6).build()))
+            .buy(List.of(
+                    ProviderDetailsDto.builder().logoPath("/peURlLlr8jggOwK53fJ5wdQl05y.jpg")
+                            .providerId(2)
+                            .providerName("Apple TV").displayPriority(4).build(),
+                    ProviderDetailsDto.builder().logoPath("/5NyLm42TmCqCMOZFvH4fcoSNKEW.jpg")
+                            .providerId(10)
+                            .providerName("Amazon Video").displayPriority(13).build()))
+            .rent(List.of(
+                    ProviderDetailsDto.builder().logoPath("/5NyLm42TmCqCMOZFvH4fcoSNKEW.jpg")
+                            .providerId(10)
+                            .providerName("Amazon Video").displayPriority(13).build(),
+                    ProviderDetailsDto.builder().logoPath("/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg")
+                            .providerId(3)
+                            .providerName("Google Play Movies").displayPriority(14)
+                            .build()))
+            .build();
+    public static Map<String, ProviderOptionsDto> providersMap = Map.of(
+            "DE", providersDE,
+            "US", providersUS);
 
-    private static List<WatchedContentItem> getWatchedList() {
+    private static List<WatchedItem> getWatchedList() {
         Random random = new Random();
-        List<WatchedContentItem> watchedList = new ArrayList<>();
+        List<WatchedItem> watchedList = new ArrayList<>();
 
         // Generate 14 mocked watched items
-        watchedList.add(WatchedContentItem.builder()
+        watchedList.add(WatchedItem.builder()
                 .contentItem(mockDataList.get(random.nextInt(16)))
                 .userRating(random.nextInt(11))
                 .watchedTimestamp(Instant.parse("2026-01-15T12:00:00Z").getEpochSecond())
                 .build());
 
-        watchedList.add(WatchedContentItem.builder()
+        watchedList.add(WatchedItem.builder()
                 .contentItem(mockDataList.get(random.nextInt(16)))
                 .userRating(random.nextInt(11))
                 .watchedTimestamp(Instant.parse("2026-02-02T18:30:00Z").getEpochSecond())
                 .build());
 
-        watchedList.add(WatchedContentItem.builder()
+        watchedList.add(WatchedItem.builder()
                 .contentItem(mockDataList.get(random.nextInt(16)))
                 .userRating(random.nextInt(11))
                 .watchedTimestamp(Instant.parse("2026-02-28T21:15:00Z").getEpochSecond())
                 .build());
 
-        watchedList.add(WatchedContentItem.builder()
+        watchedList.add(WatchedItem.builder()
                 .contentItem(mockDataList.get(random.nextInt(16)))
                 .userRating(random.nextInt(11))
                 .watchedTimestamp(Instant.parse("2026-03-10T14:45:00Z").getEpochSecond())
                 .build());
 
-        watchedList.add(WatchedContentItem.builder()
+        watchedList.add(WatchedItem.builder()
                 .contentItem(mockDataList.get(random.nextInt(16)))
                 .userRating(random.nextInt(11))
                 .watchedTimestamp(Instant.parse("2026-03-29T23:00:00Z").getEpochSecond())
                 .build());
 
-        watchedList.add(WatchedContentItem.builder()
+        watchedList.add(WatchedItem.builder()
                 .contentItem(mockDataList.get(random.nextInt(16)))
                 .userRating(random.nextInt(11))
                 .watchedTimestamp(Instant.parse("2026-04-12T09:15:00Z").getEpochSecond())
                 .build());
 
-        watchedList.add(WatchedContentItem.builder()
+        watchedList.add(WatchedItem.builder()
                 .contentItem(mockDataList.get(random.nextInt(16)))
                 .userRating(random.nextInt(11))
                 .watchedTimestamp(Instant.parse("2026-04-30T20:00:00Z").getEpochSecond())
                 .build());
 
-        watchedList.add(WatchedContentItem.builder()
+        watchedList.add(WatchedItem.builder()
                 .contentItem(mockDataList.get(random.nextInt(16)))
                 .userRating(random.nextInt(11))
                 .watchedTimestamp(Instant.parse("2026-05-05T17:10:00Z").getEpochSecond())
                 .build());
 
-        watchedList.add(WatchedContentItem.builder()
+        watchedList.add(WatchedItem.builder()
                 .contentItem(mockDataList.get(random.nextInt(16)))
                 .userRating(random.nextInt(11))
                 .watchedTimestamp(Instant.parse("2026-05-22T22:40:00Z").getEpochSecond())
                 .build());
 
-        watchedList.add(WatchedContentItem.builder()
+        watchedList.add(WatchedItem.builder()
                 .contentItem(mockDataList.get(random.nextInt(16)))
                 .userRating(random.nextInt(11))
                 .watchedTimestamp(Instant.parse("2026-06-01T11:00:00Z").getEpochSecond())
                 .build());
 
-        watchedList.add(WatchedContentItem.builder()
+        watchedList.add(WatchedItem.builder()
                 .contentItem(mockDataList.get(random.nextInt(16)))
                 .userRating(random.nextInt(11))
                 .watchedTimestamp(Instant.parse("2026-06-14T19:25:00Z").getEpochSecond())
                 .build());
 
-        watchedList.add(WatchedContentItem.builder()
+        watchedList.add(WatchedItem.builder()
                 .contentItem(mockDataList.get(random.nextInt(16)))
                 .userRating(random.nextInt(11))
                 .watchedTimestamp(Instant.parse("2026-06-25T15:50:00Z").getEpochSecond())
                 .build());
 
-        watchedList.add(WatchedContentItem.builder()
+        watchedList.add(WatchedItem.builder()
                 .contentItem(mockDataList.get(random.nextInt(16)))
                 .userRating(random.nextInt(11))
                 .watchedTimestamp(Instant.parse("2026-07-01T20:10:00Z").getEpochSecond())
                 .build());
 
-        watchedList.add(WatchedContentItem.builder()
+        watchedList.add(WatchedItem.builder()
                 .contentItem(mockDataList.get(random.nextInt(16)))
                 .userRating(random.nextInt(11))
                 .watchedTimestamp(Instant.parse("2026-07-03T02:00:00Z").getEpochSecond())
@@ -502,13 +493,13 @@ public class MockData {
         return watchedList;
     }
 
-    private static List<WatchlistContentItem> getWatchlist() {
+    private static List<SavedItem> getWatchlist() {
         return mockDataList.stream().map(mockData -> {
             Random random = new Random();
             long nowInSeconds = System.currentTimeMillis() / 1000L;
             long randomAddedTimestamp = nowInSeconds - (random.nextInt(30) * 24L * 60L * 60L);
 
-            return WatchlistContentItem.builder()
+            return SavedItem.builder()
                     .contentItem(ContentSummaryDto.builder()
                             .id(mockData.id())
                             .title(mockData.title())
@@ -525,9 +516,4 @@ public class MockData {
                     .build();
         }).toList();
     }
-
-    public static UserWatchlistDto userWatchlist = UserWatchlistDto.builder()
-            .watchlist(getWatchlist())
-            .watched(getWatchedList())
-            .build();
 }
