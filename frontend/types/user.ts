@@ -1,7 +1,7 @@
 import { ContentItem } from "./content";
 
 export interface UserWatchlist {
-  watchlist: WatchlistItem[];
+  saved: WatchlistItem[];
   watched: WatchedItem[];
 }
 

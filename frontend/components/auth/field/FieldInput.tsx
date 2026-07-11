@@ -30,7 +30,7 @@ export default function FieldInput<TFieldValues extends FieldValues>({
         <Field className="grid gap-2">
           {field.name !== "terms" && <FieldLabel htmlFor={field.name}>{label}</FieldLabel>}
 
-          {field.name === "terms" ? (
+          {field.name === "tos" ? (
             <TermsCheckbox field={field} fieldState={fieldState} />
           ) : field.name === "password" || field.name === "confirmPassword" ? (
             <PasswordInput field={field} fieldState={fieldState} placeholder={placeholder} />

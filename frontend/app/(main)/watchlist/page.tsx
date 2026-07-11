@@ -5,7 +5,7 @@ import { UserWatchlist } from "@/types/user";
 import { CheckIcon, EyeIcon } from "lucide-react";
 
 export default async function WatchlistPage() {
-  const response = await fetch(`${process.env.BACKEND_URL}/api/user/watchlist`);
+  const response = await fetch(`${process.env.BACKEND_URL}/api/watchlist`);
   if (!response.ok) {
     throw new Error("couldn't fetch data");
   }
@@ -27,7 +27,7 @@ export default async function WatchlistPage() {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="watchlist">
-            <WatchTab content={UserWatchlist.watchlist} type="watchlist" />
+            <WatchTab content={UserWatchlist.saved} type="watchlist" />
           </TabsContent>
           <TabsContent value="watched">
             <WatchTab content={UserWatchlist.watched} type="watched" />
