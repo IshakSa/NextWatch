@@ -20,4 +20,8 @@ public interface TmdbApiClient {
     // TODO: Set to enum value again
     @GetMapping("/genre/{contentType}/list")
     TmdbGenreResponse getGenres(@PathVariable String contentType);
+
+    // TODO: Set to enum value (TimeWindow)
+    @GetMapping("/trending/all/{timeWindow}")
+    TmdbPageResponse<ContentSummaryApiDto> getTrending(@PathVariable String timeWindow);
 }

@@ -13,7 +13,7 @@ import java.util.Objects;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record ContentSummaryApiDto(
         Integer id,
-
+        // ! REFACTOR: WHEN USE NULLABLE?
         @JsonProperty("backdrop_path") String backdropPath,
         @JsonProperty("poster_path") String posterPath,
         String overview,
@@ -22,13 +22,15 @@ public record ContentSummaryApiDto(
 
         @JsonProperty("genre_ids") List<Integer> genreIds,
 
-        @JsonProperty("release_path") LocalDate releaseDate,
+        @JsonProperty("release_date") LocalDate releaseDate,
 
         @JsonProperty("title") @JsonAlias("name") String title,
 
         @Nullable @JsonAlias("number_of_episodes") Integer runtime,
 
-        @JsonProperty("vote_average") double rating) {
+        @JsonProperty("vote_average") double rating,
+
+        @Nullable @JsonProperty("media_type") ContentType contentType) {
 
     public List<Integer> resolveGenreIds() {
         return Objects.requireNonNullElseGet(

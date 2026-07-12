@@ -34,6 +34,7 @@ public class ContentMapper {
                 .build();
     }
 
+    // !TODO refactor these two methods
     public List<ContentSummaryDto> toContentSummaryDtoList(
             List<ContentSummaryApiDto> contentApiDtoList, ContentType contentType) {
         int MAX_ITEMS = 20;
@@ -41,5 +42,11 @@ public class ContentMapper {
                 .map(contentApiDto -> toContentSummaryDto(contentApiDto, contentType))
                 .toList()
                 .subList(0, MAX_ITEMS);
+    }
+
+    public List<ContentSummaryDto> toContentSummaryDtoList(List<ContentSummaryApiDto> contentApiDtoList) {
+        return contentApiDtoList.stream()
+                .map(contentApiDto -> toContentSummaryDto(contentApiDto, contentApiDto.contentType()))
+                .toList();
     }
 }

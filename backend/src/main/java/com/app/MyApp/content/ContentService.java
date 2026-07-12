@@ -1,7 +1,6 @@
 package com.app.MyApp.content;
 
 import com.app.MyApp.api.TmdbApiClient;
-import com.app.MyApp.api.TmdbPageResponse;
 import com.app.MyApp.utils.MockData;
 import org.springframework.stereotype.Service;
 
@@ -23,15 +22,20 @@ public class ContentService {
     }
 
     public List<ContentSummaryDto> getTopRated(ContentType contentType) {
-        TmdbPageResponse<ContentSummaryApiDto> response = tmdbApiClient.getTopRated(contentType.toLower());
-        return contentMapper.toContentSummaryDtoList(response.results(), contentType);
+        List<ContentSummaryApiDto> response =
+                tmdbApiClient.getTopRated(contentType.toLower()).results();
+        return contentMapper.toContentSummaryDtoList(response, contentType);
     }
 
     public List<ContentSummaryDto> getTrending(TimeWindow timeWindow, boolean includeTrailer) {
-        return switch (timeWindow) {
-            case DAY -> MockData.mockDataList.subList(0, 5);
-            case WEEK -> MockData.mockDataList.subList(0, 10);
-        };
+        final int MAX_ITEMS_FOR_DAY = 5;
+        final int MAX_ITEMS_FOR_WEEK = 10;
+        int maxItems = timeWindow.equals(TimeWindow.DAY) ? MAX_ITEMS_FOR_DAY : MAX_ITEMS_FOR_WEEK;
+
+        List<ContentSummaryApiDto> response =
+                tmdbApiClient.getTrending(timeWindow.toString().toLowerCase()).results();
+
+        return contentMapper.toContentSummaryDtoList(response.subList(0, maxItems));
     }
 
     public ContentDetailsDto getDetails(Integer id, ContentType contentType, boolean includeSimilar) {
