@@ -28,9 +28,13 @@ public class GenreProviderService {
 
     public List<String> getGenres(List<Integer> genreIds, ContentType contentType) {
         int MAX_GENRES = 2;
+        Map<Integer, String> selectedGenre = contentType.equals(ContentType.MOVIE) ? movieGenres : tvGenres;
+
         List<String> genres = genreIds.stream()
-                .map(id -> contentType.equals(ContentType.MOVIE) ? movieGenres.get(id) : tvGenres.get(id))
+                .filter(selectedGenre::containsKey)
+                .map(selectedGenre::get)
                 .toList();
+
         if (genres.size() > MAX_GENRES) {
             return genres.subList(0, MAX_GENRES);
         }

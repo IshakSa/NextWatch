@@ -35,9 +35,26 @@ public class ContentService {
     }
 
     public ContentDetailsDto getDetails(Integer id, ContentType contentType, boolean includeSimilar) {
-        ContentSummaryDto mockMovie = MockData.mockDataList.stream().filter((movie) -> movie.id().equals(id)).findFirst().orElseThrow(() -> new RuntimeException("Content not found"));
+        ContentSummaryDto mockMovie = MockData.mockDataList.stream()
+                .filter((movie) -> movie.id().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Content not found"));
 
-        return new ContentDetailsDto(id, mockMovie.title(), mockMovie.genres(), contentType, mockMovie.overview(), mockMovie.length(), mockMovie.rating(), mockMovie.releaseDate(), mockMovie.backdropPath(), mockMovie.trailerId(), MockData.creditsDto, MockData.providersMap, contentType == ContentType.TV ? MockData.seasonsList : null, includeSimilar ? MockData.mockDataList : null);
+        return new ContentDetailsDto(
+                id,
+                mockMovie.title(),
+                mockMovie.genres(),
+                contentType,
+                mockMovie.overview(),
+                mockMovie.length(),
+                mockMovie.rating(),
+                mockMovie.releaseDate(),
+                mockMovie.backdropPath(),
+                mockMovie.trailerId(),
+                MockData.creditsDto,
+                MockData.providersMap,
+                contentType == ContentType.TV ? MockData.seasonsList : null,
+                includeSimilar ? MockData.mockDataList : null);
     }
 
     public List<ContentSummaryDto> searchByName(String query) {
@@ -48,7 +65,9 @@ public class ContentService {
         }
 
         String cleanQuery = query.strip().toLowerCase();
-        List<ContentSummaryDto> matches = MockData.mockDataList.stream().filter(item -> item.title().strip().toLowerCase().contains(cleanQuery)).toList();
+        List<ContentSummaryDto> matches = MockData.mockDataList.stream()
+                .filter(item -> item.title().strip().toLowerCase().contains(cleanQuery))
+                .toList();
 
         if (matches.size() <= MAX_RESULTS_AMOUNT) {
             return matches;
