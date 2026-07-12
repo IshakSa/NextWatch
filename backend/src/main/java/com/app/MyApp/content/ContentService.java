@@ -1,6 +1,7 @@
 package com.app.MyApp.content;
 
 import com.app.MyApp.api.TmdbApiClient;
+import com.app.MyApp.api.TmdbPageResponse;
 import com.app.MyApp.utils.MockData;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +23,8 @@ public class ContentService {
     }
 
     public List<ContentSummaryDto> getTopRated(ContentType contentType) {
-        return MockData.mockDataList;
+        TmdbPageResponse<ContentSummaryApiDto> response = tmdbApiClient.getTopRated(contentType.toLower());
+        return contentMapper.toContentSummaryDtoList(response.results(), contentType);
     }
 
     public List<ContentSummaryDto> getTrending(TimeWindow timeWindow, boolean includeTrailer) {
@@ -55,7 +57,7 @@ public class ContentService {
     }
 
     public ContentSummaryDto getContentByIdAndByType(Integer contentId, ContentType contentType) {
-        ContentSummaryApiDto contentApiDto = tmdbApiClient.getContentByTypeAndById(contentId, contentType.toLower());
-        return contentMapper.toContentSummaryDto(contentApiDto, contentType);
+        ContentSummaryApiDto response = tmdbApiClient.getContentByTypeAndById(contentId, contentType.toLower());
+        return contentMapper.toContentSummaryDto(response, contentType);
     }
 }

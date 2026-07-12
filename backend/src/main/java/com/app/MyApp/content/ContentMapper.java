@@ -1,28 +1,32 @@
 package com.app.MyApp.content;
 
-import java.util.List;
-
+import com.app.MyApp.api.GenreProviderService;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ContentMapper {
 
+    private final GenreProviderService genreProviderService;
+
+    public ContentMapper(GenreProviderService genreProviderService) {
+        this.genreProviderService = genreProviderService;
+    }
+
     public ContentSummaryDto toContentSummaryDto(ContentSummaryApiDto contentApiDto, ContentType contentType) {
-        List<String> genres = contentApiDto.genres().stream().map(genreItem -> genreItem.name()).toList();
-        int length = 0;
+        List<String> genres = genreProviderService.getGenres(contentApiDto.resolveGenreIds(), contentType);
 
         // round rating to one decimal place
         double roundedRating = Math.round(contentApiDto.rating() * 10.0) / 10.0;
 
-        if (contentType.equals(ContentType.MOVIE)) {
-            length = contentApiDto.runtime();
-        } else {
-            length = contentApiDto.episodes();
-        }
-        return ContentSummaryDto.builder().id(contentApiDto.id()).genres(genres).title(contentApiDto.title())
+        return ContentSummaryDto.builder()
+                .id(contentApiDto.id())
+                .genres(genres)
+                .title(contentApiDto.title())
                 .type(contentType)
                 .overview(contentApiDto.overview())
-                .length(length)
+                .length(contentApiDto.runtime())
                 .rating(roundedRating)
                 .releaseDate(contentApiDto.releaseDate())
                 .posterPath(contentApiDto.posterPath())
@@ -30,4 +34,11 @@ public class ContentMapper {
                 .build();
     }
 
+    public List<ContentSummaryDto> toContentSummaryDtoList(
+            List<ContentSummaryApiDto> contentApiDtoList, ContentType contentType) {
+        return contentApiDtoList.stream()
+                .map(contentApiDto -> toContentSummaryDto(contentApiDto, contentType))
+                .toList()
+                .subList(0, 20);
+    }
 }
