@@ -12,4 +12,12 @@ public interface TmdbApiClient {
     // TODO: Set to enum value again
     @GetMapping("/{contentType}/{id}")
     ContentSummaryApiDto getContentByTypeAndById(@PathVariable Integer id, @PathVariable String contentType);
+
+    // TODO: Set to enum value again
+    @GetMapping("/{contentType}/top_rated")
+    TmdbPageResponse<ContentSummaryApiDto> getTopRated(@PathVariable String contentType);
+
+    // TODO: Set to enum value again
+    @GetMapping("/genre/{contentType}/list")
+    TmdbGenreResponse getGenres(@PathVariable String contentType);
 }
