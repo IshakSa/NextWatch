@@ -16,7 +16,16 @@ spring:
     jackson:
         deserialization:
             fail-on-unknown-properties: false
+    cloud:
+        openfeign:
+            client:
+                config:
+                    default:
+                        logger-level: BASIC
 
 server:
     servlet:
         context-path: /api
+logging:
+    level:
+        <com.app.MyApp.api>: debug

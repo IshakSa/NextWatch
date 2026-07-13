@@ -36,7 +36,12 @@ public class ContentService {
         List<ContentSummaryApiDto> response =
                 tmdbApiClient.getTrending(timeWindow.toString().toLowerCase()).results();
 
-        List<ContentSummaryApiDto> apiDtosWithRuntime = response.subList(0, maxItems).parallelStream()
+        if (!timeWindow.equals(TimeWindow.DAY)) {
+            return contentMapper.toContentSummaryDtoList(response);
+        }
+
+        // only get the runtime if TimeWindow is day (for hero section)
+        List<ContentSummaryApiDto> responseWithRuntime = response.subList(0, maxItems).parallelStream()
                 .map(apiDto -> {
                     ContentRuntimeDto runtimeResponse = tmdbApiClient.getContentRuntime(
                             apiDto.contentType().toString().toLowerCase(), apiDto.id());
@@ -56,7 +61,7 @@ public class ContentService {
                 })
                 .toList();
 
-        return contentMapper.toContentSummaryDtoList(apiDtosWithRuntime);
+        return contentMapper.toContentSummaryDtoList(responseWithRuntime);
     }
 
     public ContentDetailsDto getDetails(Integer id, ContentType contentType, boolean includeSimilar) {

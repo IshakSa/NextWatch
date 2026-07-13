@@ -5,11 +5,11 @@ import feign.RequestTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 
-public class FeignAuthConfiguration {
+public class FeignConfig {
 
     private final String tmdbApiKey;
 
-    public FeignAuthConfiguration(@Value("${TMDB_API_KEY}") String tmdbApiKey) {
+    public FeignConfig(@Value("${TMDB_API_KEY}") String tmdbApiKey) {
         this.tmdbApiKey = tmdbApiKey;
     }
 
@@ -19,4 +19,5 @@ public class FeignAuthConfiguration {
             requestTemplate.header("Authorization", "Bearer " + tmdbApiKey);
         };
     }
+
 }
