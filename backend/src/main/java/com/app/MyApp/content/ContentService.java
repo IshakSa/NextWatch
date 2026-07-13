@@ -1,5 +1,6 @@
 package com.app.MyApp.content;
 
+import com.app.MyApp.api.ContentRuntimeDto;
 import com.app.MyApp.api.TmdbApiClient;
 import com.app.MyApp.utils.MockData;
 import org.springframework.stereotype.Service;
@@ -35,7 +36,27 @@ public class ContentService {
         List<ContentSummaryApiDto> response =
                 tmdbApiClient.getTrending(timeWindow.toString().toLowerCase()).results();
 
-        return contentMapper.toContentSummaryDtoList(response.subList(0, maxItems));
+        List<ContentSummaryApiDto> apiDtosWithRuntime = response.subList(0, maxItems).parallelStream()
+                .map(apiDto -> {
+                    ContentRuntimeDto runtimeResponse = tmdbApiClient.getContentRuntime(
+                            apiDto.contentType().toString().toLowerCase(), apiDto.id());
+
+                    return ContentSummaryApiDto.builder()
+                            .id(apiDto.id())
+                            .contentType(apiDto.contentType())
+                            .runtime(runtimeResponse.runtime())
+                            .rating(apiDto.rating())
+                            .overview(apiDto.overview())
+                            .title(apiDto.title())
+                            .genreIds(apiDto.genreIds())
+                            .posterPath(apiDto.posterPath())
+                            .backdropPath(apiDto.backdropPath())
+                            .releaseDate(apiDto.releaseDate())
+                            .build();
+                })
+                .toList();
+
+        return contentMapper.toContentSummaryDtoList(apiDtosWithRuntime);
     }
 
     public ContentDetailsDto getDetails(Integer id, ContentType contentType, boolean includeSimilar) {

@@ -5,12 +5,14 @@ import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.annotation.Nullable;
+import lombok.Builder;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Builder
 public record ContentSummaryApiDto(
         Integer id,
         // ! REFACTOR: WHEN USE NULLABLE?
@@ -22,7 +24,8 @@ public record ContentSummaryApiDto(
 
         @JsonProperty("genre_ids") List<Integer> genreIds,
 
-        @JsonProperty("release_date") LocalDate releaseDate,
+        @JsonProperty("release_date") @JsonAlias("first_air_date")
+        LocalDate releaseDate,
 
         @JsonProperty("title") @JsonAlias("name") String title,
 

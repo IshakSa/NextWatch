@@ -1,5 +1,5 @@
-import { clsx, type ClassValue } from "clsx";
-import { twMerge } from "tailwind-merge";
+import {type ClassValue, clsx} from "clsx";
+import {twMerge} from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -59,4 +59,18 @@ export function toWatchedDateDisplay(unixTimestampWatchedDate: number) {
 
 export function getCurrentTime() {
   return Math.floor(Date.now() / 1000);
+}
+
+export function toReleaseDateDisplay(date: string) {
+  // date format looks like this: yyyy-mm-dd,
+  // to only get the year, we slice from index 0 to 4
+  return date.slice(0, 4)
+}
+
+export function isAlreadyReleased(date: string) {
+  const currentTime = Date.now()
+  const dateTime = new Date(date).getTime()
+
+  return dateTime <= currentTime;
+
 }

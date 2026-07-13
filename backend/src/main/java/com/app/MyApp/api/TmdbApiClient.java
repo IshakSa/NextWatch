@@ -24,4 +24,8 @@ public interface TmdbApiClient {
     // TODO: Set to enum value (TimeWindow)
     @GetMapping("/trending/all/{timeWindow}")
     TmdbPageResponse<ContentSummaryApiDto> getTrending(@PathVariable String timeWindow);
+
+    // TODO: Set to enum value again
+    @GetMapping("/{contentType}/{id}")
+    ContentRuntimeDto getContentRuntime(@PathVariable String contentType, @PathVariable Integer id);
 }
