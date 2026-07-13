@@ -1,10 +1,10 @@
 package com.app.MyApp.content;
 
-import com.app.MyApp.api.ContentRuntimeDto;
-import com.app.MyApp.api.TmdbApiClient;
+import com.app.MyApp.api.*;
 import com.app.MyApp.utils.MockData;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -28,6 +28,7 @@ public class ContentService {
         return contentMapper.toContentSummaryDtoList(response, contentType);
     }
 
+    // TODO: add include trailer logic
     public List<ContentSummaryDto> getTrending(TimeWindow timeWindow, boolean includeTrailer) {
         final int MAX_ITEMS_FOR_DAY = 5;
         final int MAX_ITEMS_FOR_WEEK = 10;
@@ -65,26 +66,46 @@ public class ContentService {
     }
 
     public ContentDetailsDto getDetails(Integer id, ContentType contentType, boolean includeSimilar) {
-        ContentSummaryDto mockMovie = MockData.mockDataList.stream()
-                .filter((movie) -> movie.id().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("Content not found"));
 
-        return new ContentDetailsDto(
-                id,
-                mockMovie.title(),
-                mockMovie.genres(),
-                contentType,
-                mockMovie.overview(),
-                mockMovie.length(),
-                mockMovie.rating(),
-                mockMovie.releaseDate(),
-                mockMovie.backdropPath(),
-                mockMovie.trailerId(),
-                MockData.creditsDto,
-                MockData.providersMap,
-                contentType == ContentType.TV ? MockData.seasonsList : null,
-                includeSimilar ? MockData.mockDataList : null);
+        ContentSummaryApiDto summaryDto =
+                tmdbApiClient.getDetails(contentType.toString().toLowerCase(), id);
+
+        String trailerId = tmdbApiClient
+                .getTrailers(contentType.toString().toLowerCase(), id)
+                .trailers()
+                .getFirst()
+                .key();
+
+        CreditsApiDto creditsApiDto =
+                tmdbApiClient.getCredits(contentType.toString().toLowerCase(), id);
+
+        ProvidersApiDto providersApiDto =
+                tmdbApiClient.getProviders(contentType.toString().toLowerCase(), id);
+
+        TmdbPageResponse<ContentSummaryApiDto> similarApiDtos =
+                tmdbApiClient.getSimilar(contentType.toString().toLowerCase(), id);
+
+        if (contentType.equals(ContentType.MOVIE) && includeSimilar) {
+            return contentMapper.toContentDetailsDto(
+                    summaryDto, contentType, trailerId, providersApiDto, similarApiDtos, creditsApiDto);
+        } else if (contentType.equals(ContentType.MOVIE) && !includeSimilar) {
+            return contentMapper.toContentDetailsDto(
+                    summaryDto, contentType, trailerId, creditsApiDto, providersApiDto);
+        }
+
+        List<SeasonApiDto> seasonApiDtos = new ArrayList<>();
+        for (int i = 0; i < summaryDto.seasonsAmount(); i++) {
+            SeasonApiDto seasonApiDto = tmdbApiClient.getSeason(id, i);
+            seasonApiDtos.add(seasonApiDto);
+        }
+
+        if (includeSimilar) {
+            return contentMapper.toContentDetailsDto(
+                    summaryDto, contentType, trailerId, creditsApiDto, providersApiDto, seasonApiDtos, similarApiDtos);
+        }
+
+        return contentMapper.toContentDetailsDto(
+                summaryDto, contentType, trailerId, creditsApiDto, providersApiDto, seasonApiDtos);
     }
 
     public List<ContentSummaryDto> searchByName(String query) {

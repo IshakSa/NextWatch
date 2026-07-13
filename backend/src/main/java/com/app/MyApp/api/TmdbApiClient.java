@@ -1,7 +1,6 @@
 package com.app.MyApp.api;
 
 import com.app.MyApp.config.FeignConfig;
-import com.app.MyApp.content.ContentSummaryApiDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,4 +27,23 @@ public interface TmdbApiClient {
     // TODO: Set to enum value again
     @GetMapping("/{contentType}/{id}")
     ContentRuntimeDto getContentRuntime(@PathVariable String contentType, @PathVariable Integer id);
+
+    // TODO: Set to enum value again
+    @GetMapping("/{contentType}/{id}")
+    ContentSummaryApiDto getDetails(@PathVariable String contentType, @PathVariable Integer id);
+
+    @GetMapping("/{contentType}/{id}/videos")
+    ContentTrailerApiDto getTrailers(@PathVariable String contentType, @PathVariable Integer id);
+
+    @GetMapping("/{contentType}/{id}/credits")
+    CreditsApiDto getCredits(@PathVariable String contentType, @PathVariable Integer id);
+
+    @GetMapping("/{contentType}/{id}/watch/providers")
+    ProvidersApiDto getProviders(@PathVariable String contentType, @PathVariable Integer id);
+
+    @GetMapping("/tv/{id}/season/{seasonNumber}")
+    SeasonApiDto getSeason(@PathVariable Integer id, @PathVariable int seasonNumber);
+
+    @GetMapping("/{contentType}/{id}/recommendations")
+    TmdbPageResponse<ContentSummaryApiDto> getSimilar(@PathVariable String contentType, @PathVariable Integer id);
 }

@@ -1,6 +1,6 @@
-package com.app.MyApp.content;
+package com.app.MyApp.api;
 
-import com.app.MyApp.api.TmdbGenreResponse;
+import com.app.MyApp.content.ContentType;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -20,7 +20,7 @@ public record ContentSummaryApiDto(
         @JsonProperty("poster_path") String posterPath,
         String overview,
 
-        TmdbGenreResponse genres,
+        List<TmdbGenreResponse.GenreItem> genres,
 
         @JsonProperty("genre_ids") List<Integer> genreIds,
 
@@ -33,13 +33,12 @@ public record ContentSummaryApiDto(
 
         @JsonProperty("vote_average") double rating,
 
-        @Nullable @JsonProperty("media_type") ContentType contentType) {
+        @Nullable @JsonProperty("media_type") ContentType contentType,
+        @Nullable @JsonProperty("number_of_seasons") Integer seasonsAmount) {
 
     public List<Integer> resolveGenreIds() {
         return Objects.requireNonNullElseGet(
                 genreIds,
-                () -> genres.genres().stream()
-                        .map(TmdbGenreResponse.GenreItem::id)
-                        .toList());
+                () -> genres().stream().map(TmdbGenreResponse.GenreItem::id).toList());
     }
 }
