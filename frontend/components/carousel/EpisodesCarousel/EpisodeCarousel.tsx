@@ -1,17 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import {useState} from "react";
 import SelectButton from "./_components/SelectButton";
-import { Season } from "@/types";
+import {Season} from "@/types";
 import ContentCarousel from "../ContentCarousel";
 
-export default function EpisodesCarousel({
-  seasons,
-  margin,
-}: {
-  seasons: Season[];
-  margin?: string;
-}) {
+export default function EpisodesCarousel(
+  {
+    seasons,
+    margin,
+  }: {
+    seasons: Season[];
+    margin?: string;
+  }) {
   const [selectedSeason, setSelectedSeason] = useState(1);
   const [currentSeason, setCurrentSeason] = useState(getSeasonByNumber(1));
 
@@ -39,7 +40,7 @@ export default function EpisodesCarousel({
         carouselType="episodes"
         content={currentSeason.episodes}
         margin={margin}
-        rowName="Episodes"
+        carouselTitle="Episodes"
       />
       <div className="absolute top-0 left-30 flex max-w-20 font-semibold">
         <SelectButton

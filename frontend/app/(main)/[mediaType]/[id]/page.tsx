@@ -2,7 +2,7 @@ import EpisodesCarousel from "@/components/carousel/EpisodesCarousel/EpisodeCaro
 import ExpandableOverview from "@/components/shared/ExpandableOverview";
 import HeroSection from "@/components/hero/HeroSection";
 import WatchProviders from "@/components/providers/WatchProviders";
-import { ContentItemDetails } from "@/types";
+import {ContentItemDetails} from "@/types";
 import ContentCarousel from "@/components/carousel/ContentCarousel";
 
 async function getDetails(mediaType: "tv" | "movie", id: number) {
@@ -16,12 +16,13 @@ async function getDetails(mediaType: "tv" | "movie", id: number) {
   return await response.json();
 }
 
-export default async function MovieDetailsPage({
-  params,
-}: {
-  params: Promise<{ mediaType: "movie" | "tv"; id: string }>;
-}) {
-  const { mediaType, id } = await params;
+export default async function MovieDetailsPage(
+  {
+    params,
+  }: {
+    params: Promise<{ mediaType: "movie" | "tv"; id: string }>;
+  }) {
+  const {mediaType, id} = await params;
   const idNum = Number(id);
 
   const movie: ContentItemDetails = await getDetails(mediaType, idNum);
@@ -33,7 +34,7 @@ export default async function MovieDetailsPage({
   return (
     <main>
       <section>
-        <HeroSection contentItem={movie} page="details" size={60} />
+        <HeroSection contentItem={movie} page="details" size={60}/>
       </section>
 
       <section className="container mt-10 sm:mt-15">
@@ -41,38 +42,38 @@ export default async function MovieDetailsPage({
           <h2 className="mb-2">Story Line</h2>
 
           <div className="text-foreground/60">
-            <ExpandableOverview text={movie.overview} page="details" />
+            <ExpandableOverview text={movie.overview} page="details"/>
           </div>
         </div>
 
         <ContentCarousel
           carouselType="credits"
-          rowName="Top Cast"
+          carouselTitle="Top Cast"
           content={movie.credits.cast}
           margin="mt-20"
         />
 
         <ContentCarousel
           carouselType="credits"
-          rowName="Director"
+          carouselTitle="Director"
           content={movie.credits.directors}
           margin="mt-20"
         />
 
         {movie.type === "tv" && movie.seasons && (
-          <EpisodesCarousel seasons={movie.seasons} margin="mt-20" />
+          <EpisodesCarousel seasons={movie.seasons} margin="mt-20"/>
         )}
 
-        <WatchProviders providers={movie.providers} />
+        <WatchProviders providers={movie.providers}/>
       </section>
 
-      <div className="border-t-2 mt-15" />
+      <div className="border-t-2 mt-15"/>
 
       {movie.similar && (
         <section className="container">
           <ContentCarousel<"backdrop">
             carouselType="backdrop"
-            rowName="Similar Movies for you"
+            carouselTitle="Similar Movies for you"
             content={movie.similar}
             margin="mt-15"
           />

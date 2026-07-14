@@ -4,6 +4,7 @@ import com.app.MyApp.api.*;
 import com.app.MyApp.utils.MockData;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,8 +19,13 @@ public class ContentService {
         this.contentMapper = contentMapper;
     }
 
-    public List<ContentSummaryDto> getLatestReleases() {
-        return MockData.mockDataList;
+    public List<ContentSummaryDto> getUpcoming() {
+        LocalDate minDate = LocalDate.now().plusDays(1);
+        LocalDate maxDate = LocalDate.now().plusMonths(2);
+        List<ContentSummaryApiDto> response =
+                tmdbApiClient.getUpcoming(minDate, maxDate).results();
+
+        return contentMapper.toContentSummaryDtoList(response, ContentType.MOVIE);
     }
 
     public List<ContentSummaryDto> getTopRated(ContentType contentType) {
