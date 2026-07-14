@@ -29,13 +29,15 @@ public record ContentSummaryApiDto(
 
         @JsonProperty("title") @JsonAlias("name") String title,
 
-        @Nullable @JsonAlias("number_of_episodes") Integer runtime,
+        @Nullable @JsonProperty("runtime") @JsonAlias("number_of_episodes")
+        Integer length,
 
         @JsonProperty("vote_average") Double rating,
 
         @Nullable @JsonProperty("media_type") ContentType contentType,
         @Nullable @JsonProperty("number_of_seasons") Integer seasonsAmount,
-        @Nullable @JsonProperty("vote_count") Integer voteCount) {
+        @Nullable @JsonProperty("vote_count") Integer voteCount,
+        @Nullable String trailerId) {
 
     public List<Integer> resolveGenreIds() {
         return Objects.requireNonNullElseGet(

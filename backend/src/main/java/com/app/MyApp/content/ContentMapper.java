@@ -28,11 +28,12 @@ public class ContentMapper {
                 .title(contentApiDto.title())
                 .type(contentType)
                 .overview(contentApiDto.overview())
-                .length(contentApiDto.runtime())
+                .length(contentApiDto.length())
                 .rating(roundedRating)
                 .releaseDate(contentApiDto.releaseDate())
                 .posterPath(contentApiDto.posterPath())
                 .backdropPath(contentApiDto.backdropPath())
+                .trailerId(contentApiDto.trailerId())
                 .build();
     }
 
@@ -128,7 +129,7 @@ public class ContentMapper {
                 genres,
                 contentType,
                 contentApiDto.overview(),
-                contentApiDto.runtime(),
+                contentApiDto.length(),
                 contentApiDto.rating(),
                 contentApiDto.releaseDate(),
                 contentApiDto.backdropPath(),

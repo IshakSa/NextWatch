@@ -1,7 +1,8 @@
 package com.app.MyApp.api;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record ContentRuntimeDto(
-    @JsonAlias("number_of_episodes") int runtime
-) {}
+        @JsonProperty("runtime") @JsonAlias({"number_of_episodes"})
+        int length) {}

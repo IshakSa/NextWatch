@@ -39,35 +39,59 @@ public class ContentService {
         final int MAX_ITEMS_FOR_WEEK = 10;
         int maxItems = timeWindow.equals(TimeWindow.DAY) ? MAX_ITEMS_FOR_DAY : MAX_ITEMS_FOR_WEEK;
 
-        List<ContentSummaryApiDto> response =
-                tmdbApiClient.getTrending(timeWindow.toString().toLowerCase()).results();
+        List<ContentSummaryApiDto> response = tmdbApiClient
+                .getTrending(timeWindow.toString().toLowerCase())
+                .results()
+                .subList(0, maxItems);
 
-        if (!timeWindow.equals(TimeWindow.DAY)) {
-            return contentMapper.toContentSummaryDtoList(response);
+        // runtime is only needed for hero section (day TimeWindow)
+        if (timeWindow.equals(TimeWindow.DAY)) {
+            response = response.parallelStream()
+                    .map(apiDto -> {
+                        ContentRuntimeDto runtimeResponse = tmdbApiClient.getContentRuntime(
+                                apiDto.contentType().toString().toLowerCase(), apiDto.id());
+
+                        return ContentSummaryApiDto.builder()
+                                .id(apiDto.id())
+                                .contentType(apiDto.contentType())
+                                .length(runtimeResponse.length())
+                                .rating(apiDto.rating())
+                                .overview(apiDto.overview())
+                                .title(apiDto.title())
+                                .genreIds(apiDto.genreIds())
+                                .posterPath(apiDto.posterPath())
+                                .backdropPath(apiDto.backdropPath())
+                                .releaseDate(apiDto.releaseDate())
+                                .build();
+                    })
+                    .toList();
         }
 
-        // only get the runtime if TimeWindow is day (for hero section)
-        List<ContentSummaryApiDto> responseWithRuntime = response.subList(0, maxItems).parallelStream()
-                .map(apiDto -> {
-                    ContentRuntimeDto runtimeResponse = tmdbApiClient.getContentRuntime(
-                            apiDto.contentType().toString().toLowerCase(), apiDto.id());
+        if (includeTrailer) {
+            response = response.parallelStream()
+                    .map(apiDto -> {
+                        String trailerId = tmdbApiClient
+                                .getTrailers(apiDto.contentType().toString().toLowerCase(), apiDto.id())
+                                .getTrailerId();
 
-                    return ContentSummaryApiDto.builder()
-                            .id(apiDto.id())
-                            .contentType(apiDto.contentType())
-                            .runtime(runtimeResponse.runtime())
-                            .rating(apiDto.rating())
-                            .overview(apiDto.overview())
-                            .title(apiDto.title())
-                            .genreIds(apiDto.genreIds())
-                            .posterPath(apiDto.posterPath())
-                            .backdropPath(apiDto.backdropPath())
-                            .releaseDate(apiDto.releaseDate())
-                            .build();
-                })
-                .toList();
+                        return ContentSummaryApiDto.builder()
+                                .id(apiDto.id())
+                                .contentType(apiDto.contentType())
+                                .length(apiDto.length())
+                                .rating(apiDto.rating())
+                                .overview(apiDto.overview())
+                                .title(apiDto.title())
+                                .genreIds(apiDto.genreIds())
+                                .posterPath(apiDto.posterPath())
+                                .backdropPath(apiDto.backdropPath())
+                                .releaseDate(apiDto.releaseDate())
+                                .trailerId(trailerId)
+                                .build();
+                    })
+                    .toList();
+        }
 
-        return contentMapper.toContentSummaryDtoList(responseWithRuntime);
+        return contentMapper.toContentSummaryDtoList(response);
     }
 
     public ContentDetailsDto getDetails(Integer id, ContentType contentType, boolean includeSimilar) {
@@ -77,9 +101,7 @@ public class ContentService {
 
         String trailerId = tmdbApiClient
                 .getTrailers(contentType.toString().toLowerCase(), id)
-                .trailers()
-                .getFirst()
-                .key();
+                .getTrailerId();
 
         CreditsApiDto creditsApiDto =
                 tmdbApiClient.getCredits(contentType.toString().toLowerCase(), id);
@@ -114,8 +136,6 @@ public class ContentService {
     }
 
     public List<ContentSummaryDto> searchByName(String query) {
-        final int MAX_RESULTS_AMOUNT = 20;
-
         if (query.isBlank()) {
             return List.of();
         }
@@ -127,12 +147,7 @@ public class ContentService {
                 .filter(item -> item.contentType() != ContentType.PERSON && item.voteCount() >= 10)
                 .toList();
 
-        List<ContentSummaryDto> results = contentMapper.toContentSummaryDtoList(apiResults);
-
-        if (results.size() <= MAX_RESULTS_AMOUNT) {
-            return results;
-        }
-        return results.subList(0, MAX_RESULTS_AMOUNT);
+        return contentMapper.toContentSummaryDtoList(apiResults);
     }
 
     public ContentSummaryDto getContentByIdAndByType(Integer contentId, ContentType contentType) {
