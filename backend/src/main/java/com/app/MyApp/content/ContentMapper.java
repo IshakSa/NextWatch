@@ -65,7 +65,7 @@ public class ContentMapper {
         List<String> genres = genreProviderService.getGenres(contentApiDto.resolveGenreIds(), contentType);
 
         final int MAX_ACTOR_ITEMS = 10;
-        List<ContentDetailsDto.ActorDto> cast = creditsApiDto.cast().subList(0, MAX_ACTOR_ITEMS).stream()
+        List<ContentDetailsDto.ActorDto> cast = creditsApiDto.cast().stream()
                 .map(castItem -> ContentDetailsDto.ActorDto.builder()
                         .name(castItem.name())
                         .profilePath(castItem.profilePath())
@@ -73,6 +73,9 @@ public class ContentMapper {
                         .order(castItem.order())
                         .build())
                 .toList();
+        if (cast.size() > MAX_ACTOR_ITEMS) {
+            cast = cast.subList(0, MAX_ACTOR_ITEMS);
+        }
 
         List<ContentDetailsDto.DirectorDto> directors = creditsApiDto.crew().stream()
                 .filter(crewItem ->
@@ -105,6 +108,7 @@ public class ContentMapper {
             seasons = seasonApiDtos.stream()
                     .map(season -> ContentDetailsDto.SeasonDto.builder()
                             .seasonNumber(season.seasonNumber())
+                            .releaseDate(season.releaseDate())
                             .episodes(season.episodes().stream()
                                     .map(episode -> ContentDetailsDto.EpisodeDto.builder()
                                             .episodeNumber(episode.episodeNumber())

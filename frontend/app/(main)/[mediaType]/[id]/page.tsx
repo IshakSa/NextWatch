@@ -2,7 +2,7 @@ import EpisodesCarousel from "@/components/carousel/EpisodesCarousel/EpisodeCaro
 import ExpandableOverview from "@/components/shared/ExpandableOverview";
 import HeroSection from "@/components/hero/HeroSection";
 import WatchProviders from "@/components/providers/WatchProviders";
-import {ContentItemDetails} from "@/types";
+import { ContentItemDetails } from "@/types";
 import ContentCarousel from "@/components/carousel/ContentCarousel";
 
 async function getDetails(mediaType: "tv" | "movie", id: number) {
@@ -16,25 +16,24 @@ async function getDetails(mediaType: "tv" | "movie", id: number) {
   return await response.json();
 }
 
-export default async function MovieDetailsPage(
-  {
-    params,
-  }: {
-    params: Promise<{ mediaType: "movie" | "tv"; id: string }>;
-  }) {
-  const {mediaType, id} = await params;
+export default async function MovieDetailsPage({
+  params,
+}: {
+  params: Promise<{ mediaType: "movie" | "tv"; id: string }>;
+}) {
+  const { mediaType, id } = await params;
   const idNum = Number(id);
 
-  const movie: ContentItemDetails = await getDetails(mediaType, idNum);
+  const contentItem: ContentItemDetails = await getDetails(mediaType, idNum);
 
-  if (!movie) {
+  if (!contentItem) {
     return;
   }
 
   return (
     <main>
       <section>
-        <HeroSection contentItem={movie} page="details" size={60}/>
+        <HeroSection contentItem={contentItem} page="details" size={60} />
       </section>
 
       <section className="container mt-10 sm:mt-15">
@@ -42,39 +41,41 @@ export default async function MovieDetailsPage(
           <h2 className="mb-2">Story Line</h2>
 
           <div className="text-foreground/60">
-            <ExpandableOverview text={movie.overview} page="details"/>
+            <ExpandableOverview text={contentItem.overview} page="details" />
           </div>
         </div>
 
         <ContentCarousel
           carouselType="credits"
           carouselTitle="Top Cast"
-          content={movie.credits.cast}
+          content={contentItem.credits.cast}
           margin="mt-20"
         />
 
-        <ContentCarousel
-          carouselType="credits"
-          carouselTitle="Director"
-          content={movie.credits.directors}
-          margin="mt-20"
-        />
-
-        {movie.type === "tv" && movie.seasons && (
-          <EpisodesCarousel seasons={movie.seasons} margin="mt-20"/>
+        {contentItem.credits.directors.length > 0 && (
+          <ContentCarousel
+            carouselType="credits"
+            carouselTitle="Director"
+            content={contentItem.credits.directors}
+            margin="mt-20"
+          />
         )}
 
-        <WatchProviders providers={movie.providers}/>
+        {contentItem.type === "tv" && contentItem.seasons && (
+          <EpisodesCarousel seasons={contentItem.seasons} margin="mt-20" />
+        )}
+
+        <WatchProviders providers={contentItem.providers} />
       </section>
 
-      <div className="border-t-2 mt-15"/>
+      <div className="border-t-2 mt-15" />
 
-      {movie.similar && (
+      {contentItem.similar && (
         <section className="container">
           <ContentCarousel<"backdrop">
             carouselType="backdrop"
             carouselTitle="Similar Movies for you"
-            content={movie.similar}
+            content={contentItem.similar}
             margin="mt-15"
           />
         </section>

@@ -121,7 +121,7 @@ public class ContentService {
         }
 
         List<SeasonApiDto> seasonApiDtos = new ArrayList<>();
-        for (int i = 0; i < summaryDto.seasonsAmount(); i++) {
+        for (int i = 1; i <= summaryDto.seasonsAmount(); i++) {
             SeasonApiDto seasonApiDto = tmdbApiClient.getSeason(id, i);
             seasonApiDtos.add(seasonApiDto);
         }

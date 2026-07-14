@@ -45,8 +45,8 @@ public record ContentDetailsDto(
     public record ProviderDetailsDto(String logoPath, int providerId, String providerName, int displayPriority) {}
 
     @Builder
-    public record SeasonDto(int seasonNumber, List<EpisodeDto> episodes) {}
+    public record SeasonDto(int seasonNumber, List<EpisodeDto> episodes, LocalDate releaseDate) {}
 
     @Builder
-    public record EpisodeDto(int episodeNumber, String overview, String name, int runtime, String stillPath) {}
+    public record EpisodeDto(int episodeNumber, String overview, String name, Integer runtime, String stillPath) {}
 }
