@@ -16,6 +16,11 @@ export default function InfoOverlay({
   const isReleased = isAlreadyReleased(contentItem.releaseDate);
   return (
     <>
+      {!isReleased && (
+        <p className="muted-text text-xs font-semibold mt-1">
+          Release {toUpcomingReleaseDateDisplay(contentItem.releaseDate)}
+        </p>
+      )}
       <p className="truncate font-semibold text-lg mb-1">{contentItem.title}</p>
 
       <div className="flex items-center text-sm">
@@ -32,11 +37,6 @@ export default function InfoOverlay({
         )}
         {extras && <p className="muted-text">{extras.join(" • ")}</p>}
       </div>
-      {!isReleased && (
-        <p className="muted-text text-xs font-semibold mt-1">
-          Release {toUpcomingReleaseDateDisplay(contentItem.releaseDate)}
-        </p>
-      )}
     </>
   );
 }
