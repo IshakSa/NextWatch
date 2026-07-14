@@ -14,6 +14,11 @@ export default function InfoOverlay({
   displayGenres?: boolean;
 }) {
   const isReleased = isAlreadyReleased(contentItem.releaseDate);
+  const hasGenres = displayGenres && contentItem.genres && contentItem.genres.length > 0;
+  const hasExtras = extras && extras.length > 0;
+
+  const displaySeparator = isReleased && (hasGenres || hasExtras);
+
   return (
     <>
       {!isReleased && (
@@ -28,14 +33,15 @@ export default function InfoOverlay({
           <>
             <StarIcon size={20} color="var(--star)" fill="var(--star)" />
             <p className="ml-1 font-semibold">{contentItem.rating}</p>
-            <p className="muted-text mx-1">|</p>
           </>
         )}
 
-        {displayGenres && (
+        {displaySeparator && <p className="muted-text mx-1">|</p>}
+
+        {hasGenres && (
           <p className="muted-text">{contentItem.genres.slice(0, genreAmount).join(" • ")}</p>
         )}
-        {extras && <p className="muted-text">{extras.join(" • ")}</p>}
+        {hasExtras && <p className="muted-text">{extras.join(" • ")}</p>}
       </div>
     </>
   );

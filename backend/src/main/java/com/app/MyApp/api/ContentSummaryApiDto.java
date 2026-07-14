@@ -31,10 +31,11 @@ public record ContentSummaryApiDto(
 
         @Nullable @JsonAlias("number_of_episodes") Integer runtime,
 
-        @JsonProperty("vote_average") double rating,
+        @JsonProperty("vote_average") Double rating,
 
         @Nullable @JsonProperty("media_type") ContentType contentType,
-        @Nullable @JsonProperty("number_of_seasons") Integer seasonsAmount) {
+        @Nullable @JsonProperty("number_of_seasons") Integer seasonsAmount,
+        @Nullable @JsonProperty("vote_count") Integer voteCount) {
 
     public List<Integer> resolveGenreIds() {
         return Objects.requireNonNullElseGet(

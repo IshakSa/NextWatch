@@ -74,7 +74,8 @@ public class ContentMapper {
                 .toList();
 
         List<ContentDetailsDto.DirectorDto> directors = creditsApiDto.crew().stream()
-                .filter(crewItem -> crewItem.job().equals("Director"))
+                .filter(crewItem ->
+                        crewItem.job().equals("Director") || crewItem.job().equals("Author"))
                 .map(crewItem -> ContentDetailsDto.DirectorDto.builder()
                         .name(crewItem.name())
                         .profilePath(crewItem.profilePath())

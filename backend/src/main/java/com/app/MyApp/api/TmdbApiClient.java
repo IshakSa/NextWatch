@@ -54,4 +54,7 @@ public interface TmdbApiClient {
 
     @GetMapping("/{contentType}/{id}/recommendations")
     TmdbPageResponse<ContentSummaryApiDto> getSimilar(@PathVariable String contentType, @PathVariable Integer id);
+
+    @GetMapping("/search/multi")
+    TmdbPageResponse<ContentSummaryApiDto> search(@RequestParam String query);
 }

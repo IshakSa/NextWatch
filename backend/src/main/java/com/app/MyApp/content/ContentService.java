@@ -1,7 +1,6 @@
 package com.app.MyApp.content;
 
 import com.app.MyApp.api.*;
-import com.app.MyApp.utils.MockData;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -121,15 +120,19 @@ public class ContentService {
             return List.of();
         }
 
-        String cleanQuery = query.strip().toLowerCase();
-        List<ContentSummaryDto> matches = MockData.mockDataList.stream()
-                .filter(item -> item.title().strip().toLowerCase().contains(cleanQuery))
+        // Filter out niche or unverified content by requiring a minimum of 10 ratings,
+        // tradeoff: unreleased, popular titles with no ratings will be filtered out, however,
+        // unreleased but popular titles are often already included in home page at the "Upcoming releases" section
+        List<ContentSummaryApiDto> apiResults = tmdbApiClient.search(query).results().stream()
+                .filter(item -> item.contentType() != ContentType.PERSON && item.voteCount() >= 10)
                 .toList();
 
-        if (matches.size() <= MAX_RESULTS_AMOUNT) {
-            return matches;
+        List<ContentSummaryDto> results = contentMapper.toContentSummaryDtoList(apiResults);
+
+        if (results.size() <= MAX_RESULTS_AMOUNT) {
+            return results;
         }
-        return matches.subList(0, MAX_RESULTS_AMOUNT);
+        return results.subList(0, MAX_RESULTS_AMOUNT);
     }
 
     public ContentSummaryDto getContentByIdAndByType(Integer contentId, ContentType contentType) {
