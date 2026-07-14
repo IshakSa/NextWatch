@@ -1,4 +1,4 @@
-import { StarIcon } from "lucide-react";
+import { FilmIcon, StarIcon } from "lucide-react";
 import { ContentItem } from "@/types";
 import { isAlreadyReleased, toUpcomingReleaseDateDisplay } from "@/lib/utils";
 
@@ -38,9 +38,12 @@ export default function InfoOverlay({
 
         {displaySeparator && <p className="muted-text mx-1">|</p>}
 
+        {!isReleased && <FilmIcon size={20} className="muted-text mr-1" />}
+
         {hasGenres && (
           <p className="muted-text">{contentItem.genres.slice(0, genreAmount).join(" • ")}</p>
         )}
+
         {hasExtras && <p className="muted-text">{extras.join(" • ")}</p>}
       </div>
     </>
