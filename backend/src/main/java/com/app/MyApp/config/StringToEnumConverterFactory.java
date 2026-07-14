@@ -1,4 +1,4 @@
-package com.app.MyApp.utils;
+package com.app.MyApp.config;
 
 import org.springframework.core.convert.converter.Converter;
 
@@ -14,7 +14,7 @@ public final class StringToEnumConverterFactory implements ConverterFactory<Stri
 
     private final class StringToEnumConverter<T extends Enum> implements Converter<String, T> {
 
-        private Class<T> enumType;
+        private final Class<T> enumType;
 
         public StringToEnumConverter(Class<T> enumType) {
             this.enumType = enumType;
@@ -27,7 +27,6 @@ public final class StringToEnumConverterFactory implements ConverterFactory<Stri
             }
 
             return (T) Enum.valueOf(this.enumType, source.trim().toUpperCase());
-
         }
     }
 }
