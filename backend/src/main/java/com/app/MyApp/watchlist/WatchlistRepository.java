@@ -1,13 +1,14 @@
 package com.app.MyApp.watchlist;
 
-import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface WatchlistRepository extends JpaRepository<WatchlistItem, Integer> {
-    List<WatchlistItem> findAllByUserId(Integer userId);
+public interface WatchlistRepository extends JpaRepository<WatchlistItem, WatchlistItemId> {
+    List<WatchlistItem> findAllByIdUserId(Integer userId);
 
-    @Transactional
-    void deleteByContentId(Integer contentId);
+    //    @Transactional
+    //    void deleteByIdContentId(Integer contentId);
+    //
+    //    Optional<WatchlistItem> findByIdContentId(int id);
 }

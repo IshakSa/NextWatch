@@ -37,4 +37,8 @@ public class WatchlistController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping("/status/{contentId}")
+    public ResponseEntity<WatchlistStatus> getStatus(@PathVariable int contentId) {
+        return new ResponseEntity<>(watchlistService.getStatus(contentId), HttpStatus.OK);
+    }
 }

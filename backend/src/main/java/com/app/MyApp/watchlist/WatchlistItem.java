@@ -13,9 +13,8 @@ import lombok.*;
 @AllArgsConstructor
 @Entity
 public class WatchlistItem {
-    @Id
-    @GeneratedValue
-    private Integer id;
+    @EmbeddedId
+    private WatchlistItemId id;
 
     private WatchlistStatus status;
 
@@ -28,10 +27,10 @@ public class WatchlistItem {
     private Double userRating;
 
     @ManyToOne
+    @MapsId("userId")
     @JoinColumn(name = "user_id")
     private User user;
 
-    private Integer contentId;
     private ContentType contentType;
 
     @PrePersist

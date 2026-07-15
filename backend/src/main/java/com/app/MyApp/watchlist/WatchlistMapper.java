@@ -22,23 +22,25 @@ public class WatchlistMapper {
         List<WatchedItem> watched = new ArrayList<>();
 
         watchlist.forEach(watchlistItem -> {
-            ContentSummaryDto contentItem = contentService.getContentByIdAndByType(watchlistItem.getContentId(),
-                    watchlistItem.getContentType());
+            ContentSummaryDto contentItem = contentService.getContentByIdAndByType(
+                    watchlistItem.getId().getContentId(), watchlistItem.getContentType());
 
             if (watchlistItem.getStatus().equals(WatchlistStatus.SAVED)) {
-                SavedItem savedItem = SavedItem.builder().contentItem(contentItem)
+                SavedItem savedItem = SavedItem.builder()
+                        .contentItem(contentItem)
                         .addedTimestamp(System.currentTimeMillis())
-                        .watchlistItemId(watchlistItem.getId())
                         .build();
                 saved.add(savedItem);
             } else {
-                WatchedItem watchedItem =
-                        WatchedItem.builder().contentItem(contentItem).watchedTimestamp(System.currentTimeMillis()).userRating(watchlistItem.getUserRating()).watchlistItemId(watchlistItem.getId()).build();
+                WatchedItem watchedItem = WatchedItem.builder()
+                        .contentItem(contentItem)
+                        .watchedTimestamp(System.currentTimeMillis())
+                        .userRating(watchlistItem.getUserRating())
+                        .build();
                 watched.add(watchedItem);
             }
         });
 
-        // SavedItem savedItem = tmdbApiClient.getContentByTypeAndById(null, null)
         return WatchlistDto.builder().saved(saved).watched(watched).build();
     }
 }
