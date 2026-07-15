@@ -5,8 +5,20 @@ import Autoplay from "embla-carousel-autoplay";
 import HeroSection from "./HeroSection";
 import { useEffect, useState } from "react";
 import { ContentItem } from "@/types";
+import { WatchlistStatus } from "@/types/watchlist";
 
-export default function HeroContentCarousel({ content }: { content: ContentItem[] }) {
+interface HeroContentCarouselProps {
+  content: ContentItem[];
+  watchlistStatuses: {
+    contentId: number;
+    status: WatchlistStatus;
+  }[];
+}
+
+export default function HeroContentCarousel({
+  content,
+  watchlistStatuses,
+}: HeroContentCarouselProps) {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [, setCount] = useState(0);
@@ -49,11 +61,17 @@ export default function HeroContentCarousel({ content }: { content: ContentItem[
         className="relative"
       >
         <CarouselContent>
-          {content.map((item) => (
-            <CarouselItem key={item.id}>
-              <HeroSection contentItem={item} page="home" />
-            </CarouselItem>
-          ))}
+          {content.map((item) => {
+            const watchlistStatusItem = watchlistStatuses.find(
+              (watchlistStatusItem) => watchlistStatusItem.contentId === item.id,
+            );
+            const watchlistStatus = watchlistStatusItem ? watchlistStatusItem.status : "none";
+            return (
+              <CarouselItem key={item.id}>
+                <HeroSection contentItem={item} page="home" watchlistStatus={watchlistStatus} />
+              </CarouselItem>
+            );
+          })}
         </CarouselContent>
         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 sm:bottom-10 sm:right-10 md:right-20 xl:right-40 sm:left-auto sm:translate-x-0 flex space-x-2 py-2 text-center text-sm text-muted-foreground">
           {[0, 1, 2, 3, 4].map((index) => {

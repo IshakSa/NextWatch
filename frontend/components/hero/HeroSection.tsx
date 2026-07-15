@@ -17,18 +17,23 @@ import {
   toUpcomingReleaseDateDisplay,
 } from "@/lib/utils";
 import { ContentItem } from "@/types";
+import { WatchlistStatus } from "@/types/watchlist";
 
 export default function HeroSection({
   contentItem,
   page,
   size = 70,
+  watchlistStatus,
 }: {
   contentItem: ContentItem;
   page: "home" | "details";
   size?: number;
+  watchlistStatus: WatchlistStatus;
 }) {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const isReleased = isAlreadyReleased(contentItem.releaseDate);
+  const savedInitialState = watchlistStatus === "saved";
+  const watchedInitialState = watchlistStatus === "watched";
 
   return (
     <div
@@ -83,6 +88,7 @@ export default function HeroSection({
                 className="p-5 rounded-lg flex-1 w-auto sm:flex-initial"
                 contentId={contentItem.id}
                 contentType={contentItem.type}
+                savedInitialState={savedInitialState}
               />
             </div>
           </>
@@ -97,6 +103,7 @@ export default function HeroSection({
                 className="hidden sm:inline-flex p-5 rounded-lg w-auto sm:flex-initial"
                 contentId={contentItem.id}
                 contentType={contentItem.type}
+                savedInitialState={savedInitialState}
               />
             </div>
             <div className="flex gap-3">
@@ -105,8 +112,12 @@ export default function HeroSection({
                 hideText
                 contentId={contentItem.id}
                 contentType={contentItem.type}
+                savedInitialState={savedInitialState}
               />
-              <WatchedButton className="rounded-lg p-5 sm:w-auto" />
+              <WatchedButton
+                className="rounded-lg p-5 sm:w-auto"
+                watchedInitialState={watchedInitialState}
+              />
               <ShareButton className="rounded-lg p-5 sm:w-auto" />
             </div>
           </div>

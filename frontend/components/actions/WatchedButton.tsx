@@ -10,13 +10,15 @@ import StarRating from "../shared/StarRating";
 export default function WatchedButton({
   className,
   hideText,
+  watchedInitialState,
 }: {
   className?: string;
   hideText?: boolean;
+  watchedInitialState: boolean;
 }) {
   const [currentRating, setCurrentRating] = useState(0);
   const [savedRating, setSavedRating] = useState(0);
-  const [watched, setWatched] = useState(false);
+  const [watched, setWatched] = useState(watchedInitialState);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const isDesktop = useMediaQuery("(min-width: 640px)");
 

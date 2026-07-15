@@ -4,11 +4,22 @@ import HeroSection from "@/components/hero/HeroSection";
 import WatchProviders from "@/components/providers/WatchProviders";
 import { ContentItemDetails } from "@/types";
 import ContentCarousel from "@/components/carousel/ContentCarousel";
+import { WatchlistStatus } from "@/types/watchlist";
 
 async function getDetails(mediaType: "tv" | "movie", id: number) {
   const response = await fetch(
     `${process.env.BACKEND_URL}/api/content/${mediaType}/${id}?includeSimilar=true`,
   );
+  if (!response.ok) {
+    throw new Error("failed to fetch data");
+  }
+
+  return await response.json();
+}
+
+async function getWatchlistStatus(contentId: number) {
+  const response = await fetch(`${process.env.BACKEND_URL}/api/watchlist/status/${contentId}`);
+
   if (!response.ok) {
     throw new Error("failed to fetch data");
   }
@@ -25,6 +36,7 @@ export default async function MovieDetailsPage({
   const idNum = Number(id);
 
   const contentItem: ContentItemDetails = await getDetails(mediaType, idNum);
+  const watchlistStatus: WatchlistStatus = await getWatchlistStatus(contentItem.id);
 
   if (!contentItem) {
     return;
@@ -33,7 +45,12 @@ export default async function MovieDetailsPage({
   return (
     <main>
       <section>
-        <HeroSection contentItem={contentItem} page="details" size={60} />
+        <HeroSection
+          contentItem={contentItem}
+          page="details"
+          size={60}
+          watchlistStatus={watchlistStatus}
+        />
       </section>
 
       <section className="container mt-10 sm:mt-15">

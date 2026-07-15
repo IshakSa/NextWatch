@@ -1,6 +1,7 @@
 import ContentCarousel from "@/components/carousel/ContentCarousel";
 import HeroContentCarousel from "@/components/hero/HeroContentCarousel";
-import {ContentItem} from "@/types/content";
+import { ContentItem } from "@/types/content";
+import { WatchlistStatus } from "@/types/watchlist";
 
 async function getUpcoming() {
   const response = await fetch(`${process.env.BACKEND_URL}/api/content/upcoming`);
@@ -49,6 +50,15 @@ async function getSeries() {
   return await response.json();
 }
 
+async function getWatchlistStatus(contentId: number) {
+  const response = await fetch(`${process.env.BACKEND_URL}/api/watchlist/status/${contentId}`);
+  if (!response.ok) {
+    throw new Error("failed to fetch data");
+  }
+
+  return await response.json();
+}
+
 export default async function Home() {
   const upcomingDate = getUpcoming();
   const heroData = getHero();
@@ -64,20 +74,34 @@ export default async function Home() {
     seriesData,
   ]);
 
+  const watchlistStatuses = await Promise.all(
+    hero.map(async (contentItem) => {
+      const watchlistStatus: WatchlistStatus = await getWatchlistStatus(contentItem.id);
+      return { contentId: contentItem.id, status: watchlistStatus };
+    }),
+  );
+
   return (
     <main>
       <section>
-        <HeroContentCarousel content={hero}/>
+        <HeroContentCarousel content={hero} watchlistStatuses={watchlistStatuses} />
       </section>
 
       <section className="container">
-        <ContentCarousel carouselType="poster" carouselTitle="Upcoming releases"
-                         content={upcoming}/>
+        <ContentCarousel
+          carouselType="poster"
+          carouselTitle="Upcoming releases"
+          content={upcoming}
+        />
 
-        <ContentCarousel carouselType="ranked" carouselTitle="Popular this week" content={ranked}/>
+        <ContentCarousel carouselType="ranked" carouselTitle="Popular this week" content={ranked} />
 
-        <ContentCarousel carouselType="backdrop" carouselTitle="Top-rated movies" content={movies}/>
-        <ContentCarousel carouselType="backdrop" carouselTitle="Top-rated shows" content={series}/>
+        <ContentCarousel
+          carouselType="backdrop"
+          carouselTitle="Top-rated movies"
+          content={movies}
+        />
+        <ContentCarousel carouselType="backdrop" carouselTitle="Top-rated shows" content={series} />
       </section>
     </main>
   );
