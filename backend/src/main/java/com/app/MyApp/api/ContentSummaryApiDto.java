@@ -37,11 +37,15 @@ public record ContentSummaryApiDto(
         @Nullable @JsonProperty("media_type") ContentType contentType,
         @Nullable @JsonProperty("number_of_seasons") Integer seasonsAmount,
         @Nullable @JsonProperty("vote_count") Integer voteCount,
-        @Nullable String trailerId) {
+        @Nullable String trailerId,
+        @Nullable @JsonProperty("created_by") List<CreatorApiDto> creatorsDto) {
 
     public List<Integer> resolveGenreIds() {
         return Objects.requireNonNullElseGet(
                 genreIds,
                 () -> genres().stream().map(TmdbGenreResponse.GenreItem::id).toList());
     }
+
+    public record CreatorApiDto(
+            String name, @JsonProperty("profile_path") String profilePath) {}
 }

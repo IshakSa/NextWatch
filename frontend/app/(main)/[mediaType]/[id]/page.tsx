@@ -55,7 +55,7 @@ export default async function MovieDetailsPage({
         {contentItem.credits.directors.length > 0 && (
           <ContentCarousel
             carouselType="credits"
-            carouselTitle="Director"
+            carouselTitle={`${mediaType === "movie" ? "Director" : "Creator"}`}
             content={contentItem.credits.directors}
             margin="mt-20"
           />

@@ -77,14 +77,23 @@ public class ContentMapper {
             cast = cast.subList(0, MAX_ACTOR_ITEMS);
         }
 
-        List<ContentDetailsDto.DirectorDto> directors = creditsApiDto.crew().stream()
-                .filter(crewItem ->
-                        crewItem.job().equals("Director") || crewItem.job().equals("Author"))
-                .map(crewItem -> ContentDetailsDto.DirectorDto.builder()
-                        .name(crewItem.name())
-                        .profilePath(crewItem.profilePath())
-                        .build())
-                .toList();
+        List<ContentDetailsDto.DirectorDto> directors;
+        if (contentType.equals(ContentType.TV) && contentApiDto.creatorsDto() != null) {
+            directors = contentApiDto.creatorsDto().stream()
+                    .map(creator -> ContentDetailsDto.DirectorDto.builder()
+                            .name(creator.name())
+                            .profilePath(creator.profilePath())
+                            .build())
+                    .toList();
+        } else {
+            directors = creditsApiDto.crew().stream()
+                    .filter(crewItem -> crewItem.job().equals("Director"))
+                    .map(crewItem -> ContentDetailsDto.DirectorDto.builder()
+                            .name(crewItem.name())
+                            .profilePath(crewItem.profilePath())
+                            .build())
+                    .toList();
+        }
 
         ContentDetailsDto.CreditsDto credits = ContentDetailsDto.CreditsDto.builder()
                 .cast(cast)
