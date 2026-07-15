@@ -4,7 +4,7 @@ import { BookmarkCheck, BookmarkIcon } from "lucide-react";
 import { Button } from "../../ui/button";
 import { forwardRef, useImperativeHandle, useState } from "react";
 import { toast } from "sonner";
-import { addWatchlist, removeWatchlist } from "@/components/actions/AddWatchlistButton/actions";
+import { addWatchlist, removeWatchlist } from "@/components/actions/WatchlistButtons/actions";
 import { ContentType } from "@/types";
 
 export interface ChildRefActions {

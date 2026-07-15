@@ -1,11 +1,11 @@
 "use client";
 
 import ExpandableOverview from "@/components/shared/ExpandableOverview";
-import AddWatchlistButton from "@/components/actions/AddWatchlistButton/AddWatchlistButton";
+import AddWatchlistButton from "@/components/actions/WatchlistButtons/AddWatchlistButton";
 import TrailerButton from "@/components/actions/TrailerButton";
 import { Badge } from "@/components/ui/badge";
 import HeroImage from "./_components/HeroImage";
-import WatchedButton from "../actions/WatchedButton";
+import WatchedButton from "../actions/WatchlistButtons/WatchedButton";
 import ShareButton from "../actions/ShareButton";
 import { useState } from "react";
 import EmbeddedVideo from "../shared/EmbeddedVideo";
@@ -117,6 +117,8 @@ export default function HeroSection({
               <WatchedButton
                 className="rounded-lg p-5 sm:w-auto"
                 watchedInitialState={watchedInitialState}
+                contentId={contentItem.id}
+                contentType={contentItem.type}
               />
               <ShareButton className="rounded-lg p-5 sm:w-auto" />
             </div>

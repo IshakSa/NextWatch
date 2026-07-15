@@ -32,7 +32,7 @@ export default function StarRating({
   initialRate,
 }: {
   handleRating: (rate: number) => void;
-  handleAutoClosePopover: (rate: number) => void;
+  handleAutoClosePopover: () => void;
   initialRate?: number;
 }) {
   return (
@@ -40,7 +40,7 @@ export default function StarRating({
       <Rating
         onClick={(rate) => {
           handleRating(rate);
-          handleAutoClosePopover(rate);
+          handleAutoClosePopover();
         }}
         allowFraction
         showTooltip

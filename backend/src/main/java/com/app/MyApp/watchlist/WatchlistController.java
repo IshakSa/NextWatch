@@ -31,12 +31,6 @@ public class WatchlistController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping("/status")
-    public ResponseEntity<Void> updateStatus(@RequestBody WatchlistUpdateDto watchlistUpdateDto) {
-        watchlistService.updateStatus(watchlistUpdateDto);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
     @GetMapping("/status/{contentId}")
     public ResponseEntity<WatchlistStatus> getStatus(@PathVariable int contentId) {
         return new ResponseEntity<>(watchlistService.getStatus(contentId), HttpStatus.OK);

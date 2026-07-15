@@ -25,8 +25,8 @@ public class WatchlistService {
     }
 
     public void add(WatchlistAddDto watchlistAddDto) {
-
-        if (watchlistRepository.existsById(new WatchlistItemId(1, watchlistAddDto.contentId()))) {
+        if (watchlistAddDto.status().equals(WatchlistStatus.SAVED)
+                && watchlistRepository.existsById(new WatchlistItemId(1, watchlistAddDto.contentId()))) {
             return;
         }
 
@@ -40,15 +40,6 @@ public class WatchlistService {
                 .userRating(watchlistAddDto.userRating())
                 .build();
 
-        watchlistRepository.save(watchlistItem);
-    }
-
-    public void updateStatus(WatchlistUpdateDto watchlistUpdateDto) {
-        WatchlistItem watchlistItem = watchlistRepository
-                .findById(new WatchlistItemId(1, watchlistUpdateDto.id()))
-                .orElseThrow(() -> new RuntimeException("watchlistItem not found"));
-        watchlistItem.setStatus(watchlistUpdateDto.status());
-        watchlistItem.setUserRating(watchlistUpdateDto.userRating());
         watchlistRepository.save(watchlistItem);
     }
 
