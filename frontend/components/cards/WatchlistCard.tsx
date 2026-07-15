@@ -4,9 +4,9 @@ import { ImageSizes } from "@/lib/constants";
 import Link from "next/link";
 import InfoOverlay from "./InfoOverlay";
 import { toDisplayContentLength, toDisplayContentType } from "@/lib/utils";
-import DeleteButton from "@/components/actions/DeleteButton";
+import DeleteButton from "@/components/actions/WatchlistButtons/DeleteButton";
 import { WatchTabType } from "@/components/watchlist/WatchTab";
-import EditRatingButton from "@/components/actions/EditRatingButton";
+import EditRatingButton from "@/components/actions/WatchlistButtons/EditRatingButton";
 import UserWatchInfo from "@/components/watchlist/_components/UserWatchInfo";
 import { WatchedItem, WatchlistItem } from "@/types/user";
 
@@ -39,7 +39,11 @@ export default function WatchlistCard({
         </Link>
         <div className="flex justify-between absolute bottom-0 left-0 z-10 p-4 md:p-3 w-full bg-linear-to-t from-black to-transparent rounded-b-xl">
           {type === "watched" ? (
-            <EditRatingButton />
+            <EditRatingButton
+              initialUserRating={(contentItem as WatchedItem).userRating}
+              contentId={contentItem.id}
+              contentType={contentItem.type}
+            />
           ) : (
             <WatchedButton
               hideText={true}
@@ -48,7 +52,10 @@ export default function WatchlistCard({
               watchedInitialState={false}
             />
           )}
-          <DeleteButton handleDeleteContentItem={handleDeleteContentItem} />
+          <DeleteButton
+            handleDeleteContentItem={handleDeleteContentItem}
+            contentId={contentItem.id}
+          />
         </div>
       </div>
       <div>

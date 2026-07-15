@@ -22,7 +22,6 @@ export default function WatchedButton({
   contentId: number;
   contentType: ContentType;
 }) {
-  // const [currentRating, setCurrentRating] = useState(0);
   const [savedRating, setSavedRating] = useState<number | null>(null);
   const [watched, setWatched] = useState(watchedInitialState);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
@@ -35,12 +34,6 @@ export default function WatchedButton({
       }, 500);
     } else {
       setIsPopoverOpen(false);
-    }
-  }
-
-  function handlePopoverOpen() {
-    if (!watched) {
-      setIsPopoverOpen(true);
     }
   }
 
@@ -66,7 +59,7 @@ export default function WatchedButton({
 
   return (
     <>
-      <Popover open={isPopoverOpen}>
+      <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
         <PopoverTrigger
           render={
             <Button
