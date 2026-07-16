@@ -2,11 +2,11 @@
 
 import { RegisterValues } from "./page";
 
-export async function registerUser({ username, email, password, terms }: RegisterValues) {
+export async function registerUser({ username, email, password, tos }: RegisterValues) {
   const response = await fetch(`${process.env.BACKEND_URL}/api/user/register`, {
     method: "POST",
     headers: { "Content-type": "application/json" },
-    body: JSON.stringify({ username, email, password, acceptedTerms: terms }),
+    body: JSON.stringify({ username, email, password, acceptedTos: tos }),
   });
 
   if (!response.ok) {

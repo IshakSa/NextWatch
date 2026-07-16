@@ -1,48 +1,33 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { CheckIcon, EyeIcon } from "lucide-react";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import StarRating from "../shared/StarRating";
+import StarRating from "../../shared/StarRating";
+import { ContentType } from "@/types";
+import { addWatched, removeWatchlist } from "@/components/actions/WatchlistButtons/actions";
 
 export default function WatchedButton({
   className,
   hideText,
+  watchedInitialState,
+  contentId,
+  contentType,
 }: {
   className?: string;
   hideText?: boolean;
+  watchedInitialState: boolean;
+  contentId: number;
+  contentType: ContentType;
 }) {
-  const [currentRating, setCurrentRating] = useState(0);
-  const [savedRating, setSavedRating] = useState(0);
-  const [watched, setWatched] = useState(false);
+  const [savedRating, setSavedRating] = useState<number | null>(null);
+  const [watched, setWatched] = useState(watchedInitialState);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const isDesktop = useMediaQuery("(min-width: 640px)");
 
-  const handleWatchedOnButtonClick = () => {
-    if (watched) {
-      setCurrentRating(0);
-      setSavedRating(0);
-      setIsPopoverOpen(false);
-    } else {
-      setIsPopoverOpen(true);
-    }
-    setWatched(!watched);
-  };
-
-  const handleSaveRatingOnPopoverChange = (open: boolean) => {
-    if (!open) {
-      setSavedRating(currentRating);
-      setIsPopoverOpen(false);
-    }
-  };
-
-  const handleRatingOnStarClick = (rate: number) => {
-    setCurrentRating(rate);
-  };
-
-  const handleAutoClosePopover = (rate: number) => {
+  function handleAutoClosePopover() {
     if (!isDesktop) {
       setTimeout(() => {
         setIsPopoverOpen(false);
@@ -50,17 +35,36 @@ export default function WatchedButton({
     } else {
       setIsPopoverOpen(false);
     }
-    setSavedRating(rate);
-  };
+  }
+
+  async function handleWatched() {
+    const newWatchedState = !watched;
+    setWatched(newWatchedState);
+
+    if (newWatchedState) {
+      setIsPopoverOpen(true);
+
+      await addWatched(contentId, contentType, 0);
+      return;
+    }
+
+    setIsPopoverOpen(false);
+    await removeWatchlist(contentId);
+  }
+
+  async function handleSaveRating(rating: number) {
+    setSavedRating(rating);
+    await addWatched(contentId, contentType, rating);
+  }
 
   return (
     <>
-      <Popover onOpenChange={handleSaveRatingOnPopoverChange} open={isPopoverOpen}>
+      <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
         <PopoverTrigger
           render={
             <Button
               variant={watched ? "watched" : "outline"}
-              onClick={handleWatchedOnButtonClick}
+              onClick={handleWatched}
               size={"icon"}
               className={className}
             >
@@ -83,7 +87,7 @@ export default function WatchedButton({
             <p className="text-sm font-medium leading-none text-foreground">Rate it</p>
 
             <StarRating
-              handleRating={handleRatingOnStarClick}
+              handleRating={handleSaveRating}
               handleAutoClosePopover={handleAutoClosePopover}
             />
           </div>

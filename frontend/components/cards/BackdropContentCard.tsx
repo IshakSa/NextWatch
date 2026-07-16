@@ -1,10 +1,10 @@
 import Link from "next/link";
-import { ImageSizes } from "@/lib/constants";
+import {ImageSizes} from "@/lib/constants";
 import ImageLoader from "@/components/shared/ImageLoader";
-import { ContentItem } from "@/types";
+import {ContentItem} from "@/types";
 import InfoOverlay from "./InfoOverlay";
 
-export default function BackdropContentCard({ contentItem }: { contentItem: ContentItem }) {
+export default function BackdropContentCard({contentItem}: { contentItem: ContentItem }) {
   return (
     <div className="relative">
       <Link href={`/${contentItem.type}/${contentItem.id}`}>
@@ -18,9 +18,7 @@ export default function BackdropContentCard({ contentItem }: { contentItem: Cont
         />
         <div className="mt-2">
           <InfoOverlay
-            contentTitle={contentItem.title}
-            genres={contentItem.genres}
-            rating={contentItem.rating}
+            contentItem={contentItem}
           />
         </div>
       </Link>

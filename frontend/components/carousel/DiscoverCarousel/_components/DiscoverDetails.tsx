@@ -1,20 +1,21 @@
 import ExpandableOverview from "@/components/shared/ExpandableOverview";
 import ImageLoader from "@/components/shared/ImageLoader";
-import { Badge } from "@/components/ui/badge";
-import { ImageSizes } from "@/lib/constants";
-import { toDisplayContentLength, toDisplayContentType } from "@/lib/utils";
-import { ContentItem } from "@/types";
-import { StarIcon } from "lucide-react";
+import {Badge} from "@/components/ui/badge";
+import {ImageSizes} from "@/lib/constants";
+import {toDisplayContentLength, toDisplayContentType, toReleaseDateDisplay} from "@/lib/utils";
+import {ContentItem} from "@/types";
+import {StarIcon} from "lucide-react";
 
-export default function DiscoverDetails({
-  item,
-  isHighScreen,
-  onDoubleClick,
-}: {
-  item: ContentItem;
-  isHighScreen: boolean;
-  onDoubleClick: () => void;
-}) {
+export default function DiscoverDetails(
+  {
+    item,
+    isHighScreen,
+    onDoubleClick,
+  }: {
+    item: ContentItem;
+    isHighScreen: boolean;
+    onDoubleClick: () => void;
+  }) {
   return (
     <div className="w-8/10 select-none" onDoubleClick={onDoubleClick}>
       <div>
@@ -35,7 +36,7 @@ export default function DiscoverDetails({
           </Badge>
           <Badge className="p-3" variant="outline">
             <div className="flex items-center text-sm">
-              <StarIcon size={15} color="var(--star)" fill="var(--star)" />
+              <StarIcon size={15} color="var(--star)" fill="var(--star)"/>
               <p className="mx-1">{item.rating}</p>
             </div>
           </Badge>
@@ -44,12 +45,12 @@ export default function DiscoverDetails({
         <h1 className="tracking-tight text-2xl">{item.title}</h1>
 
         <p className="text-foreground/50 dark:text-muted-foreground text-sm my-2">
-          {toDisplayContentLength(item.type, item.length)} • {item.releaseDate.slice(0, 4)} •{" "}
+          {toDisplayContentLength(item.type, item.length)} • {toReleaseDateDisplay(item.releaseDate)} •{" "}
           {item.genres?.join(" • ")}
         </p>
 
         <div className="max-w-xl">
-          <ExpandableOverview page="discover" text={item.overview} />
+          <ExpandableOverview page="discover" text={item.overview}/>
         </div>
       </div>
     </div>

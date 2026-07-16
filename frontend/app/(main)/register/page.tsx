@@ -27,7 +27,7 @@ const registerSchema = z
     email: z.email("Please enter a valid email address."),
     password: z.string().min(8, "Password must be at least 8 characters long."),
     confirmPassword: z.string(),
-    terms: z.boolean().refine((val) => val === true, {
+    tos: z.boolean().refine((val) => val === true, {
       message: "You must accept the terms and conditions.",
     }),
   })
@@ -46,7 +46,7 @@ export default function RegisterPage() {
       email: "",
       password: "",
       confirmPassword: "",
-      terms: false,
+      tos: false,
     },
   });
 
@@ -106,7 +106,7 @@ export default function RegisterPage() {
                     type="password"
                   />
 
-                  <FieldInput<RegisterValues> name="terms" label="" placeholder="" type="" />
+                  <FieldInput<RegisterValues> name="tos" label="" placeholder="" type="" />
                 </FieldGroup>
               </form>
             </FormProvider>

@@ -1,4 +1,4 @@
-import { ChildRefActions } from "@/components/actions/AddWatchlistButton";
+import { ChildRefActions } from "@/components/actions/WatchlistButtons/AddWatchlistButton";
 import { CarouselItem } from "@/components/ui/carousel";
 import { ContentItem } from "@/types";
 import SavedFlash from "./SavedFlash";
@@ -48,7 +48,10 @@ export default function DesktopDiscoverItem({
         <div className="absolute inset-0 z-0 bg-zinc-950/70 backdrop-blur-md pointer-events-none h-screen" />
 
         <div className="absolute top-1/2 -translate-y-1/2 z-50 gap-5 flex items-center w-full h-full">
-          <div className="flex-1 h-full flex items-center select-none" onDoubleClick={handleDoubleClick}>
+          <div
+            className="flex-1 h-full flex items-center select-none"
+            onDoubleClick={handleDoubleClick}
+          >
             <DiscoverEmbeddedVideo
               youtubeId={item.trailerId}
               showVideo={isVideoShown}
@@ -58,9 +61,13 @@ export default function DesktopDiscoverItem({
           </div>
 
           <div className="w-full mr-10 xl:mr-15 2xl:mr-30 max-w-xs xl:max-w-sm shrink-0 flex flex-col gap-10 rounded-2xl bg-zinc-900/50 backdrop-blur-xl border border-border p-6 shadow-2xl">
-            <DiscoverDetails item={item} isHighScreen={isHighScreen} onDoubleClick={handleDoubleClick} />
+            <DiscoverDetails
+              item={item}
+              isHighScreen={isHighScreen}
+              onDoubleClick={handleDoubleClick}
+            />
 
-            <DiscoverActions onRegisterRef={onRegisterRef} screen="desktop" />
+            <DiscoverActions onRegisterRef={onRegisterRef} screen="desktop" contentItem={item} />
           </div>
         </div>
       </>

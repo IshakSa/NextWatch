@@ -1,4 +1,4 @@
-package com.app.MyApp.user;
+package com.app.MyApp.user.dtos;
 
 import lombok.Builder;
 
@@ -7,5 +7,5 @@ public record RegisterDto(
         String username,
         String email,
         String password,
-        boolean acceptedTerms) {
+        boolean acceptedTos) {
 }

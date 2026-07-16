@@ -1,4 +1,4 @@
-package com.app.MyApp.user;
+package com.app.MyApp.user.dtos;
 
 import lombok.Builder;
 

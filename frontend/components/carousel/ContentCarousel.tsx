@@ -6,9 +6,9 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 
-import { Actor, ContentItem, Director, Episode } from "@/types";
-import { WatchTabType } from "@/components/watchlist/WatchTab";
-import { WatchedItem, WatchlistItem } from "@/types/user";
+import {Actor, ContentItem, Director, Episode} from "@/types";
+import {WatchTabType} from "@/components/watchlist/WatchTab";
+import {WatchedItem, WatchlistItem} from "@/types/user";
 import BackdropContentCard from "../cards/BackdropContentCard";
 import CreditsCard from "../cards/CreditsCard";
 import EpisodeCard from "../cards/EpisodeCard";
@@ -19,7 +19,7 @@ import WatchlistCard from "../cards/WatchlistCard";
 type AllowedCarouselTypes = "poster" | "backdrop" | "ranked" | "credits" | "episodes" | "watchlist";
 
 type ContentCarouselProps<T extends AllowedCarouselTypes> = {
-  rowName?: string;
+  carouselTitle?: string;
   carouselType: T;
   content: T extends "credits"
     ? Actor[] | Director[]
@@ -31,9 +31,9 @@ type ContentCarouselProps<T extends AllowedCarouselTypes> = {
   margin?: string;
   watchlistCardProps?: T extends "watchlist"
     ? {
-        type: WatchTabType;
-        deleteContentItemById: (contentItemId: number) => void;
-      }
+      type: WatchTabType;
+      deleteContentItemById: (contentItemId: number) => void;
+    }
     : undefined;
 };
 
@@ -55,19 +55,20 @@ const ITEM_STYLES = {
   watchlist: "basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4 2xl:basis-1/5",
 };
 
-export default function ContentCarousel<T extends AllowedCarouselTypes>({
-  rowName,
-  carouselType,
-  content,
-  margin = "mt-25",
-  watchlistCardProps,
-}: ContentCarouselProps<T>) {
+export default function ContentCarousel<T extends AllowedCarouselTypes>(
+  {
+    carouselTitle,
+    carouselType,
+    content,
+    margin = "mt-25",
+    watchlistCardProps,
+  }: ContentCarouselProps<T>) {
   const contentClassName = CONTENT_STYLES[carouselType];
   const itemClassName = ITEM_STYLES[carouselType];
 
   return (
     <div className={`${margin}`}>
-      {rowName && <h2 className="mb-5">{rowName}</h2>}
+      {carouselTitle && <h2 className="mb-5">{carouselTitle}</h2>}
 
       <Carousel
         opts={{
@@ -80,11 +81,11 @@ export default function ContentCarousel<T extends AllowedCarouselTypes>({
             return (
               <CarouselItem key={index} className={`pl-5 ${itemClassName}`}>
                 {carouselType === "poster" ? (
-                  <PosterContentCard contentItem={item as ContentItem} />
+                  <PosterContentCard contentItem={item as ContentItem}/>
                 ) : carouselType === "backdrop" ? (
-                  <BackdropContentCard contentItem={item as ContentItem} />
+                  <BackdropContentCard contentItem={item as ContentItem}/>
                 ) : carouselType === "ranked" ? (
-                  <RankedContentCard contentItem={item as ContentItem} rank={index + 1} />
+                  <RankedContentCard contentItem={item as ContentItem} rank={index + 1}/>
                 ) : carouselType === "watchlist" && watchlistCardProps ? (
                   <WatchlistCard
                     contentItem={item as WatchlistItem | WatchedItem}
@@ -92,19 +93,22 @@ export default function ContentCarousel<T extends AllowedCarouselTypes>({
                     type={watchlistCardProps.type}
                   />
                 ) : carouselType === "credits" ? (
-                  <CreditsCard person={item as Actor | Director} />
+                  <CreditsCard person={item as Actor | Director}/>
                 ) : (
-                  <EpisodeCard episode={item as Episode} />
+                  <EpisodeCard episode={item as Episode}/>
                 )}
               </CarouselItem>
             );
           })}
         </CarouselContent>
-        <div className="absolute inset-0 z-20 invisible opacity-0 transition-all duration-300 group-hover:visible group-hover:opacity-100 pointer-events-none">
-          <CarouselPrevious className="z-10 left-3 pointer-events-auto dark:bg-background/40 dark:hover:bg-background/25" />
-          <CarouselNext className="z-10 right-3 pointer-events-auto" />
+        <div
+          className="absolute inset-0 z-20 invisible opacity-0 transition-all duration-300 group-hover:visible group-hover:opacity-100 pointer-events-none">
+          <CarouselPrevious
+            className="z-10 left-3 pointer-events-auto dark:bg-background/40 dark:hover:bg-background/25"/>
+          <CarouselNext className="z-10 right-3 pointer-events-auto"/>
         </div>
-        <div className="absolute pointer-events-none top-0 bottom-0 right-0 w-1/8 bg-linear-to-l from-background to-transparent" />
+        <div
+          className="absolute pointer-events-none top-0 bottom-0 right-0 w-1/8 bg-linear-to-l from-background to-transparent"/>
       </Carousel>
     </div>
   );

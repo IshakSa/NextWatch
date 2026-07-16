@@ -1,4 +1,4 @@
-import { ChildRefActions } from "@/components/actions/AddWatchlistButton";
+import { ChildRefActions } from "@/components/actions/WatchlistButtons/AddWatchlistButton";
 import { CarouselItem } from "@/components/ui/carousel";
 import { ContentItem } from "@/types";
 import SavedFlash from "./SavedFlash";
@@ -68,7 +68,7 @@ export default function MobileDiscoverItem({
         </div>
 
         <div className={`absolute right-4 ${isHighScreen ? "bottom-30" : "bottom-15"} z-100`}>
-          <DiscoverActions onRegisterRef={onRegisterRef} screen="mobile" />
+          <DiscoverActions onRegisterRef={onRegisterRef} screen="mobile" contentItem={item} />
         </div>
       </>
     </CarouselItem>

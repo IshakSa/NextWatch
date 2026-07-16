@@ -1,13 +1,12 @@
 "use client";
 
-import { XIcon } from "lucide-react";
-import { Button } from "../ui/button";
-import { YouTubeEmbed } from "@next/third-parties/google";
+import {XIcon} from "lucide-react";
+import {Button} from "../ui/button";
 
 export default function EmbeddedVideo({
-  youtubeId,
-  setIsVideoPlaying,
-}: {
+                                        youtubeId,
+                                        setIsVideoPlaying,
+                                      }: {
   youtubeId?: string;
   setIsVideoPlaying: (isPlaying: boolean) => void;
   autoplay?: boolean;
@@ -39,13 +38,15 @@ export default function EmbeddedVideo({
           )}
           <div className="absolute right-0 m-5">
             <Button variant="secondary" className="rounded-lg" onClick={handleClose}>
-              <XIcon />
+              <XIcon/>
             </Button>
           </div>
         </div>
       </div>
-      <div className="dark absolute top-0 left-0 right-0 h-1/4 bg-linear-to-b from-background to-transparent opacity-50" />
-      <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-linear-to-t from-background to-transparent" />
+      <div
+        className="dark absolute top-0 left-0 right-0 h-1/4 bg-linear-to-b from-background to-transparent opacity-50"/>
+      <div
+        className="absolute bottom-0 left-0 right-0 h-1/2 bg-linear-to-t from-background to-transparent"/>
     </div>
   );
 }

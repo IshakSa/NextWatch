@@ -5,7 +5,7 @@ import { ContentItem } from "@/types";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { ImageSizes } from "@/lib/constants";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { ChildRefActions } from "../../actions/AddWatchlistButton";
+import { ChildRefActions } from "../../actions/WatchlistButtons/AddWatchlistButton";
 import MobileDiscoverItem from "./_components/MobileDiscoverItem";
 import DesktopDiscoverItem from "./_components/DesktopDiscoverItem";
 import { FilterProvider } from "./_components/FilterContext";
@@ -71,12 +71,7 @@ export default function DiscoverCarousel({ content }: { content: ContentItem[] }
   }
 
   return (
-    <Carousel
-      orientation="vertical"
-      className="w-full dark"
-      setApi={setApi}
-      ref={sliderRef}
-    >
+    <Carousel orientation="vertical" className="w-full dark" setApi={setApi} ref={sliderRef}>
       <CarouselContent className="-mt-1 h-screen">
         <FilterProvider>
           {content.map((item, index) => {

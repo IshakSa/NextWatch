@@ -1,34 +1,30 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import EditStarIcon from "../icons/EditStarIcon";
-import StarRating from "../shared/StarRating";
+import EditStarIcon from "../../icons/EditStarIcon";
+import StarRating from "../../shared/StarRating";
+import { addWatched } from "@/components/actions/WatchlistButtons/actions";
+import { ContentType } from "@/types";
 
-export default function EditRatingButton({ className }: { className?: string }) {
-  const [currentRating, setCurrentRating] = useState(0);
-  const [savedRating, setSavedRating] = useState(0);
+export default function EditRatingButton({
+  className,
+  initialUserRating,
+  contentId,
+  contentType,
+}: {
+  className?: string;
+  initialUserRating: number;
+  contentId: number;
+  contentType: ContentType;
+}) {
+  const [savedRating, setSavedRating] = useState<number>(initialUserRating);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const isDesktop = useMediaQuery("(min-width: 640px)");
 
-  const handleWatchedOnButtonClick = () => {
-    setIsPopoverOpen(true);
-  };
-
-  const handleSaveRatingOnPopoverChange = (open: boolean) => {
-    if (!open) {
-      setSavedRating(currentRating);
-      setIsPopoverOpen(false);
-    }
-  };
-
-  const handleRatingOnStarClick = (rate: number) => {
-    setCurrentRating(rate);
-  };
-
-  const handleAutoClosePopover = (rate: number) => {
+  function handleAutoClosePopover() {
     if (!isDesktop) {
       setTimeout(() => {
         setIsPopoverOpen(false);
@@ -36,17 +32,30 @@ export default function EditRatingButton({ className }: { className?: string }) 
     } else {
       setIsPopoverOpen(false);
     }
-    setSavedRating(rate);
-  };
+  }
+
+  async function handleEditRating() {
+    if (isPopoverOpen) {
+      setIsPopoverOpen(false);
+      return;
+    }
+
+    setIsPopoverOpen(true);
+  }
+
+  async function handleSaveRating(rating: number) {
+    setSavedRating(rating);
+    await addWatched(contentId, contentType, rating);
+  }
 
   return (
     <>
-      <Popover onOpenChange={handleSaveRatingOnPopoverChange} open={isPopoverOpen}>
+      <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
         <PopoverTrigger
           render={
             <Button
               variant={"outline"}
-              onClick={handleWatchedOnButtonClick}
+              onClick={handleEditRating}
               size={"icon"}
               className={className}
             >
@@ -61,9 +70,9 @@ export default function EditRatingButton({ className }: { className?: string }) 
             <p className="text-sm font-medium leading-none text-foreground">Edit your Rating</p>
 
             <StarRating
-              handleRating={handleRatingOnStarClick}
+              handleRating={handleSaveRating}
               handleAutoClosePopover={handleAutoClosePopover}
-              initialRate={currentRating}
+              initialRate={savedRating}
             />
           </div>
         </PopoverContent>

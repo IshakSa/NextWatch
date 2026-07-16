@@ -1,5 +1,6 @@
 export interface Season {
   seasonNumber: number;
+  releaseDate: string;
   episodes: Episode[];
 }
 

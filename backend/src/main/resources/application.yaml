@@ -1,21 +1,31 @@
 spring:
-  config:
-    import:
-      - optional:file:.env[.properties]
+    application:
+        name: MyApp
 
-  application:
-    name: MyApp
+    datasource:
+        url: jdbc:postgresql://localhost:5432/app_dev
+        driver-class-name: org.postgresql.Driver
+        username: ${DEV_DB_USER}
+        password: ${DEV_DB_PASSWORD}
 
-  datasource:
-    url: jdbc:postgresql://localhost:5432/app_dev
-    driver-class-name: org.postgresql.Driver
-    username: ${DEV_DB_USER}
-    password: ${DEV_DB_PASSWORD}
+    jpa:
+        hibernate:
+            ddl-auto: create-drop
+        show-sql: true
 
-  jpa:
-    hibernate:
-      ddl-auto: create-drop
+    jackson:
+        deserialization:
+            fail-on-unknown-properties: false
+    cloud:
+        openfeign:
+            client:
+                config:
+                    default:
+                        logger-level: BASIC
 
 server:
-  servlet:
-    context-path: /api
+    servlet:
+        context-path: /api
+logging:
+    level:
+        <com.app.MyApp.api>: debug
