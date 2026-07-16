@@ -10,7 +10,6 @@ export default function UserWatchInfo({
   contentItem: WatchedItem | WatchlistItem;
   type: WatchTabType;
 }) {
-  
   if (type === "watchlist") {
     return (
       <div className="text-xs text-muted-foreground/80 mt-1">
@@ -31,7 +30,7 @@ export default function UserWatchInfo({
             <span>My rating:</span>
             <div className="flex items-center gap-0.5 font-semibold">
               <StarIcon className="size-4 text-primary-highlight fill-primary-highlight shrink-0" />
-              <span>{(contentItem as WatchedItem).userRating}</span>
+              <span>{(contentItem as WatchedItem).userRating * 2}</span>
               <span className="text-xs text-muted-foreground font-normal">/10</span>
             </div>
           </div>

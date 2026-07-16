@@ -10,7 +10,7 @@ export default async function WatchlistPage() {
     throw new Error("couldn't fetch data");
   }
 
-  const UserWatchlist: UserWatchlist = await response.json();
+  const userWatchlist: UserWatchlist = await response.json();
 
   return (
     <main>
@@ -27,10 +27,10 @@ export default async function WatchlistPage() {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="watchlist">
-            <WatchTab content={UserWatchlist.saved} type="watchlist" />
+            <WatchTab content={userWatchlist.saved} type="watchlist" />
           </TabsContent>
           <TabsContent value="watched">
-            <WatchTab content={UserWatchlist.watched} type="watched" />
+            <WatchTab content={userWatchlist.watched} type="watched" />
           </TabsContent>
         </Tabs>
       </div>

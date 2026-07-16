@@ -1,6 +1,5 @@
 "use client";
 
-import { ContentItem } from "@/types";
 import { capitalize } from "@/lib/utils";
 import { useState } from "react";
 import { Trash2Icon, Undo2Icon } from "lucide-react";
@@ -12,6 +11,11 @@ import WatchInfo from "./_components/WatchInfo";
 import WatchGrid from "./_components/WatchGrid";
 import { WatchedItem, WatchlistItem } from "@/types/user";
 import ContentCarousel from "../carousel/ContentCarousel";
+import {
+  addWatched,
+  addWatchlist,
+  removeWatchlist,
+} from "@/components/actions/WatchlistButtons/actions";
 
 export type WatchTabType = "watchlist" | "watched";
 
@@ -29,7 +33,7 @@ export default function WatchTab({
   );
   const [localContent, setLocalContent] = useState(content);
 
-  function deleteContentItemById(contentItemId: number) {
+  async function deleteContentItemById(contentItemId: number) {
     const deletedContentItem = localContent.find((contentItem) => contentItem.id === contentItemId);
 
     if (!deletedContentItem) {
@@ -38,16 +42,29 @@ export default function WatchTab({
 
     setLocalContent(
       localContent.filter((contentItem) => contentItem !== deletedContentItem) as
-        | WatchlistItem[]
-        | WatchedItem[],
+        WatchlistItem[] | WatchedItem[],
     );
 
-    // TODO: connect remove to backend
+    await removeWatchlist(deletedContentItem.id);
 
     displayDeletedAlert(deletedContentItem);
   }
 
-  function displayDeletedAlert(deletedContentItem: ContentItem) {
+  async function undoDeletion(deletedContentItem: WatchlistItem | WatchedItem) {
+    setLocalContent((prev) => [...prev, deletedContentItem] as WatchlistItem[] | WatchedItem[]);
+
+    if (type === "watched") {
+      await addWatched(
+        deletedContentItem.id,
+        deletedContentItem.type,
+        (deletedContentItem as WatchedItem).userRating,
+      );
+    } else {
+      await addWatchlist(deletedContentItem.id, deletedContentItem.type);
+    }
+  }
+
+  function displayDeletedAlert(deletedContentItem: WatchlistItem | WatchedItem) {
     const title = type === "watchlist" ? "Removed from Watchlist" : "Removed from Watched List";
     const undoTitle = type === "watchlist" ? "Restored to Watchlist" : "Restored to Watched List";
 
@@ -59,11 +76,9 @@ export default function WatchTab({
       description: description,
       action: {
         label: "Undo",
-        onClick: () => {
-          setLocalContent(
-            (prev) => [...prev, deletedContentItem] as WatchlistItem[] | WatchedItem[],
-          );
-          // TODO: connect undo to backend
+        onClick: async () => {
+          await undoDeletion(deletedContentItem);
+
           toast.success(undoTitle, {
             icon: <Undo2Icon />,
             description: undoDescription,

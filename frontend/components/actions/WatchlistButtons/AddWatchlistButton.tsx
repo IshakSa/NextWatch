@@ -1,6 +1,6 @@
 "use client";
 
-import { BookmarkCheck, BookmarkIcon } from "lucide-react";
+import { BookmarkCheck, BookmarkIcon, Undo2Icon } from "lucide-react";
 import { Button } from "../../ui/button";
 import { forwardRef, useImperativeHandle, useState } from "react";
 import { toast } from "sonner";
@@ -27,21 +27,33 @@ const AddWatchlistButton = forwardRef<ChildRefActions, AddWatchlistButtonProps>(
   ) => {
     const [isSaved, setIsSaved] = useState(savedInitialState);
 
-    const removedToast = () => {
-      toast.success("Removed from watchlist");
+    const undoToast = () => {
+      toast.success("Added back to watchlist", {
+        icon: <Undo2Icon />,
+      });
     };
 
-    const addedToast = (previousState: boolean) => {
+    const undoRemove = async (previousState: boolean) => {
+      setIsSaved(previousState);
+      undoToast();
+      await addWatchlist(contentId, contentType);
+    };
+
+    const removedToast = (previousState: boolean) => {
+      toast.success("Removed from watchlist", {
+        action: {
+          label: "Undo",
+          onClick: async () => {
+            await undoRemove(previousState);
+          },
+        },
+      });
+    };
+
+    const addedToast = () => {
       toast("Added to watchlist", {
         description: "Saved to your list successfully.",
         icon: <BookmarkCheck className="h-5 w-5 text-primary" />,
-        action: {
-          label: "Undo",
-          onClick: () => {
-            removedToast();
-            setIsSaved(previousState);
-          },
-        },
       });
     };
 
@@ -52,10 +64,10 @@ const AddWatchlistButton = forwardRef<ChildRefActions, AddWatchlistButtonProps>(
 
         setIsSaved(newState);
         if (newState) {
-          addedToast(previousState);
+          addedToast();
           await addWatchlist(contentId, contentType);
         } else {
-          removedToast();
+          removedToast(previousState);
           await removeWatchlist(contentId);
         }
       } catch (error: unknown) {
