@@ -1,7 +1,12 @@
 package com.app.MyApp.user;
 
+import com.app.MyApp.security.JwtService;
 import com.app.MyApp.user.dtos.LoginDto;
 import com.app.MyApp.user.dtos.RegisterDto;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -9,27 +14,40 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final BCryptPasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
+    private final JwtService jwtService;
 
-    public UserService(UserRepository userRepository, UserMapper userMapper) {
+    public UserService(
+            UserRepository userRepository,
+            UserMapper userMapper,
+            BCryptPasswordEncoder passwordEncoder,
+            AuthenticationManager authenticationManager,
+            JwtService jwtService) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.passwordEncoder = passwordEncoder;
+        this.authenticationManager = authenticationManager;
+        this.jwtService = jwtService;
     }
 
-    public Boolean register(RegisterDto userDto) {
-        userRepository.save(userMapper.toUserEntity(userDto));
-        return true;
+    public User register(RegisterDto userDto) {
+        String hashedPassword = passwordEncoder.encode(userDto.password());
+        User user = userMapper.toUserEntity(userDto, hashedPassword);
+
+        userRepository.save(user);
+        return user;
     }
 
-    public Boolean login(LoginDto userDto) {
-        User user = userRepository.findByEmail(userDto.email())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+    public String login(LoginDto userDto) {
+        UsernamePasswordAuthenticationToken loginToken =
+                new UsernamePasswordAuthenticationToken(userDto.email(), userDto.password());
 
-        if (user.getPassword().equals(userDto.password())) {
-            return true;
-        } else {
-            throw new RuntimeException("Credentials wrong");
+        Authentication authentication = authenticationManager.authenticate(loginToken);
 
+        if (authentication.isAuthenticated()) {
+            return jwtService.generateToken(userDto.email(), "USER");
         }
+        return "failure";
     }
-
 }

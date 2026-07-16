@@ -20,14 +20,13 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Boolean> login(@RequestBody LoginDto userDto) {
+    public ResponseEntity<String> login(@RequestBody LoginDto userDto) {
         return new ResponseEntity<>(userService.login(userDto), HttpStatus.OK);
     }
 
     // ! Endpoint currently deactivated for development
     @PostMapping("/register")
-    public ResponseEntity<Void> register(@RequestBody RegisterDto userDto) {
-        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+    public ResponseEntity<User> register(@RequestBody RegisterDto userDto) {
+        return new ResponseEntity<>(userService.register(userDto), HttpStatus.OK);
     }
-    
 }
