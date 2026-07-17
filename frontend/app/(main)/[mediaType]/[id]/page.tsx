@@ -6,6 +6,7 @@ import { ContentItemDetails } from "@/types";
 import ContentCarousel from "@/components/carousel/ContentCarousel";
 import { WatchlistStatus } from "@/types/watchlist";
 import { request } from "@/lib/requestHandler";
+import { cookies } from "next/headers";
 
 async function getDetails(mediaType: "tv" | "movie", id: number) {
   return await request(
@@ -23,11 +24,14 @@ export default async function MovieDetailsPage({
 }: {
   params: Promise<{ mediaType: "movie" | "tv"; id: string }>;
 }) {
+  const isLoggedIn = (await cookies()).has("auth_token");
   const { mediaType, id } = await params;
   const idNum = Number(id);
 
   const contentItem: ContentItemDetails = await getDetails(mediaType, idNum);
-  const watchlistStatus: WatchlistStatus = await getWatchlistStatus(contentItem.id);
+  const watchlistStatus: WatchlistStatus = isLoggedIn
+    ? await getWatchlistStatus(contentItem.id)
+    : "none";
 
   if (!contentItem) {
     return;
@@ -41,6 +45,7 @@ export default async function MovieDetailsPage({
           page="details"
           size={60}
           watchlistStatus={watchlistStatus}
+          isLoggedIn={isLoggedIn}
         />
       </section>
 

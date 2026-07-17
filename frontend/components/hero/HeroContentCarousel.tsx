@@ -13,11 +13,13 @@ interface HeroContentCarouselProps {
     contentId: number;
     status: WatchlistStatus;
   }[];
+  isLoggedIn: boolean;
 }
 
 export default function HeroContentCarousel({
   content,
   watchlistStatuses,
+  isLoggedIn,
 }: HeroContentCarouselProps) {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
@@ -68,7 +70,12 @@ export default function HeroContentCarousel({
             const watchlistStatus = watchlistStatusItem ? watchlistStatusItem.status : "none";
             return (
               <CarouselItem key={item.id}>
-                <HeroSection contentItem={item} page="home" watchlistStatus={watchlistStatus} />
+                <HeroSection
+                  contentItem={item}
+                  page="home"
+                  watchlistStatus={watchlistStatus}
+                  isLoggedIn={isLoggedIn}
+                />
               </CarouselItem>
             );
           })}

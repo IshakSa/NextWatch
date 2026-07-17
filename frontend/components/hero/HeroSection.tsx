@@ -24,11 +24,13 @@ export default function HeroSection({
   page,
   size = 70,
   watchlistStatus,
+  isLoggedIn,
 }: {
   contentItem: ContentItem;
   page: "home" | "details";
   size?: number;
   watchlistStatus: WatchlistStatus;
+  isLoggedIn: boolean;
 }) {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const isReleased = isAlreadyReleased(contentItem.releaseDate);
@@ -89,6 +91,7 @@ export default function HeroSection({
                 contentId={contentItem.id}
                 contentType={contentItem.type}
                 savedInitialState={savedInitialState}
+                isLoggedIn={isLoggedIn}
               />
             </div>
           </>
@@ -104,6 +107,7 @@ export default function HeroSection({
                 contentId={contentItem.id}
                 contentType={contentItem.type}
                 savedInitialState={savedInitialState}
+                isLoggedIn={isLoggedIn}
               />
             </div>
             <div className="flex gap-3">
@@ -113,12 +117,14 @@ export default function HeroSection({
                 contentId={contentItem.id}
                 contentType={contentItem.type}
                 savedInitialState={savedInitialState}
+                isLoggedIn={isLoggedIn}
               />
               <WatchedButton
                 className="rounded-lg p-5 sm:w-auto"
                 watchedInitialState={watchedInitialState}
                 contentId={contentItem.id}
                 contentType={contentItem.type}
+                isLoggedIn={isLoggedIn}
               />
               <ShareButton className="rounded-lg p-5 sm:w-auto" />
             </div>
