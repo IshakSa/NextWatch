@@ -8,5 +8,4 @@ export async function registerUser({ username, email, password, tos }: RegisterV
     method: "POST",
     body: JSON.stringify({ username, email, password, acceptedTos: tos }),
   });
-  return true;
 }

@@ -32,7 +32,7 @@ public class WatchlistController {
     public ResponseEntity<Void> delete(
             @AuthenticationPrincipal UserPrincipal currentUser, @PathVariable Integer contentId) {
         watchlistService.delete(currentUser.getId(), contentId);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("/status/{contentId}")

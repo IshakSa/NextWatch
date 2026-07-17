@@ -18,8 +18,9 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FieldInput from "../../../components/auth/field/FieldInput";
 import { registerUser } from "./actions";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { loginUser } from "@/app/(main)/login/actions";
 
 const registerSchema = z
   .object({
@@ -50,18 +51,17 @@ export default function RegisterPage() {
     },
   });
 
+  const router = useRouter();
+
   async function handleSubmit(data: RegisterValues) {
-    let isSuccess = false;
     try {
-      isSuccess = await registerUser(data);
+      await registerUser(data);
+      await loginUser({ email: data.email, password: data.password });
+      router.push("/");
     } catch (error) {
       toast.error("Registration failed", {
         description: "Something went wrong. Please try again later.",
       });
-    }
-
-    if (isSuccess) {
-      redirect("/");
     }
   }
 

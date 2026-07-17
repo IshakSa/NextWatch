@@ -5,17 +5,20 @@ import AuthButton from "@/components/actions/AuthButton";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { Button } from "@/components/ui/button";
 import SearchOverlay from "./SearchOverlay";
+import UserMenu from "@/components/layout/navbar/_components/UserMenu";
 
 export default function NavbarDesktop({
   navLinks,
   pathname,
   isSearchOverlayShown,
   handleSearchOverlay,
+  isLoggedIn,
 }: {
   navLinks: { name: string; href: string }[];
   pathname: string;
   isSearchOverlayShown: boolean;
   handleSearchOverlay: () => void;
+  isLoggedIn: boolean;
 }) {
   const shouldDisplayRegister = useMediaQuery("(min-width: 1024px)");
 
@@ -50,14 +53,20 @@ export default function NavbarDesktop({
         })}
       </div>
 
-      <div className="flex items-center gap-x-2 flex-1 justify-end">
-        <Button variant="ghost" onClick={handleSearchOverlay} className="rounded-lg">
+      <div className="flex items-center gap-x-3 flex-1 justify-end">
+        <Button variant="ghost" onClick={handleSearchOverlay} className="rounded-lg" size="icon">
           <SearchIcon className="h-5.5! w-5.5!" />
         </Button>
 
         <div className="flex space-x-3">
-          {shouldDisplayRegister && <AuthButton type="register" />}
-          <AuthButton type="login" />
+          {isLoggedIn ? (
+            <UserMenu />
+          ) : (
+            <>
+              {shouldDisplayRegister && <AuthButton type="register" />}
+              <AuthButton type="login" />
+            </>
+          )}
         </div>
       </div>
     </nav>

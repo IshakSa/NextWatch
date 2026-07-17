@@ -54,4 +54,8 @@ public class UserService {
             throw new BadCredentialsException("Invalid email or password");
         }
     }
+
+    public void delete(Integer userId) {
+        userRepository.deleteById(userId);
+    }
 }

@@ -20,7 +20,7 @@ public class ContentService {
 
     public List<ContentSummaryDto> getUpcoming() {
         LocalDate minDate = LocalDate.now().plusDays(1);
-        LocalDate maxDate = LocalDate.now().plusMonths(2);
+        LocalDate maxDate = LocalDate.now().plusMonths(3);
         List<ContentSummaryApiDto> response =
                 tmdbApiClient.getUpcoming(minDate, maxDate).results();
 

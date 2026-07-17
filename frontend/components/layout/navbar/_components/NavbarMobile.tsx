@@ -1,28 +1,31 @@
 import { MenuIcon, PopcornIcon, SearchIcon } from "lucide-react";
 import {
   Sheet,
-  SheetTrigger,
-  SheetContent,
-  SheetHeader,
-  SheetDescription,
   SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTrigger,
 } from "../../../ui/sheet";
 import Link from "next/link";
 import { ModeToggle } from "@/components/layout/navbar/_components/ModeToggle";
 import AuthButton from "@/components/actions/AuthButton";
 import { Button } from "@/components/ui/button";
 import SearchOverlay from "./SearchOverlay";
+import UserMenu from "@/components/layout/navbar/_components/UserMenu";
 
 export default function NavbarMobile({
   navLinks,
   pathname,
   isSearchOverlayShown,
   handleSearchOverlay,
+  isLoggedIn,
 }: {
   navLinks: { name: string; href: string }[];
   pathname: string;
   isSearchOverlayShown: boolean;
   handleSearchOverlay: () => void;
+  isLoggedIn: boolean;
 }) {
   return (
     <nav className="p-5 max-w-150 justify-between text-white flex items-center mx-auto">
@@ -66,12 +69,12 @@ export default function NavbarMobile({
         </Link>
       </div>
 
-      <div className="flex items-center justify-end space-x-2">
-        <Button variant="ghost" onClick={handleSearchOverlay} className="rounded-lg">
+      <div className="flex items-center justify-end space-x-3">
+        <Button variant="ghost" onClick={handleSearchOverlay} className="rounded-lg" size="icon">
           <SearchIcon className="h-5.5! w-5.5!" />
         </Button>
 
-        <AuthButton type="login" />
+        {isLoggedIn ? <UserMenu /> : <AuthButton type="login" />}
       </div>
       {isSearchOverlayShown && <SearchOverlay handleSearchOverlay={handleSearchOverlay} />}
     </nav>

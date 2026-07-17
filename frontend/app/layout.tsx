@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   description: "MyApp for movies and shows",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -51,7 +51,6 @@ export default function RootLayout({
               },
             }}
           />
-          
         </ThemeProvider>
       </body>
     </html>

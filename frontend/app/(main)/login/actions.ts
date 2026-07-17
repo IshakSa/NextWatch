@@ -25,6 +25,4 @@ export async function loginUser({ email, password }: LoginValues) {
     sameSite: "strict",
     maxAge: expirationTimeSeconds,
   });
-
-  return true;
 }
