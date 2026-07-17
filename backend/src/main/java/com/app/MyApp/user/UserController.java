@@ -1,6 +1,7 @@
 package com.app.MyApp.user;
 
 import com.app.MyApp.user.dtos.LoginDto;
+import com.app.MyApp.user.dtos.LoginResponseDto;
 import com.app.MyApp.user.dtos.RegisterDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginDto userDto) {
+    public ResponseEntity<LoginResponseDto> login(@RequestBody LoginDto userDto) {
         return new ResponseEntity<>(userService.login(userDto), HttpStatus.OK);
     }
 

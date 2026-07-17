@@ -5,26 +5,17 @@ import WatchProviders from "@/components/providers/WatchProviders";
 import { ContentItemDetails } from "@/types";
 import ContentCarousel from "@/components/carousel/ContentCarousel";
 import { WatchlistStatus } from "@/types/watchlist";
+import { request } from "@/lib/requestHandler";
 
 async function getDetails(mediaType: "tv" | "movie", id: number) {
-  const response = await fetch(
-    `${process.env.BACKEND_URL}/api/content/${mediaType}/${id}?includeSimilar=true`,
+  return await request(
+    `/api/content/${mediaType}/${id}?includeSimilar=true`,
+    "failed to fetch data",
   );
-  if (!response.ok) {
-    throw new Error("failed to fetch data");
-  }
-
-  return await response.json();
 }
 
 async function getWatchlistStatus(contentId: number) {
-  const response = await fetch(`${process.env.BACKEND_URL}/api/watchlist/status/${contentId}`);
-
-  if (!response.ok) {
-    throw new Error("failed to fetch data");
-  }
-
-  return await response.json();
+  return await request(`/api/watchlist/status/${contentId}`, "failed to fetch data");
 }
 
 export default async function MovieDetailsPage({

@@ -2,69 +2,21 @@ import ContentCarousel from "@/components/carousel/ContentCarousel";
 import HeroContentCarousel from "@/components/hero/HeroContentCarousel";
 import { ContentItem } from "@/types/content";
 import { WatchlistStatus } from "@/types/watchlist";
-
-async function getUpcoming() {
-  const response = await fetch(`${process.env.BACKEND_URL}/api/content/upcoming`);
-  if (!response.ok) {
-    throw new Error("failed to fetch data");
-  }
-
-  return await response.json();
-}
-
-async function getHero() {
-  const response = await fetch(
-    `${process.env.BACKEND_URL}/api/content/trending/day?includeTrailer=true`,
-  );
-  if (!response.ok) {
-    throw new Error("failed to fetch data");
-  }
-
-  return await response.json();
-}
-
-async function getRanked() {
-  const response = await fetch(`${process.env.BACKEND_URL}/api/content/trending/week`);
-  if (!response.ok) {
-    throw new Error("failed to fetch data");
-  }
-
-  return await response.json();
-}
-
-async function getMovies() {
-  const response = await fetch(`${process.env.BACKEND_URL}/api/content/top-rated/movie`);
-  if (!response.ok) {
-    throw new Error("failed to fetch data");
-  }
-
-  return await response.json();
-}
-
-async function getSeries() {
-  const response = await fetch(`${process.env.BACKEND_URL}/api/content/top-rated/tv`);
-  if (!response.ok) {
-    throw new Error("failed to fetch data");
-  }
-
-  return await response.json();
-}
+import { request } from "@/lib/requestHandler";
 
 async function getWatchlistStatus(contentId: number) {
-  const response = await fetch(`${process.env.BACKEND_URL}/api/watchlist/status/${contentId}`);
-  if (!response.ok) {
-    throw new Error("failed to fetch data");
-  }
-
-  return await response.json();
+  return await request(`/api/watchlist/status/${contentId}`, "failed to fetch data");
 }
 
 export default async function Home() {
-  const upcomingDate = getUpcoming();
-  const heroData = getHero();
-  const rankedData = getRanked();
-  const moviesData = getMovies();
-  const seriesData = getSeries();
+  const upcomingDate = await request("/api/content/upcoming", "failed to fetch data");
+  const heroData = await request(
+    "/api/content/trending/day?includeTrailer=true",
+    "failed to fetch data",
+  );
+  const rankedData = await request("/api/content/trending/week", "failed to fetch data");
+  const moviesData = await request("/api/content/top-rated/movie", "failed to fetch data");
+  const seriesData = await request("/api/content/top-rated/tv", "failed to fetch data");
 
   const [upcoming, hero, ranked, movies, series]: ContentItem[][] = await Promise.all([
     upcomingDate,

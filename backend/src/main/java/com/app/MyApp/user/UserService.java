@@ -2,8 +2,10 @@ package com.app.MyApp.user;
 
 import com.app.MyApp.security.JwtService;
 import com.app.MyApp.user.dtos.LoginDto;
+import com.app.MyApp.user.dtos.LoginResponseDto;
 import com.app.MyApp.user.dtos.RegisterDto;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -39,15 +41,17 @@ public class UserService {
         return user;
     }
 
-    public String login(LoginDto userDto) {
+    public LoginResponseDto login(LoginDto userDto) {
         UsernamePasswordAuthenticationToken loginToken =
                 new UsernamePasswordAuthenticationToken(userDto.email(), userDto.password());
 
         Authentication authentication = authenticationManager.authenticate(loginToken);
 
         if (authentication.isAuthenticated()) {
-            return jwtService.generateToken(userDto.email(), "USER");
+            String token = jwtService.generateToken(userDto.email(), "USER");
+            return new LoginResponseDto(token, jwtService.getExpirationTime());
+        } else {
+            throw new BadCredentialsException("Invalid email or password");
         }
-        return "failure";
     }
 }
