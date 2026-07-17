@@ -6,7 +6,7 @@ import {
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuSeparator,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { LogOutIcon, Trash2Icon } from "lucide-react";
 import {
@@ -16,7 +16,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger
+  DialogTrigger,
 } from "@/components/ui/dialog";
 import { deleteUserAccount, logoutUser } from "@/components/layout/navbar/_components/actions";
 import { toast } from "sonner";
@@ -43,8 +43,8 @@ export default function UserMenu() {
             render={
               <Button variant="ghost" size="icon" className="rounded-full">
                 <Avatar size="lg">
-                  <AvatarImage src="https://github.com/shadcn.png" />
-                  <AvatarFallback>CN</AvatarFallback>
+                  <AvatarImage src="/icons/icons8-avatar.svg" />
+                  <AvatarFallback>ME</AvatarFallback>
                 </Avatar>
               </Button>
             }
