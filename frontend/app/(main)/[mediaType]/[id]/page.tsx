@@ -2,9 +2,8 @@ import EpisodesCarousel from "@/components/carousel/EpisodesCarousel/EpisodeCaro
 import ExpandableOverview from "@/components/shared/ExpandableOverview";
 import HeroSection from "@/components/hero/HeroSection";
 import WatchProviders from "@/components/providers/WatchProviders";
-import { ContentItemDetails } from "@/types";
+import { ContentItemDetails, WatchlistStatus } from "@/types";
 import ContentCarousel from "@/components/carousel/ContentCarousel";
-import { WatchlistStatus } from "@/types/watchlist";
 import { request } from "@/lib/requestHandler";
 import { cookies } from "next/headers";
 

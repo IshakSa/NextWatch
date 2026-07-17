@@ -11,6 +11,5 @@ export default function ImageLoader({ src, alt, apiWidth, ...props }: CustomImag
   const imageLoader = ({ src }: { src: string }) => {
     return `https://image.tmdb.org/t/p/w${apiWidth}${src}`;
   };
-
   return <Image loader={imageLoader} src={src} alt={alt} {...props} />;
 }

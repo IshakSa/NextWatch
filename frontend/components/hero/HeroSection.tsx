@@ -16,8 +16,7 @@ import {
   toReleaseDateDisplay,
   toUpcomingReleaseDateDisplay,
 } from "@/lib/utils";
-import { ContentItem } from "@/types";
-import { WatchlistStatus } from "@/types/watchlist";
+import { ContentItem, WatchlistStatus } from "@/types";
 
 export default function HeroSection({
   contentItem,

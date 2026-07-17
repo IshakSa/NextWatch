@@ -4,8 +4,7 @@ import { Carousel, CarouselApi, CarouselContent, CarouselItem } from "@/componen
 import Autoplay from "embla-carousel-autoplay";
 import HeroSection from "./HeroSection";
 import { useEffect, useState } from "react";
-import { ContentItem } from "@/types";
-import { WatchlistStatus } from "@/types/watchlist";
+import { ContentItem, WatchlistStatus } from "@/types";
 
 interface HeroContentCarouselProps {
   content: ContentItem[];

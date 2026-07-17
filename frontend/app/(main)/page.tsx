@@ -1,7 +1,7 @@
 import ContentCarousel from "@/components/carousel/ContentCarousel";
 import HeroContentCarousel from "@/components/hero/HeroContentCarousel";
 import { ContentItem } from "@/types/content";
-import { WatchlistStatus } from "@/types/watchlist";
+import { WatchlistStatus } from "@/types";
 import { request } from "@/lib/requestHandler";
 import { cookies } from "next/headers";
 
