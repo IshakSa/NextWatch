@@ -11,6 +11,7 @@ import {
 import { LogOutIcon, Trash2Icon } from "lucide-react";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -80,7 +81,13 @@ export default function UserMenu() {
           </DialogHeader>
 
           <DialogFooter className="mt-6 flex flex-col-reverse sm:flex-row gap-2">
-            <Button variant="outline">Cancel</Button>
+            <DialogClose
+              render={
+                <Button variant="outline" className="px-5">
+                  Cancel
+                </Button>
+              }
+            />
             <Button variant="destructive" onClick={deleteAccount}>
               Delete Account
             </Button>
