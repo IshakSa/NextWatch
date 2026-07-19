@@ -1,12 +1,12 @@
 import DiscoverCarousel from "@/components/carousel/DiscoverCarousel/DiscoverCarousel";
 import { ContentItem } from "@/types";
+import { request } from "@/lib/requestHandler";
 
 export default async function DiscoverPage() {
-  const response = await fetch(`${process.env.BACKEND_URL}/api/content/top-rated/movie`);
-  if (!response.ok) {
-    throw new Error("couldn't fetch data");
-  }
-  const content: ContentItem[] = await response.json();
+  const content: ContentItem[] = await request(
+    "/api/content/top-rated/movie",
+    "couldn't fetch data",
+  );
 
   return (
     <main className="mode-dark no-doc-scroll">

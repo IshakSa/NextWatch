@@ -1,52 +1,8 @@
-"use client";
+import NavbarUi from "@/components/layout/navbar/_components/NavbarUi";
+import { cookies } from "next/headers";
 
-import { usePathname } from "next/navigation";
-import NavbarDesktop from "./_components/NavbarDesktop";
-import { useMediaQuery } from "@/hooks/useMediaQuery";
-import NavbarMobile from "./_components/NavbarMobile";
-import { useIsScrolled } from "@/hooks/useIsScrolled";
-import { useState } from "react";
+export default async function Navbar() {
+  const isLoggedIn = (await cookies()).has("auth_token");
 
-export default function Navbar() {
-  const pathname = usePathname();
-  const isScrolled = useIsScrolled();
-  const isDesktop = useMediaQuery("(min-width: 768px)");
-  const [isSearchOverlayShown, setIsSearchOverlayShown] = useState(false);
-
-  function handleSearchOverlay() {
-    setIsSearchOverlayShown(!isSearchOverlayShown);
-  }
-
-  const navLinks = [
-    { name: "Home", href: "/" },
-    { name: "Discover", href: "/discover" },
-    { name: "Watchlist", href: "/watchlist" },
-    { name: "Something", href: "/something" },
-  ];
-
-  return (
-    <header
-      className={`fixed top-0 left-0 w-full z-50 transition-colors duration-300 ${
-        isScrolled
-          ? `bg-zinc-950/70 ${!isSearchOverlayShown && "backdrop-blur-md"} border-b border-white/10 shadow-lg`
-          : "bg-transparent border-transparent"
-      }`}
-    >
-      {isDesktop ? (
-        <NavbarDesktop
-          navLinks={navLinks}
-          pathname={pathname}
-          isSearchOverlayShown={isSearchOverlayShown}
-          handleSearchOverlay={handleSearchOverlay}
-        />
-      ) : (
-        <NavbarMobile
-          navLinks={navLinks}
-          pathname={pathname}
-          isSearchOverlayShown={isSearchOverlayShown}
-          handleSearchOverlay={handleSearchOverlay}
-        />
-      )}
-    </header>
-  );
+  return <NavbarUi isLoggedIn={isLoggedIn} />;
 }

@@ -3,14 +3,10 @@ import WatchTab from "@/components/watchlist/WatchTab";
 
 import { UserWatchlist } from "@/types/user";
 import { CheckIcon, EyeIcon } from "lucide-react";
+import { request } from "@/lib/requestHandler";
 
 export default async function WatchlistPage() {
-  const response = await fetch(`${process.env.BACKEND_URL}/api/watchlist`);
-  if (!response.ok) {
-    throw new Error("couldn't fetch data");
-  }
-
-  const userWatchlist: UserWatchlist = await response.json();
+  const userWatchlist: UserWatchlist = await request("/api/watchlist", "couldn't fetch data");
 
   return (
     <main>

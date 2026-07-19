@@ -1,35 +1,24 @@
 "use server";
 
 import { ContentType } from "@/types";
+import { request } from "@/lib/requestHandler";
 
 export async function addWatchlist(contentId: number, contentType: ContentType) {
-  const response = await fetch(`${process.env.BACKEND_URL}/api/watchlist`, {
+  await request("/api/watchlist", "add to watchlist failed", {
     method: "POST",
-    headers: { "Content-type": "application/json" },
     body: JSON.stringify({ contentId, contentType, status: "saved" }),
   });
-  if (response.status !== 201) {
-    throw new Error("add to watchlist failed");
-  }
 }
 
 export async function addWatched(contentId: number, contentType: ContentType, userRating: number) {
-  const response = await fetch(`${process.env.BACKEND_URL}/api/watchlist`, {
+  await request("/api/watchlist", "mark as watched failed", {
     method: "POST",
-    headers: { "Content-type": "application/json" },
     body: JSON.stringify({ contentId, contentType, status: "watched", userRating }),
   });
-  if (response.status !== 201) {
-    throw new Error("mark as watched failed");
-  }
 }
 
 export async function removeWatchlist(contentId: number) {
-  const response = await fetch(`${process.env.BACKEND_URL}/api/watchlist/${contentId}`, {
+  await request(`/api/watchlist/${contentId}`, "deleting from watchlist failed", {
     method: "DELETE",
-    headers: { "Content-type": "application/json" },
   });
-  if (!response.ok) {
-    throw new Error("deleting from watchlist failed");
-  }
 }

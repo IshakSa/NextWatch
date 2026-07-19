@@ -1,18 +1,28 @@
 "use server";
 
 import { LoginValues } from "./page";
+import { cookies } from "next/headers";
+import { request } from "@/lib/requestHandler";
+
+type LoginResponse = {
+  token: string;
+  expirationTimeMs: number;
+};
 
 export async function loginUser({ email, password }: LoginValues) {
-  const response = await fetch(`${process.env.BACKEND_URL}/api/user/login`, {
+  const data: LoginResponse = await request("/api/user/login", "login failed", {
     method: "POST",
-    headers: { "Content-type": "application/json" },
     body: JSON.stringify({ email, password }),
   });
 
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData.message || `API error: ${response.status}`);
-  }
+  const jwtToken = data.token;
+  const expirationTimeSeconds = data.expirationTimeMs / 1000;
 
-  return true;
+  const cookieStore = await cookies();
+  cookieStore.set("auth_token", jwtToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+    maxAge: expirationTimeSeconds,
+  });
 }

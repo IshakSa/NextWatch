@@ -19,7 +19,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import FieldInput from "../../../components/auth/field/FieldInput";
 import { loginUser } from "./actions";
 import { toast } from "sonner";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const loginSchema = z.object({
   email: z.email("Please enter a valid email address"),
@@ -37,17 +37,16 @@ export default function LoginPage() {
     },
   });
 
+  const router = useRouter();
+
   async function handleSubmit(data: LoginValues) {
-    let isSuccess = false;
     try {
-      isSuccess = await loginUser(data);
+      await loginUser(data);
+      router.push("/");
     } catch (error) {
       toast.error("Login failed", {
         description: "Invalid email or password. Please check your credentials and try again.",
       });
-    }
-    if (isSuccess) {
-      redirect("/");
     }
   }
 

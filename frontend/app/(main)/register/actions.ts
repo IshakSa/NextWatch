@@ -1,18 +1,11 @@
 "use server";
 
 import { RegisterValues } from "./page";
+import { request } from "@/lib/requestHandler";
 
 export async function registerUser({ username, email, password, tos }: RegisterValues) {
-  const response = await fetch(`${process.env.BACKEND_URL}/api/user/register`, {
+  await request("/api/user/register", "failed to register", {
     method: "POST",
-    headers: { "Content-type": "application/json" },
     body: JSON.stringify({ username, email, password, acceptedTos: tos }),
   });
-
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData.message || `API error: ${response.status}`);
-  }
-
-  return true;
 }

@@ -17,21 +17,21 @@ public class WatchlistService {
         this.watchlistMapper = watchlistMapper;
     }
 
-    public WatchlistDto getWatchlist() {
+    public WatchlistDto getWatchlist(Integer userId) {
         // !: always get from test account
-        List<WatchlistItem> watchlist = watchlistRepository.findAllByIdUserId(1);
+        List<WatchlistItem> watchlist = watchlistRepository.findAllByIdUserId(userId);
 
         return watchlistMapper.toWatchlistDto(watchlist);
     }
 
-    public void add(WatchlistAddDto watchlistAddDto) {
+    public void add(Integer userId, WatchlistAddDto watchlistAddDto) {
         if (watchlistAddDto.status().equals(WatchlistStatus.SAVED)
-                && watchlistRepository.existsById(new WatchlistItemId(1, watchlistAddDto.contentId()))) {
+                && watchlistRepository.existsById(new WatchlistItemId(userId, watchlistAddDto.contentId()))) {
             return;
         }
 
         // !: always add to the test account
-        User user = User.builder().id(1).build();
+        User user = User.builder().id(userId).build();
         WatchlistItem watchlistItem = WatchlistItem.builder()
                 .user(user)
                 .id(new WatchlistItemId(user.getId(), watchlistAddDto.contentId()))
@@ -43,12 +43,13 @@ public class WatchlistService {
         watchlistRepository.save(watchlistItem);
     }
 
-    public void delete(Integer contentId) {
-        watchlistRepository.deleteById(new WatchlistItemId(1, contentId));
+    public void delete(Integer userId, Integer contentId) {
+        watchlistRepository.deleteById(new WatchlistItemId(userId, contentId));
     }
 
-    public WatchlistStatus getStatus(int contentId) {
-        Optional<WatchlistItem> watchlistItemQuery = watchlistRepository.findById(new WatchlistItemId(1, contentId));
+    public WatchlistStatus getStatus(Integer userId, int contentId) {
+        Optional<WatchlistItem> watchlistItemQuery =
+                watchlistRepository.findById(new WatchlistItemId(userId, contentId));
         if (watchlistItemQuery.isEmpty()) {
             return WatchlistStatus.NONE;
         }

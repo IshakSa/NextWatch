@@ -1,13 +1,13 @@
 package com.app.MyApp.user;
 
+import com.app.MyApp.security.UserPrincipal;
 import com.app.MyApp.user.dtos.LoginDto;
+import com.app.MyApp.user.dtos.LoginResponseDto;
 import com.app.MyApp.user.dtos.RegisterDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
@@ -20,14 +20,18 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Boolean> login(@RequestBody LoginDto userDto) {
+    public ResponseEntity<LoginResponseDto> login(@RequestBody LoginDto userDto) {
         return new ResponseEntity<>(userService.login(userDto), HttpStatus.OK);
     }
 
-    // ! Endpoint currently deactivated for development
     @PostMapping("/register")
-    public ResponseEntity<Void> register(@RequestBody RegisterDto userDto) {
-        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+    public ResponseEntity<User> register(@RequestBody RegisterDto userDto) {
+        return new ResponseEntity<>(userService.register(userDto), HttpStatus.OK);
     }
-    
+
+    @DeleteMapping
+    public ResponseEntity<Void> delete(@AuthenticationPrincipal UserPrincipal currentUser) {
+        userService.delete(currentUser.getId());
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }

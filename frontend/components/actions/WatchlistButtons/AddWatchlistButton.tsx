@@ -6,6 +6,7 @@ import { forwardRef, useImperativeHandle, useState } from "react";
 import { toast } from "sonner";
 import { addWatchlist, removeWatchlist } from "@/components/actions/WatchlistButtons/actions";
 import { ContentType } from "@/types";
+import ProtectedButton from "@/components/shared/ProtectedButton";
 
 export interface ChildRefActions {
   triggerChildFunction: () => void;
@@ -18,11 +19,19 @@ interface AddWatchlistButtonProps {
   contentId: number;
   contentType: ContentType;
   savedInitialState: boolean;
+  isLoggedIn: boolean;
 }
 
 const AddWatchlistButton = forwardRef<ChildRefActions, AddWatchlistButtonProps>(
   (
-    { className, hideText, contentId, contentType, savedInitialState }: AddWatchlistButtonProps,
+    {
+      className,
+      hideText,
+      contentId,
+      contentType,
+      savedInitialState,
+      isLoggedIn,
+    }: AddWatchlistButtonProps,
     ref,
   ) => {
     const [isSaved, setIsSaved] = useState(savedInitialState);
@@ -83,12 +92,14 @@ const AddWatchlistButton = forwardRef<ChildRefActions, AddWatchlistButtonProps>(
     }));
 
     return (
-      <Button variant={"outline"} className={className} size={"icon"} onClick={handleAddWatchlist}>
-        <div className="flex space-x-2 items-center">
-          <BookmarkIcon fill={isSaved ? "var(--foreground)" : "none"} />
-          {!hideText && <p>{isSaved ? "Added to Watchlist" : "Add Watchlist"}</p>}
-        </div>
-      </Button>
+      <ProtectedButton isLoggedIn={isLoggedIn} buttonAction={handleAddWatchlist}>
+        <Button variant={"outline"} className={className} size={"icon"}>
+          <div className="flex space-x-2 items-center">
+            <BookmarkIcon fill={isSaved ? "var(--foreground)" : "none"} />
+            {!hideText && <p>{isSaved ? "Added to Watchlist" : "Add Watchlist"}</p>}
+          </div>
+        </Button>
+      </ProtectedButton>
     );
   },
 );

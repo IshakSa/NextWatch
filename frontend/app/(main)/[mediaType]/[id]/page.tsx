@@ -2,29 +2,20 @@ import EpisodesCarousel from "@/components/carousel/EpisodesCarousel/EpisodeCaro
 import ExpandableOverview from "@/components/shared/ExpandableOverview";
 import HeroSection from "@/components/hero/HeroSection";
 import WatchProviders from "@/components/providers/WatchProviders";
-import { ContentItemDetails } from "@/types";
+import { ContentItemDetails, WatchlistStatus } from "@/types";
 import ContentCarousel from "@/components/carousel/ContentCarousel";
-import { WatchlistStatus } from "@/types/watchlist";
+import { request } from "@/lib/requestHandler";
+import { cookies } from "next/headers";
 
 async function getDetails(mediaType: "tv" | "movie", id: number) {
-  const response = await fetch(
-    `${process.env.BACKEND_URL}/api/content/${mediaType}/${id}?includeSimilar=true`,
+  return await request(
+    `/api/content/${mediaType}/${id}?includeSimilar=true`,
+    "failed to fetch data",
   );
-  if (!response.ok) {
-    throw new Error("failed to fetch data");
-  }
-
-  return await response.json();
 }
 
 async function getWatchlistStatus(contentId: number) {
-  const response = await fetch(`${process.env.BACKEND_URL}/api/watchlist/status/${contentId}`);
-
-  if (!response.ok) {
-    throw new Error("failed to fetch data");
-  }
-
-  return await response.json();
+  return await request(`/api/watchlist/status/${contentId}`, "failed to fetch data");
 }
 
 export default async function MovieDetailsPage({
@@ -32,11 +23,14 @@ export default async function MovieDetailsPage({
 }: {
   params: Promise<{ mediaType: "movie" | "tv"; id: string }>;
 }) {
+  const isLoggedIn = (await cookies()).has("auth_token");
   const { mediaType, id } = await params;
   const idNum = Number(id);
 
   const contentItem: ContentItemDetails = await getDetails(mediaType, idNum);
-  const watchlistStatus: WatchlistStatus = await getWatchlistStatus(contentItem.id);
+  const watchlistStatus: WatchlistStatus = isLoggedIn
+    ? await getWatchlistStatus(contentItem.id)
+    : "none";
 
   if (!contentItem) {
     return;
@@ -50,6 +44,7 @@ export default async function MovieDetailsPage({
           page="details"
           size={60}
           watchlistStatus={watchlistStatus}
+          isLoggedIn={isLoggedIn}
         />
       </section>
 
