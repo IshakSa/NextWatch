@@ -1,5 +1,4 @@
 import ImageLoader from "@/components/shared/ImageLoader";
-import { ImageSizes } from "@/lib/constants";
 import { isAlreadyReleased, toDisplayContentType, toUpcomingReleaseDateDisplay } from "@/lib/utils";
 import { ContentItem } from "@/types";
 import { ClapperboardIcon, FilmIcon, StarIcon, TvIcon } from "lucide-react";
@@ -22,7 +21,7 @@ export default function RankedContentCard({
         <ImageLoader
           src={contentItem.posterPath}
           alt="poster"
-          apiWidth={ImageSizes.poster}
+          imageType="poster"
           width={150}
           height={100}
           className="rounded-xl"

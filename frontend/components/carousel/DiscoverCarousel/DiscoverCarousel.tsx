@@ -3,12 +3,12 @@
 import { Carousel, CarouselApi, CarouselContent } from "../../ui/carousel";
 import { ContentItem } from "@/types";
 import { Fragment, useEffect, useRef, useState } from "react";
-import { ImageSizes } from "@/lib/constants";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { ChildRefActions } from "../../actions/WatchlistButtons/AddWatchlistButton";
 import MobileDiscoverItem from "./_components/MobileDiscoverItem";
 import DesktopDiscoverItem from "./_components/DesktopDiscoverItem";
 import { FilterProvider } from "./_components/FilterContext";
+import { IMAGE_SIZES } from "@/lib/constants";
 
 export default function DiscoverCarousel({ content }: { content: ContentItem[] }) {
   const [api, setApi] = useState<CarouselApi>();
@@ -76,8 +76,8 @@ export default function DiscoverCarousel({ content }: { content: ContentItem[] }
         <FilterProvider>
           {content.map((item, index) => {
             const imagePath = isDesktop ? item.backdropPath : item.posterPath;
-            const imageSize = isDesktop ? ImageSizes.backdrop : ImageSizes.poster;
-            const isVideoShown = currentSlide === index ? true : false;
+            const imageSize = isDesktop ? IMAGE_SIZES.backdrop : IMAGE_SIZES.poster;
+            const isVideoShown = currentSlide === index;
 
             return (
               <Fragment key={item.id}>

@@ -35,7 +35,6 @@ import {
 import { useFilter } from "@/components/carousel/DiscoverCarousel/_components/FilterContext";
 import { COUNTRIES } from "@/components/providers/constants";
 import ImageLoader from "@/components/shared/ImageLoader";
-import { ImageSizes } from "@/lib/constants";
 
 export default function FilterUi() {
   const {
@@ -270,7 +269,7 @@ export default function FilterUi() {
                               <ImageLoader
                                 src={provider.logoPath}
                                 alt="provider logo"
-                                apiWidth={ImageSizes.provider}
+                                imageType="provider"
                                 width={30}
                                 height={30}
                               />

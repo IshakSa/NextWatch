@@ -1,6 +1,5 @@
 import WatchedButton from "@/components/actions/WatchlistButtons/WatchedButton";
 import ImageLoader from "@/components/shared/ImageLoader";
-import { ImageSizes } from "@/lib/constants";
 import Link from "next/link";
 import InfoOverlay from "./InfoOverlay";
 import { toDisplayContentLength, toDisplayContentType } from "@/lib/utils";
@@ -9,6 +8,7 @@ import { WatchTabType } from "@/components/watchlist/WatchTab";
 import EditRatingButton from "@/components/actions/WatchlistButtons/EditRatingButton";
 import UserWatchInfo from "@/components/watchlist/_components/UserWatchInfo";
 import { WatchedItem, WatchlistItem } from "@/types/user";
+import { IMAGE_SIZES } from "@/lib/constants";
 
 export default function WatchlistCard({
   contentItem,
@@ -31,9 +31,9 @@ export default function WatchlistCard({
           <ImageLoader
             src={contentItem.posterPath}
             alt="poster"
-            apiWidth={ImageSizes.poster}
+            imageType="poster"
             className="rounded-xl"
-            width={ImageSizes.poster}
+            width={IMAGE_SIZES.poster}
             height={500}
           />
         </Link>
