@@ -1,11 +1,12 @@
-import { PopcornIcon, SearchIcon } from "lucide-react";
-import { ModeToggle } from "./ModeToggle";
+import { SearchIcon } from "lucide-react";
 import Link from "next/link";
 import AuthButton from "@/components/actions/AuthButton";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { Button } from "@/components/ui/button";
 import SearchOverlay from "./SearchOverlay";
 import UserMenu from "@/components/layout/navbar/_components/UserMenu";
+import Logo from "./Logo";
+import { ModeToggle } from "@/components/layout/navbar/_components/ModeToggle";
 
 export default function NavbarDesktop({
   navLinks,
@@ -20,17 +21,16 @@ export default function NavbarDesktop({
   handleSearchOverlay: () => void;
   isLoggedIn: boolean;
 }) {
-  const shouldDisplayRegister = useMediaQuery("(min-width: 1024px)");
+  const shouldDisplayRegister = useMediaQuery("(min-width: 1280px)");
 
   return (
-    <nav className="w-full flex justify-between items-center px-10 h-20 text-white max-w-7xl mx-auto">
+    <nav className="w-full flex justify-between items-center px-10 h-20 text-white container">
       {isSearchOverlayShown && <SearchOverlay handleSearchOverlay={handleSearchOverlay} />}
 
-      <div className="flex items-center flex-1 justify-start space-x-5">
+      <div className="flex items-center flex-1">
         <Link href={"/"}>
-          <PopcornIcon />
+          <Logo />
         </Link>
-        <ModeToggle />
       </div>
 
       <div className="flex items-center space-x-8 justify-center">
@@ -53,7 +53,7 @@ export default function NavbarDesktop({
         })}
       </div>
 
-      <div className="flex items-center gap-x-3 flex-1 justify-end">
+      <div className="flex items-center gap-x-5 flex-1 justify-end">
         <Button variant="ghost" onClick={handleSearchOverlay} className="rounded-lg" size="icon">
           <SearchIcon className="h-5.5! w-5.5!" />
         </Button>
@@ -68,6 +68,7 @@ export default function NavbarDesktop({
             </>
           )}
         </div>
+        <ModeToggle />
       </div>
     </nav>
   );

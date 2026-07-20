@@ -10,7 +10,7 @@ import NavbarMobile from "@/components/layout/navbar/_components/NavbarMobile";
 export default function NavbarUi({ isLoggedIn }: { isLoggedIn: boolean }) {
   const pathname = usePathname();
   const isScrolled = useIsScrolled();
-  const isDesktop = useMediaQuery("(min-width: 768px)");
+  const isDesktop = useMediaQuery("(min-width: 1024px)");
   const [isSearchOverlayShown, setIsSearchOverlayShown] = useState(false);
 
   function handleSearchOverlay() {

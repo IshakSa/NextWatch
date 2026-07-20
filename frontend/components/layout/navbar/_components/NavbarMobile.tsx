@@ -1,4 +1,4 @@
-import { MenuIcon, PopcornIcon, SearchIcon } from "lucide-react";
+import { MenuIcon, SearchIcon } from "lucide-react";
 import {
   Sheet,
   SheetClose,
@@ -13,6 +13,7 @@ import AuthButton from "@/components/actions/AuthButton";
 import { Button } from "@/components/ui/button";
 import SearchOverlay from "./SearchOverlay";
 import UserMenu from "@/components/layout/navbar/_components/UserMenu";
+import Logo from "@/components/layout/navbar/_components/Logo";
 
 export default function NavbarMobile({
   navLinks,
@@ -28,8 +29,8 @@ export default function NavbarMobile({
   isLoggedIn: boolean;
 }) {
   return (
-    <nav className="p-5 max-w-150 justify-between text-white flex items-center mx-auto">
-      <div className="flex">
+    <nav className="p-5 justify-between text-white flex items-center container">
+      <div className="flex gap-5">
         <Sheet>
           <SheetTrigger>
             <MenuIcon />
@@ -64,8 +65,8 @@ export default function NavbarMobile({
           </SheetContent>
         </Sheet>
 
-        <Link href={"/"} className="ml-5">
-          <PopcornIcon />
+        <Link href={"/"}>
+          <Logo />
         </Link>
       </div>
 
