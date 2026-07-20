@@ -74,6 +74,7 @@ export default function HeroContentCarousel({
                   page="home"
                   watchlistStatus={watchlistStatus}
                   isLoggedIn={isLoggedIn}
+                  clickable={true}
                 />
               </CarouselItem>
             );

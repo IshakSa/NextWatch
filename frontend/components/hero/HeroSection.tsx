@@ -24,12 +24,14 @@ export default function HeroSection({
   size = 70,
   watchlistStatus,
   isLoggedIn,
+  clickable = false,
 }: {
   contentItem: ContentItem;
   page: "home" | "details";
   size?: number;
   watchlistStatus: WatchlistStatus;
   isLoggedIn: boolean;
+  clickable?: boolean;
 }) {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const isReleased = isAlreadyReleased(contentItem.releaseDate);
@@ -41,9 +43,8 @@ export default function HeroSection({
       className="relative max-w-full flex justify-center items-center"
       style={{ height: `${size}vh` }}
     >
-      <HeroImage image={contentItem.backdropPath} />
+      <HeroImage contentItem={contentItem} clickable={clickable} />
 
-      {/* TODO: add video from contentItem data */}
       {isVideoPlaying && (
         <EmbeddedVideo youtubeId={contentItem.trailerId} setIsVideoPlaying={setIsVideoPlaying} />
       )}

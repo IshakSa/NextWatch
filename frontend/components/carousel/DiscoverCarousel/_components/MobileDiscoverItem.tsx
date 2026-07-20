@@ -1,6 +1,6 @@
 import { ChildRefActions } from "@/components/actions/WatchlistButtons/AddWatchlistButton";
 import { CarouselItem } from "@/components/ui/carousel";
-import { ContentItem } from "@/types";
+import { ContentItem, Image } from "@/types";
 import SavedFlash from "./SavedFlash";
 import ImageLoader from "@/components/shared/ImageLoader";
 import DiscoverEmbeddedVideo from "@/components/shared/DiscoverEmbeddedVideo";
@@ -12,7 +12,7 @@ import FilterButton from "@/components/actions/FilterButton/FilterButton";
 export default function MobileDiscoverItem({
   item,
   imagePath,
-  imageSize,
+  imageType,
   animatingSlideIndex,
   index,
   onRegisterRef,
@@ -21,7 +21,7 @@ export default function MobileDiscoverItem({
 }: {
   item: ContentItem;
   imagePath: string;
-  imageSize: number;
+  imageType: Image;
   animatingSlideIndex: number | null;
   index: number;
   onRegisterRef: (currentButton: ChildRefActions) => void;
@@ -39,7 +39,7 @@ export default function MobileDiscoverItem({
           <ImageLoader
             src={imagePath}
             alt="content backdrop"
-            apiWidth={imageSize}
+            imageType={imageType}
             className="object-cover "
             fill
           />

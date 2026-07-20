@@ -1,14 +1,13 @@
 "use client";
 
 import { Carousel, CarouselApi, CarouselContent } from "../../ui/carousel";
-import { ContentItem } from "@/types";
+import { ContentItem, Image } from "@/types";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { ChildRefActions } from "../../actions/WatchlistButtons/AddWatchlistButton";
 import MobileDiscoverItem from "./_components/MobileDiscoverItem";
 import DesktopDiscoverItem from "./_components/DesktopDiscoverItem";
 import { FilterProvider } from "./_components/FilterContext";
-import { IMAGE_SIZES } from "@/lib/constants";
 
 export default function DiscoverCarousel({ content }: { content: ContentItem[] }) {
   const [api, setApi] = useState<CarouselApi>();
@@ -76,7 +75,7 @@ export default function DiscoverCarousel({ content }: { content: ContentItem[] }
         <FilterProvider>
           {content.map((item, index) => {
             const imagePath = isDesktop ? item.backdropPath : item.posterPath;
-            const imageSize = isDesktop ? IMAGE_SIZES.backdrop : IMAGE_SIZES.poster;
+            const imageType: Image = isDesktop ? "backdrop" : "poster";
             const isVideoShown = currentSlide === index;
 
             return (
@@ -85,7 +84,7 @@ export default function DiscoverCarousel({ content }: { content: ContentItem[] }
                   <DesktopDiscoverItem
                     item={item}
                     imagePath={imagePath}
-                    imageSize={imageSize}
+                    imageType={imageType}
                     animatingSlideIndex={animatingSlideIndex}
                     index={index}
                     onRegisterRef={(currentButton) => {
@@ -98,7 +97,7 @@ export default function DiscoverCarousel({ content }: { content: ContentItem[] }
                   <MobileDiscoverItem
                     item={item}
                     imagePath={imagePath}
-                    imageSize={imageSize}
+                    imageType={imageType}
                     animatingSlideIndex={animatingSlideIndex}
                     index={index}
                     onRegisterRef={(currentButton) => {
