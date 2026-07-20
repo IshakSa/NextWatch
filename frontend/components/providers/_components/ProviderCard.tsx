@@ -1,6 +1,5 @@
 import ImageLoader from "@/components/shared/ImageLoader";
 import { Badge } from "@/components/ui/badge";
-import { ImageSizes } from "@/lib/constants";
 import { ProviderInfo } from "@/types";
 
 export default function ProviderCard({ provider }: { provider: ProviderInfo }) {
@@ -10,7 +9,7 @@ export default function ProviderCard({ provider }: { provider: ProviderInfo }) {
         <ImageLoader
           src={provider.logoPath}
           alt="provider logo"
-          apiWidth={ImageSizes.provider}
+          imageType="provider"
           width={30}
           height={30}
         />

@@ -1,6 +1,6 @@
 import ExpandableOverview from "@/components/shared/ExpandableOverview";
 import ImageLoader from "@/components/shared/ImageLoader";
-import { ImageSizes } from "@/lib/constants";
+import { IMAGE_SIZES } from "@/lib/constants";
 import { Episode } from "@/types";
 
 export default function EpisodeCard({ episode }: { episode: Episode }) {
@@ -9,9 +9,9 @@ export default function EpisodeCard({ episode }: { episode: Episode }) {
       <ImageLoader
         src={episode.stillPath}
         alt="still"
-        apiWidth={ImageSizes.still}
+        imageType="still"
         className="rounded-xl"
-        width={ImageSizes.still}
+        width={IMAGE_SIZES.still}
         height={150}
       />
       <div className="absolute bottom-0 left-0 z-10 p-4 md:p-3 w-full bg-linear-to-t from-black to-transparent rounded-b-xl">

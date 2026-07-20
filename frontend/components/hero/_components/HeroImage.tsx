@@ -1,13 +1,12 @@
 import ImageLoader from "@/components/shared/ImageLoader";
-import { ImageSizes } from "@/lib/constants";
 
 export default function HeroImage({ image }: { image: string }) {
   return (
     <>
       <ImageLoader
         src={image}
-        alt="poster"
-        apiWidth={ImageSizes.hero}
+        alt="hero"
+        imageType="hero"
         fill
         preload
         className="object-cover object-center"

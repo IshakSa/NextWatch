@@ -1,5 +1,4 @@
 import ImageLoader from "@/components/shared/ImageLoader";
-import { ImageSizes } from "@/lib/constants";
 import { Actor, Director } from "@/types";
 
 export default function CreditsCard({ person }: { person: Actor | Director }) {
@@ -9,7 +8,7 @@ export default function CreditsCard({ person }: { person: Actor | Director }) {
         <ImageLoader
           src={person.profilePath}
           alt="person image"
-          apiWidth={ImageSizes.credits}
+          imageType="credits"
           fill
           className="object-cover"
         />
