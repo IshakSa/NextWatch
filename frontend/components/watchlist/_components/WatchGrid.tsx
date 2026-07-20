@@ -6,14 +6,10 @@ export default function WatchGrid({
   displayedContent,
   deleteContentItemById,
   type,
-  onItemWatched,
-  onItemRatingUpdated,
 }: {
   displayedContent: WatchlistItem[] | WatchedItem[];
   deleteContentItemById: (contentItemId: number) => void;
   type: WatchTabType;
-  onItemWatched?: (contentItemId: number, userRating?: number) => void;
-  onItemRatingUpdated?: (contentItemId: number, rating: number) => void;
 }) {
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-x-4 gap-y-6">
@@ -23,8 +19,6 @@ export default function WatchGrid({
             contentItem={contentItem}
             deleteContentItemById={deleteContentItemById}
             type={type}
-            onItemWatched={onItemWatched}
-            onItemRatingUpdated={onItemRatingUpdated}
           />
         </div>
       ))}
