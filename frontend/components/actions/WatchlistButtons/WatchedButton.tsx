@@ -25,7 +25,6 @@ export default function WatchedButton({
   contentType: ContentType;
   isLoggedIn: boolean;
 }) {
-  const [savedRating, setSavedRating] = useState<number | null>(null);
   const [watched, setWatched] = useState(watchedInitialState);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const isDesktop = useMediaQuery("(min-width: 640px)");
@@ -56,30 +55,41 @@ export default function WatchedButton({
   }
 
   async function handleSaveRating(rating: number) {
-    setSavedRating(rating);
     await addWatched(contentId, contentType, rating);
+  }
+
+  function handleClosePopover(value: boolean) {
+    if (!value) {
+      setIsPopoverOpen(false);
+    }
   }
 
   return (
     <>
-      <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
+      <Popover open={isPopoverOpen} onOpenChange={handleClosePopover}>
         <PopoverTrigger
           render={
-            <ProtectedButton isLoggedIn={isLoggedIn} buttonAction={handleWatched}>
-              <Button variant={watched ? "watched" : "outline"} size={"icon"} className={className}>
-                {watched ? (
-                  <div className="flex space-x-2 items-center">
-                    <CheckIcon />
-                    {isDesktop && !hideText && <p>Watched</p>}
-                  </div>
-                ) : (
-                  <div className="flex space-x-2 items-center">
-                    <EyeIcon />
-                    {isDesktop && !hideText && <p>Mark as Watched</p>}
-                  </div>
-                )}
-              </Button>
-            </ProtectedButton>
+            <button>
+              <ProtectedButton isLoggedIn={isLoggedIn} buttonAction={handleWatched}>
+                <Button
+                  variant={watched ? "watched" : "outline"}
+                  size={"icon"}
+                  className={className}
+                >
+                  {watched ? (
+                    <div className="flex space-x-2 items-center">
+                      <CheckIcon />
+                      {isDesktop && !hideText && <p>Watched</p>}
+                    </div>
+                  ) : (
+                    <div className="flex space-x-2 items-center">
+                      <EyeIcon />
+                      {isDesktop && !hideText && <p>Mark as Watched</p>}
+                    </div>
+                  )}
+                </Button>
+              </ProtectedButton>
+            </button>
           }
         />
         <PopoverContent align="start" className="w-81 p-4">
