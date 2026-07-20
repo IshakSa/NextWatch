@@ -59,8 +59,7 @@ export default function HeroSection({
             </Badge>
           )}
 
-          <Badge className="px-3 py-2.5">Seen</Badge>
-          {/* TODO: ADD functionality to check if user has seen it */}
+          {watchlistStatus === "watched" && <Badge className="px-3 py-2.5">Seen</Badge>}
         </div>
 
         {!isReleased && (

@@ -50,6 +50,7 @@ export default function WatchlistCard({
               contentId={contentItem.id}
               contentType={contentItem.type}
               watchedInitialState={false}
+              isLoggedIn={true}
             />
           )}
           <DeleteButton
