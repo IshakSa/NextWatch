@@ -1,6 +1,6 @@
 spring:
     application:
-        name: MyApp
+        name: NextWatch
 
     datasource:
         url: jdbc:postgresql://localhost:5432/app_dev
@@ -28,7 +28,7 @@ server:
         context-path: /api
 logging:
     level:
-        <com.app.MyApp.api>: debug
+        <me.nextwatch.NextWatch.api>: debug
 
 app:
     jwt:

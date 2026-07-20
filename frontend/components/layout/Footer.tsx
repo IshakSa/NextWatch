@@ -6,7 +6,7 @@ export default function Footer() {
       <div className="container">
         <div className="flex flex-col lg:flex-row justify-between">
           <h1 className="pb-10 lg:w-1/2">
-            No more endless searching. <br/>
+            No more endless searching. <br />
             Scroll through personalized recommendations, discover hidden gems, and save your
             favorites.
           </h1>
@@ -18,8 +18,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div
-          className="flex flex-col items-center lg:flex-row justify-between text-muted-foreground">
+        <div className="flex flex-col items-center lg:flex-row justify-between text-muted-foreground">
           <div className="flex space-x-5">
             <Link href={"/privacy"} className="hover:text-accent-foreground">
               Privacy policy
@@ -32,7 +31,7 @@ export default function Footer() {
             </Link>
           </div>
 
-          <p className="mt-5">©2026 MyApp</p>
+          <p className="mt-5">©2026 NextWatch</p>
         </div>
       </div>
     </footer>
