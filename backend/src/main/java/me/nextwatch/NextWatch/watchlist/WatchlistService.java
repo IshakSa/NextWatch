@@ -1,6 +1,8 @@
 package me.nextwatch.NextWatch.watchlist;
 
 import me.nextwatch.NextWatch.user.User;
+import me.nextwatch.NextWatch.watchlist.dtos.WatchlistAddDto;
+import me.nextwatch.NextWatch.watchlist.dtos.WatchlistDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -1,9 +1,10 @@
 package me.nextwatch.NextWatch.watchlist;
 
 import me.nextwatch.NextWatch.content.ContentService;
-import me.nextwatch.NextWatch.content.ContentSummaryDto;
-import me.nextwatch.NextWatch.watchlist.WatchlistDto.SavedItem;
-import me.nextwatch.NextWatch.watchlist.WatchlistDto.WatchedItem;
+import me.nextwatch.NextWatch.content.dtos.ContentSummaryDto;
+import me.nextwatch.NextWatch.watchlist.dtos.WatchlistDto;
+import me.nextwatch.NextWatch.watchlist.dtos.WatchlistDto.SavedItem;
+import me.nextwatch.NextWatch.watchlist.dtos.WatchlistDto.WatchedItem;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

@@ -1,5 +1,7 @@
 package me.nextwatch.NextWatch.content;
 
+import me.nextwatch.NextWatch.content.dtos.ContentDetailsDto;
+import me.nextwatch.NextWatch.content.dtos.ContentSummaryDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

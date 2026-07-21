@@ -1,6 +1,8 @@
 package me.nextwatch.NextWatch.watchlist;
 
 import me.nextwatch.NextWatch.security.UserPrincipal;
+import me.nextwatch.NextWatch.watchlist.dtos.WatchlistAddDto;
+import me.nextwatch.NextWatch.watchlist.dtos.WatchlistDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

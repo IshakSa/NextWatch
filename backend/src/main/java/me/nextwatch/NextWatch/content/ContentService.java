@@ -1,6 +1,10 @@
 package me.nextwatch.NextWatch.content;
 
-import me.nextwatch.NextWatch.api.*;
+import me.nextwatch.NextWatch.api.TmdbApiClient;
+import me.nextwatch.NextWatch.api.TmdbPageResponse;
+import me.nextwatch.NextWatch.api.dtos.*;
+import me.nextwatch.NextWatch.content.dtos.ContentDetailsDto;
+import me.nextwatch.NextWatch.content.dtos.ContentSummaryDto;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;

@@ -1,8 +1,8 @@
-package me.nextwatch.NextWatch.watchlist;
+package me.nextwatch.NextWatch.watchlist.dtos;
 
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import lombok.Builder;
-import me.nextwatch.NextWatch.content.ContentSummaryDto;
+import me.nextwatch.NextWatch.content.dtos.ContentSummaryDto;
 
 import java.util.List;
 

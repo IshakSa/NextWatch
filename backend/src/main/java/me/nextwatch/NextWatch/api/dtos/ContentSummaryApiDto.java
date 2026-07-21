@@ -1,10 +1,11 @@
-package me.nextwatch.NextWatch.api;
+package me.nextwatch.NextWatch.api.dtos;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.annotation.Nullable;
 import lombok.Builder;
+import me.nextwatch.NextWatch.api.TmdbGenreResponse;
 import me.nextwatch.NextWatch.content.ContentType;
 
 import java.time.LocalDate;
