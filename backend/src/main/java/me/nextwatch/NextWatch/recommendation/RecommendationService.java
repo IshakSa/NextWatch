@@ -5,6 +5,8 @@ import me.nextwatch.NextWatch.content.ContentRepository;
 import me.nextwatch.NextWatch.content.ContentService;
 import me.nextwatch.NextWatch.content.dtos.ContentSummaryDto;
 import me.nextwatch.NextWatch.user.UserRepository;
+import me.nextwatch.NextWatch.watchlist.WatchlistItem;
+import me.nextwatch.NextWatch.watchlist.WatchlistRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,12 +17,17 @@ public class RecommendationService {
     private final UserRepository userRepository;
     private final ContentRepository contentRepository;
     private final ContentService contentService;
+    private final WatchlistRepository watchlistRepository;
 
     public RecommendationService(
-            UserRepository userRepository, ContentRepository contentRepository, ContentService contentService) {
+            UserRepository userRepository,
+            ContentRepository contentRepository,
+            ContentService contentService,
+            WatchlistRepository watchlistRepository) {
         this.userRepository = userRepository;
         this.contentRepository = contentRepository;
         this.contentService = contentService;
+        this.watchlistRepository = watchlistRepository;
     }
 
     public List<ContentSummaryDto> getUserRecommendations(Integer userId, int limit) {
@@ -28,8 +35,17 @@ public class RecommendationService {
                 .findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"))
                 .getEmbedding();
+        List<WatchlistItem> watchlist = watchlistRepository.findAllByIdUserId(userId);
+        List<Integer> watchlistContentIds = watchlist.stream()
+                .map(watchlistItem -> watchlistItem.getId().getContentId())
+                .toList();
 
-        List<Content> recommendations = contentRepository.findTopSimilarContent(userEmbedding, limit);
+        List<Content> recommendations =
+                contentRepository.findTopSimilarContent(userEmbedding, watchlistContentIds, limit);
+
+        if (recommendations.isEmpty()) {
+            return List.of();
+        }
 
         return recommendations.stream()
                 .map(item -> contentService.getContentByIdAndByType(
