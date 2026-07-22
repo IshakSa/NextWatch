@@ -1,16 +1,16 @@
 package me.nextwatch.NextWatch.content;
 
 import jakarta.annotation.Nullable;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.*;
 import me.nextwatch.NextWatch.content.credit.Credit;
 import me.nextwatch.NextWatch.content.provider.Provider;
 import me.nextwatch.NextWatch.content.season.Season;
+import org.hibernate.annotations.Array;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.type.SqlTypes;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -51,4 +51,9 @@ public class Content {
 
     @OneToMany(mappedBy = "content", cascade = CascadeType.ALL)
     private List<Provider> providers;
+
+    @JdbcTypeCode(SqlTypes.VECTOR)
+    @Array(length = 768)
+    @Column(columnDefinition = "vector(768)")
+    private float[] embedding;
 }
