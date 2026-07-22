@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Objects;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Builder
+@Builder(toBuilder = true)
 public record ContentSummaryApiDto(
         Integer id,
         // ! REFACTOR: WHEN USE NULLABLE?

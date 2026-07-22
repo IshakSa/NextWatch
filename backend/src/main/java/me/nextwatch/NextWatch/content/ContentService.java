@@ -86,17 +86,8 @@ public class ContentService {
                         ContentRuntimeDto runtimeResponse = tmdbApiClient.getContentRuntime(
                                 apiDto.contentType().toString().toLowerCase(), apiDto.id());
 
-                        return ContentSummaryApiDto.builder()
-                                .id(apiDto.id())
-                                .contentType(apiDto.contentType())
+                        return apiDto.toBuilder()
                                 .length(runtimeResponse.length())
-                                .rating(apiDto.rating())
-                                .overview(apiDto.overview())
-                                .title(apiDto.title())
-                                .genreIds(apiDto.genreIds())
-                                .posterPath(apiDto.posterPath())
-                                .backdropPath(apiDto.backdropPath())
-                                .releaseDate(apiDto.releaseDate())
                                 .build();
                     })
                     .toList();
@@ -109,19 +100,7 @@ public class ContentService {
                                 .getTrailers(apiDto.contentType().toString().toLowerCase(), apiDto.id())
                                 .getTrailerId();
 
-                        return ContentSummaryApiDto.builder()
-                                .id(apiDto.id())
-                                .contentType(apiDto.contentType())
-                                .length(apiDto.length())
-                                .rating(apiDto.rating())
-                                .overview(apiDto.overview())
-                                .title(apiDto.title())
-                                .genreIds(apiDto.genreIds())
-                                .posterPath(apiDto.posterPath())
-                                .backdropPath(apiDto.backdropPath())
-                                .releaseDate(apiDto.releaseDate())
-                                .trailerId(trailerId)
-                                .build();
+                        return apiDto.toBuilder().trailerId(trailerId).build();
                     })
                     .toList();
         }
@@ -189,11 +168,23 @@ public class ContentService {
         return content;
     }
 
-    public ContentSummaryDto getContentByIdAndByType(Integer contentId, ContentType contentType) {
+    public ContentSummaryDto getContentByIdAndByType(
+            Integer contentId, ContentType contentType, boolean includeTrailer) {
         ContentSummaryApiDto response = tmdbApiClient.getContentByTypeAndById(contentId, contentType.toLower());
+
+        if (includeTrailer) {
+            String trailerId = tmdbApiClient
+                    .getTrailers(contentType.toString().toLowerCase(), contentId)
+                    .getTrailerId();
+            response = response.toBuilder().trailerId(trailerId).build();
+        }
 
         ContentSummaryDto content = contentMapper.toContentSummaryDto(response, contentType);
         saveNewContentAsEmbedding(content);
         return content;
+    }
+
+    public ContentSummaryDto getContentByIdAndByType(Integer contentId, ContentType contentType) {
+        return getContentByIdAndByType(contentId, contentType, false);
     }
 }

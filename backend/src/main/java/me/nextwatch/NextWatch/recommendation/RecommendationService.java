@@ -33,7 +33,7 @@ public class RecommendationService {
 
         return recommendations.stream()
                 .map(item -> contentService.getContentByIdAndByType(
-                        item.getId().getContentId(), item.getId().getContentType()))
+                        item.getId().getContentId(), item.getId().getContentType(), true))
                 .toList();
     }
 }
