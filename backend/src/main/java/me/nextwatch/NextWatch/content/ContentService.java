@@ -5,6 +5,7 @@ import me.nextwatch.NextWatch.api.TmdbPageResponse;
 import me.nextwatch.NextWatch.api.dtos.*;
 import me.nextwatch.NextWatch.content.dtos.ContentDetailsDto;
 import me.nextwatch.NextWatch.content.dtos.ContentSummaryDto;
+import me.nextwatch.NextWatch.recommendation.EmbeddingService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -16,10 +17,36 @@ public class ContentService {
 
     private final TmdbApiClient tmdbApiClient;
     private final ContentMapper contentMapper;
+    private final EmbeddingService embeddingService;
+    private final ContentRepository contentRepository;
 
-    public ContentService(TmdbApiClient tmdbApiClient, ContentMapper contentMapper) {
+    public ContentService(
+            TmdbApiClient tmdbApiClient,
+            ContentMapper contentMapper,
+            EmbeddingService embeddingService,
+            ContentRepository contentRepository) {
         this.tmdbApiClient = tmdbApiClient;
         this.contentMapper = contentMapper;
+        this.embeddingService = embeddingService;
+        this.contentRepository = contentRepository;
+    }
+
+    private void saveNewContentAsEmbedding(ContentSummaryDto content) {
+        if (contentRepository.existsById(new ContentId(content.id(), content.type()))) {
+            return;
+        }
+
+        float[] embedding = embeddingService.getContentEmbedding(content);
+
+        Content contentEmbedding = Content.builder()
+                .id(new ContentId(content.id(), content.type()))
+                .embedding(embedding)
+                .build();
+        contentRepository.save(contentEmbedding);
+    }
+
+    private void saveNewContentAsEmbedding(List<ContentSummaryDto> content) {
+        content.forEach(this::saveNewContentAsEmbedding);
     }
 
     public List<ContentSummaryDto> getUpcoming() {
@@ -28,16 +55,20 @@ public class ContentService {
         List<ContentSummaryApiDto> response =
                 tmdbApiClient.getUpcoming(minDate, maxDate).results();
 
-        return contentMapper.toContentSummaryDtoList(response, ContentType.MOVIE);
+        List<ContentSummaryDto> content = contentMapper.toContentSummaryDtoList(response, ContentType.MOVIE);
+        saveNewContentAsEmbedding(content);
+        return content;
     }
 
     public List<ContentSummaryDto> getTopRated(ContentType contentType) {
         List<ContentSummaryApiDto> response =
                 tmdbApiClient.getTopRated(contentType.toLower()).results();
-        return contentMapper.toContentSummaryDtoList(response, contentType);
+
+        List<ContentSummaryDto> content = contentMapper.toContentSummaryDtoList(response, contentType);
+        saveNewContentAsEmbedding(content);
+        return content;
     }
 
-    // TODO: add include trailer logic
     public List<ContentSummaryDto> getTrending(TimeWindow timeWindow, boolean includeTrailer) {
         final int MAX_ITEMS_FOR_DAY = 5;
         final int MAX_ITEMS_FOR_WEEK = 10;
@@ -95,7 +126,9 @@ public class ContentService {
                     .toList();
         }
 
-        return contentMapper.toContentSummaryDtoList(response);
+        List<ContentSummaryDto> content = contentMapper.toContentSummaryDtoList(response);
+        saveNewContentAsEmbedding(content);
+        return content;
     }
 
     public ContentDetailsDto getDetails(Integer id, ContentType contentType, boolean includeSimilar) {
@@ -151,11 +184,16 @@ public class ContentService {
                 .filter(item -> item.contentType() != ContentType.PERSON && item.voteCount() >= 10)
                 .toList();
 
-        return contentMapper.toContentSummaryDtoList(apiResults);
+        List<ContentSummaryDto> content = contentMapper.toContentSummaryDtoList(apiResults);
+        saveNewContentAsEmbedding(content);
+        return content;
     }
 
     public ContentSummaryDto getContentByIdAndByType(Integer contentId, ContentType contentType) {
         ContentSummaryApiDto response = tmdbApiClient.getContentByTypeAndById(contentId, contentType.toLower());
-        return contentMapper.toContentSummaryDto(response, contentType);
+
+        ContentSummaryDto content = contentMapper.toContentSummaryDto(response, contentType);
+        saveNewContentAsEmbedding(content);
+        return content;
     }
 }

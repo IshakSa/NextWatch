@@ -1,6 +1,7 @@
 package me.nextwatch.NextWatch.watchlist;
 
 import me.nextwatch.NextWatch.user.User;
+import me.nextwatch.NextWatch.user.UserService;
 import me.nextwatch.NextWatch.watchlist.dtos.WatchlistAddDto;
 import me.nextwatch.NextWatch.watchlist.dtos.WatchlistDto;
 import org.springframework.stereotype.Service;
@@ -13,10 +14,17 @@ public class WatchlistService {
 
     private final WatchlistMapper watchlistMapper;
     private final WatchlistRepository watchlistRepository;
+    private final UserService userService;
 
-    public WatchlistService(WatchlistRepository watchlistRepository, WatchlistMapper watchlistMapper) {
+    public WatchlistService(
+            WatchlistRepository watchlistRepository, WatchlistMapper watchlistMapper, UserService userService) {
         this.watchlistRepository = watchlistRepository;
         this.watchlistMapper = watchlistMapper;
+        this.userService = userService;
+    }
+
+    private List<WatchlistItem> getWatchlistEntities(Integer userId) {
+        return watchlistRepository.findAllByIdUserId(userId);
     }
 
     public WatchlistDto getWatchlist(Integer userId) {
@@ -32,7 +40,6 @@ public class WatchlistService {
             return;
         }
 
-        // !: always add to the test account
         User user = User.builder().id(userId).build();
         WatchlistItem watchlistItem = WatchlistItem.builder()
                 .user(user)
@@ -43,10 +50,12 @@ public class WatchlistService {
                 .build();
 
         watchlistRepository.save(watchlistItem);
+        userService.updateEmbedding(userId, getWatchlistEntities(userId));
     }
 
     public void delete(Integer userId, Integer contentId) {
         watchlistRepository.deleteById(new WatchlistItemId(userId, contentId));
+        userService.updateEmbedding(userId, getWatchlistEntities(userId));
     }
 
     public WatchlistStatus getStatus(Integer userId, int contentId) {

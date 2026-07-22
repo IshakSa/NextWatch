@@ -4,7 +4,7 @@ import { request } from "@/lib/requestHandler";
 
 export default async function DiscoverPage() {
   const content: ContentItem[] = await request(
-    "/api/content/top-rated/movie",
+    "/api/user/recommendations?limit=30",
     "couldn't fetch data",
   );
 
