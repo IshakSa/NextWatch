@@ -1,5 +1,6 @@
-import {type ClassValue, clsx} from "clsx";
-import {twMerge} from "tailwind-merge";
+import { type ClassValue, clsx } from "clsx";
+import { toast } from "sonner";
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -64,19 +65,25 @@ export function getCurrentTime() {
 export function toReleaseDateDisplay(date: string) {
   // date format looks like this: yyyy-mm-dd,
   // to only get the year, we slice from index 0 to 4
-  return date.slice(0, 4)
+  return date.slice(0, 4);
 }
 
 export function isAlreadyReleased(date: string) {
-  const currentTime = Date.now()
-  const dateTime = new Date(date).getTime()
+  const currentTime = Date.now();
+  const dateTime = new Date(date).getTime();
 
   return dateTime <= currentTime;
-
 }
 
 export function toUpcomingReleaseDateDisplay(upcomingDate: string) {
   //  'T00:00:00' to prevent timezone shifts
   const date = new Date(`${upcomingDate}T00:00:00`);
-  return date.toLocaleDateString('en-US', {month: 'long', day: 'numeric'});
+  return date.toLocaleDateString("en-US", { month: "long", day: "numeric" });
+}
+
+export function showInDevToast() {
+  toast.info("Feature Unavailable", {
+    duration: 6000,
+    description: "This feature is currently under development and is not active yet.",
+  });
 }

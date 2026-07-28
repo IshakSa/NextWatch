@@ -8,7 +8,7 @@ import {
 import { Input } from "../../../ui/input";
 import { ScrollArea } from "../../../ui/scroll-area";
 import { ToggleGroup, ToggleGroupItem } from "../../../ui/toggle-group";
-import { cn } from "@/lib/utils";
+import { cn, showInDevToast } from "@/lib/utils";
 import { Tabs, TabsList, TabsTrigger } from "../../../ui/tabs";
 import { Check, Globe, Sliders, StarIcon, Tv } from "lucide-react";
 import {
@@ -353,7 +353,7 @@ export default function FilterUi() {
       <div className="flex justify-between gap-4">
         <Button
           className="flex-1 rounded-lg"
-          onClick={() => applyFilter()}
+          onClick={showInDevToast}
           disabled={!isCurrentFilterPayloadChanged()}
         >
           Apply

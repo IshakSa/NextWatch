@@ -1,5 +1,6 @@
 import { Button } from "../ui/button";
 import GoogleIcon from "../icons/GoogleIcon";
+import { showInDevToast } from "@/lib/utils";
 
 export default function OAuthButton() {
   return (
@@ -14,7 +15,7 @@ export default function OAuthButton() {
         <div className="grow h-px bg-border" />
       </div>
 
-      <Button variant="outline" className="w-full gap-3 rounded-lg mb-3">
+      <Button onClick={showInDevToast} variant="outline" className="w-full gap-3 rounded-lg mb-3">
         <GoogleIcon className="size-5" />
         <p>Continue with Google</p>
       </Button>
