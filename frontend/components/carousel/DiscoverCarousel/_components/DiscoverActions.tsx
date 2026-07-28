@@ -24,6 +24,8 @@ export default function DiscoverActions({
           hideText
           contentId={contentItem.id}
           contentType={contentItem.type}
+          isLoggedIn={true}
+          savedInitialState={false}
         />
         <span className="text-xs text-foreground/95">Save</span>
       </div>
@@ -34,6 +36,8 @@ export default function DiscoverActions({
           className="flex h-12 w-12 rounded-full backdrop-blur-xl"
           contentId={contentItem.id}
           contentType={contentItem.type}
+          isLoggedIn={true}
+          watchedInitialState={false}
         />
         <span className="text-xs text-foreground/95">Watched</span>
       </div>

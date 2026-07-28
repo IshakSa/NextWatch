@@ -23,6 +23,15 @@ spring:
                     default:
                         logger-level: BASIC
 
+    ai:
+        ollama:
+            base-url: http://localhost:11434
+            embedding:
+                model: nomic-embed-text:v1.5
+        vectorstore:
+            pgvector:
+                dimensions: 768
+
 server:
     servlet:
         context-path: /api

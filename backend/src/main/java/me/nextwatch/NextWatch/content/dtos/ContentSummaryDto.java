@@ -1,8 +1,9 @@
-package me.nextwatch.NextWatch.content;
+package me.nextwatch.NextWatch.content.dtos;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.annotation.Nullable;
 import lombok.Builder;
+import me.nextwatch.NextWatch.content.ContentType;
 
 import java.time.LocalDate;
 import java.util.List;

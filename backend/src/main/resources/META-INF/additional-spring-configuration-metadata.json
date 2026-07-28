@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "name": "spring.ai.vectorstore.pgvector.dimensions",
+      "type": "java.lang.String",
+      "description": "Description for spring.ai.vectorstore.pgvector.dimensions."
+    }
+  ]
+}

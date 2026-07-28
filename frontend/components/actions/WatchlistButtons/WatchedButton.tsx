@@ -68,8 +68,9 @@ export default function WatchedButton({
     <>
       <Popover open={isPopoverOpen} onOpenChange={handleClosePopover}>
         <PopoverTrigger
+          nativeButton={false}
           render={
-            <button>
+            <div>
               <ProtectedButton isLoggedIn={isLoggedIn} buttonAction={handleWatched}>
                 <Button
                   variant={watched ? "watched" : "outline"}
@@ -89,7 +90,7 @@ export default function WatchedButton({
                   )}
                 </Button>
               </ProtectedButton>
-            </button>
+            </div>
           }
         />
         <PopoverContent align="start" className="w-81 p-4">

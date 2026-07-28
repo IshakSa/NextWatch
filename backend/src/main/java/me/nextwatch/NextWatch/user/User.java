@@ -3,8 +3,11 @@ package me.nextwatch.NextWatch.user;
 import jakarta.persistence.*;
 import lombok.*;
 import me.nextwatch.NextWatch.watchlist.WatchlistItem;
+import org.hibernate.annotations.Array;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.type.SqlTypes;
 
 import java.time.Instant;
 import java.util.List;
@@ -48,4 +51,9 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<WatchlistItem> watchlistItems;
+
+    @JdbcTypeCode(SqlTypes.VECTOR)
+    @Array(length = 768)
+    @Column(columnDefinition = "vector(768)")
+    private float[] embedding;
 }

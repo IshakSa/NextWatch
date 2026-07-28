@@ -18,6 +18,7 @@ public class WatchlistItem {
 
     private WatchlistStatus status;
 
+    // TODO: fix timestamp
     private long addedTimestamp;
 
     @Nullable

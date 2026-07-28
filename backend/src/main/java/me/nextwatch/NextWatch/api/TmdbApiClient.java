@@ -1,5 +1,6 @@
 package me.nextwatch.NextWatch.api;
 
+import me.nextwatch.NextWatch.api.dtos.*;
 import me.nextwatch.NextWatch.config.FeignConfig;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
