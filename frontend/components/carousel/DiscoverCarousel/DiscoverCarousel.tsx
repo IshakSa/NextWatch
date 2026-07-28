@@ -8,8 +8,52 @@ import { ChildRefActions } from "../../actions/WatchlistButtons/AddWatchlistButt
 import MobileDiscoverItem from "./_components/MobileDiscoverItem";
 import DesktopDiscoverItem from "./_components/DesktopDiscoverItem";
 import { FilterProvider } from "./_components/FilterContext";
+import fetchNextRecommendations from "@/app/(no-footer)/discover/actions";
 
-export default function DiscoverCarousel({ content }: { content: ContentItem[] }) {
+type StoredSeenRecommendations = {
+  expiresAt: number;
+  seenIds: number[];
+};
+
+// 1 Week
+const getExpirationTimeMs = () => Date.now() + 7 * 24 * 60 * 60 * 1000;
+
+const getStoredSeenContent = () => {
+  const storedSeenRecommendations = localStorage.getItem("seen_recommendations");
+  const seenRecommendations: StoredSeenRecommendations = storedSeenRecommendations
+    ? JSON.parse(storedSeenRecommendations)
+    : { expiresAt: getExpirationTimeMs(), seenIds: [] };
+  return seenRecommendations;
+};
+
+const revalidateStoredSeenContent = () => {
+  const currentTimeMs = Date.now();
+  const seenContent = getStoredSeenContent();
+  if (seenContent.expiresAt <= currentTimeMs) {
+    localStorage.setItem(
+      "seen_recommendations",
+      JSON.stringify({
+        expiresAt: getExpirationTimeMs(),
+        seenIds: [],
+      }),
+    );
+    return;
+  }
+};
+
+const updateStoredSeenContent = (newLocalContentIds: number[]) => {
+  const seenContent = getStoredSeenContent();
+  localStorage.setItem(
+    "seen_recommendations",
+    JSON.stringify({
+      expiresAt: seenContent.expiresAt,
+      seenIds: Array.from(new Set([...seenContent.seenIds, ...newLocalContentIds])),
+    }),
+  );
+};
+
+export default function DiscoverCarousel() {
+  const [localContent, setLocalContent] = useState<ContentItem[]>([]);
   const [api, setApi] = useState<CarouselApi>();
   const sliderRef = useRef<HTMLDivElement | null>(null);
   const alreadyScrolled = useRef<boolean>(false);
@@ -18,6 +62,17 @@ export default function DiscoverCarousel({ content }: { content: ContentItem[] }
   const isDoubleClickLocked = useRef(false);
   const addWatchlistButtonRefs = useRef<ChildRefActions[]>([]);
   const [animatingSlideIndex, setAnimatingSlideIndex] = useState<number | null>(null);
+
+  useEffect(() => {
+    revalidateStoredSeenContent();
+
+    const loadContent = async () => {
+      const content = await fetchNextRecommendations(getStoredSeenContent().seenIds);
+      setLocalContent(content);
+      updateStoredSeenContent(content.map((content) => content.id));
+    };
+    loadContent();
+  }, []);
 
   useEffect(() => {
     const container = sliderRef.current;
@@ -50,6 +105,35 @@ export default function DiscoverCarousel({ content }: { content: ContentItem[] }
     });
   }, [api]);
 
+  // useEffect(() => {
+  //   if (!localContent || !localContent[currentSlide]) return;
+  //
+  //
+  //   const currentSeenItem = localContent[currentSlide].id;
+  //
+  //   const hasNotSeenYet = !seenContent.seenIds.includes(currentSeenItem);
+  //
+  // }, [currentSlide, localContent]);
+
+  useEffect(() => {
+    const seenContent = getStoredSeenContent();
+    const fetchNewBatch = async () => {
+      const newContent = await fetchNextRecommendations(seenContent.seenIds);
+
+      setLocalContent((prevContent) => {
+        const newLocalContent = [...prevContent, ...newContent];
+        const newLocalContentIds = newLocalContent.map((contentItem) => contentItem.id);
+        updateStoredSeenContent(newLocalContentIds);
+
+        return newLocalContent;
+      });
+    };
+
+    if (localContent.length - currentSlide === 5) {
+      fetchNewBatch();
+    }
+  }, [currentSlide, localContent.length]);
+
   function handleDoubleClick() {
     if (isDoubleClickLocked.current) return;
 
@@ -73,7 +157,7 @@ export default function DiscoverCarousel({ content }: { content: ContentItem[] }
     <Carousel orientation="vertical" className="w-full dark" setApi={setApi} ref={sliderRef}>
       <CarouselContent className="-mt-1 h-screen">
         <FilterProvider>
-          {content.map((item, index) => {
+          {localContent.map((item, index) => {
             const imagePath = isDesktop ? item.backdropPath : item.posterPath;
             const imageType: Image = isDesktop ? "backdrop" : "poster";
             const isVideoShown = currentSlide === index;

@@ -23,11 +23,14 @@ export default function SelectButton({
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          {Array.from({ length: seasonsAmount }, (_, index) => (
-            <SelectItem key={index} value={`Season ${index + 1}`}>
-              Season {index + 1}
-            </SelectItem>
-          ))}
+          {Array.from({ length: seasonsAmount }, (_, index) => {
+            const seasonNumber = index + 1;
+            return (
+              <SelectItem key={seasonNumber} value={`Season ${seasonNumber}`}>
+                Season {seasonNumber}
+              </SelectItem>
+            );
+          })}
         </SelectGroup>
       </SelectContent>
     </Select>

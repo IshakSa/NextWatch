@@ -54,7 +54,7 @@ export default async function DiscoverPage() {
 
   return (
     <main className="mode-dark no-doc-scroll">
-      <DiscoverCarousel content={content} />
+      <DiscoverCarousel />
     </main>
   );
 }

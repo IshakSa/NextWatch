@@ -10,6 +10,7 @@ import me.nextwatch.NextWatch.watchlist.WatchlistRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 public class RecommendationService {
@@ -30,18 +31,21 @@ public class RecommendationService {
         this.watchlistRepository = watchlistRepository;
     }
 
-    public List<ContentSummaryDto> getUserRecommendations(Integer userId, int limit) {
+    public List<ContentSummaryDto> getUserRecommendations(Integer userId, List<Integer> seenContentIds, int limit) {
         float[] userEmbedding = userRepository
                 .findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"))
                 .getEmbedding();
         List<WatchlistItem> watchlist = watchlistRepository.findAllByIdUserId(userId);
+
         List<Integer> watchlistContentIds = watchlist.stream()
                 .map(watchlistItem -> watchlistItem.getId().getContentId())
                 .toList();
+        List<Integer> excludedIds = Stream.concat(seenContentIds.stream(), watchlistContentIds.stream())
+                .distinct()
+                .toList();
 
-        List<Content> recommendations =
-                contentRepository.findTopSimilarContent(userEmbedding, watchlistContentIds, limit);
+        List<Content> recommendations = contentRepository.findTopSimilarContent(userEmbedding, excludedIds, limit);
 
         if (recommendations.isEmpty()) {
             return List.of();

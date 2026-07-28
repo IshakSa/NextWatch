@@ -1,8 +1,6 @@
 package me.nextwatch.NextWatch.user;
 
-import me.nextwatch.NextWatch.content.dtos.ContentSummaryDto;
 import me.nextwatch.NextWatch.recommendation.EmbeddingService;
-import me.nextwatch.NextWatch.recommendation.RecommendationService;
 import me.nextwatch.NextWatch.security.JwtService;
 import me.nextwatch.NextWatch.user.dtos.LoginDto;
 import me.nextwatch.NextWatch.user.dtos.LoginResponseDto;
@@ -26,7 +24,6 @@ public class UserService {
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
     private final EmbeddingService embeddingService;
-    private final RecommendationService recommendationService;
 
     public UserService(
             UserRepository userRepository,
@@ -34,15 +31,13 @@ public class UserService {
             BCryptPasswordEncoder passwordEncoder,
             AuthenticationManager authenticationManager,
             JwtService jwtService,
-            EmbeddingService embeddingService,
-            RecommendationService recommendationService) {
+            EmbeddingService embeddingService) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
         this.jwtService = jwtService;
         this.embeddingService = embeddingService;
-        this.recommendationService = recommendationService;
     }
 
     public User register(RegisterDto userDto) {
@@ -78,9 +73,5 @@ public class UserService {
         user.setEmbedding(embedding);
 
         userRepository.save(user);
-    }
-
-    public List<ContentSummaryDto> getRecommendations(Integer userId, int limit) {
-        return recommendationService.getUserRecommendations(userId, limit);
     }
 }

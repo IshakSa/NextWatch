@@ -1,6 +1,7 @@
 package me.nextwatch.NextWatch.user;
 
 import me.nextwatch.NextWatch.content.dtos.ContentSummaryDto;
+import me.nextwatch.NextWatch.recommendation.RecommendationService;
 import me.nextwatch.NextWatch.security.UserPrincipal;
 import me.nextwatch.NextWatch.user.dtos.LoginDto;
 import me.nextwatch.NextWatch.user.dtos.LoginResponseDto;
@@ -17,9 +18,11 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final RecommendationService recommendationService;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, RecommendationService recommendationService) {
         this.userService = userService;
+        this.recommendationService = recommendationService;
     }
 
     @PostMapping("/login")
@@ -34,8 +37,12 @@ public class UserController {
 
     @GetMapping("/recommendations")
     public ResponseEntity<List<ContentSummaryDto>> getRecommendations(
-            @AuthenticationPrincipal UserPrincipal currentUser, @RequestParam(defaultValue = "10") int limit) {
-        return new ResponseEntity<>(userService.getRecommendations(currentUser.getId(), limit), HttpStatus.OK);
+            @AuthenticationPrincipal UserPrincipal currentUser,
+            @RequestParam(defaultValue = "10") int limit,
+            @RequestParam(defaultValue = "") List<Integer> seenContentIds) {
+        return new ResponseEntity<>(
+                recommendationService.getUserRecommendations(currentUser.getId(), seenContentIds, limit),
+                HttpStatus.OK);
     }
 
     @DeleteMapping
