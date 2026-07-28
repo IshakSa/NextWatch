@@ -21,7 +21,7 @@ export default function NavbarUi({ isLoggedIn }: { isLoggedIn: boolean }) {
     { name: "Home", href: "/" },
     { name: "Discover", href: "/discover" },
     { name: "Watchlist", href: "/watchlist" },
-    { name: "Something", href: "/something" },
+    { name: "Soon", href: "/soon" },
   ];
 
   return (

@@ -84,9 +84,9 @@ export default async function MovieDetailsPage({
 
       {contentItem.similar && (
         <section className="container">
-          <ContentCarousel<"backdrop">
+          <ContentCarousel
             carouselType="backdrop"
-            carouselTitle="Similar Movies for you"
+            carouselTitle={`Similar ${contentItem.type === "movie" ? "movies" : "shows"} for you`}
             content={contentItem.similar}
             margin="mt-15"
           />

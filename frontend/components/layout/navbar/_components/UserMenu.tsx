@@ -30,6 +30,7 @@ export default function UserMenu() {
       description: "Your taste profile and watchlist have been removed from our servers.",
     });
     await deleteUserAccount();
+    localStorage.removeItem("seen_recommendations");
     router.replace("/");
     window.location.reload();
   }
