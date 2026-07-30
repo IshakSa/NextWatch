@@ -1,7 +1,7 @@
 services:
     postgres:
         image: pgvector/pgvector:pg17
-        container_name: production-db
+        container_name: prod-db
         environment:
             POSTGRES_USER: ${PROD_DB_USER}
             POSTGRES_PASSWORD: ${PROD_DB_PASSWORD}
@@ -12,19 +12,15 @@ services:
 
     ollama:
         image: ollama/ollama:0.32.5
-        container_name: production-embedding-model
+        container_name: prod-ollama-embedA
         volumes:
             - ollama_data:/root/.ollama
-        ports:
-            - "11434:11434"
         restart: always
 
     backend:
         build:
             context: ./backend
-        container_name: production-backend
-        ports:
-            - "8080:8080"
+        container_name: prod-backend
         environment:
             - SPRING_PROFILES_ACTIVE=prod
             - PROD_DB_URL=jdbc:postgresql://postgres:5432/${PROD_DB_POSTGRES_DB}
@@ -51,7 +47,7 @@ services:
             context: ./frontend
             args:
                 - NEXT_PUBLIC_CONTACT_EMAIL=${NEXT_PUBLIC_CONTACT_EMAIL}
-        container_name: production-frontend
+        container_name: prod-frontend
         environment:
             - BACKEND_URL=${BACKEND_URL}
         ports:
