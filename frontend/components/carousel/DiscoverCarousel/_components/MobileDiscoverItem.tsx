@@ -8,6 +8,7 @@ import DiscoverDetails from "./DiscoverDetails";
 import DiscoverActions from "./DiscoverActions";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import FilterButton from "@/components/actions/FilterButton/FilterButton";
+import DataAttributionButton from "./DataAttributionButton";
 
 export default function MobileDiscoverItem({
   item,
@@ -44,6 +45,10 @@ export default function MobileDiscoverItem({
             fill
           />
           <div className="dark absolute bottom-0 left-0 right-0 h-full bg-linear-to-t from-background to-transparent" />
+        </div>
+
+        <div className="absolute top-1/7 z-100 items-center gap-2">
+          <DataAttributionButton />
         </div>
 
         <div className="absolute right-4 top-1/7 z-100 items-center gap-2">

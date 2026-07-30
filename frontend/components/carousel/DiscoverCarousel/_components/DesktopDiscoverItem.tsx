@@ -7,6 +7,7 @@ import DiscoverEmbeddedVideo from "@/components/shared/DiscoverEmbeddedVideo";
 import DiscoverDetails from "./DiscoverDetails";
 import DiscoverActions from "./DiscoverActions";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import DataAttributionButton from "@/components/carousel/DiscoverCarousel/_components/DataAttributionButton";
 
 export default function DesktopDiscoverItem({
   item,
@@ -61,11 +62,15 @@ export default function DesktopDiscoverItem({
           </div>
 
           <div className="w-full mr-10 xl:mr-15 2xl:mr-30 max-w-xs xl:max-w-sm shrink-0 flex flex-col gap-10 rounded-2xl bg-zinc-900/50 backdrop-blur-xl border border-border p-6 shadow-2xl">
-            <DiscoverDetails
-              item={item}
-              isHighScreen={isHighScreen}
-              onDoubleClick={handleDoubleClick}
-            />
+            <div className="flex justify-between">
+              <DiscoverDetails
+                item={item}
+                isHighScreen={isHighScreen}
+                onDoubleClick={handleDoubleClick}
+              />
+
+              <DataAttributionButton />
+            </div>
 
             <DiscoverActions onRegisterRef={onRegisterRef} screen="desktop" contentItem={item} />
           </div>

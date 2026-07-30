@@ -105,16 +105,6 @@ export default function DiscoverCarousel() {
     });
   }, [api]);
 
-  // useEffect(() => {
-  //   if (!localContent || !localContent[currentSlide]) return;
-  //
-  //
-  //   const currentSeenItem = localContent[currentSlide].id;
-  //
-  //   const hasNotSeenYet = !seenContent.seenIds.includes(currentSeenItem);
-  //
-  // }, [currentSlide, localContent]);
-
   useEffect(() => {
     const seenContent = getStoredSeenContent();
     const fetchNewBatch = async () => {
