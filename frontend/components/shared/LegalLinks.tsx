@@ -20,7 +20,7 @@ export default function LegalLinks({
           Legal Notice (Impressum)
         </Link>
         <Link
-          href={`mailto:${process.env.CONTACT_EMAIL}`}
+          href={`mailto:${process.env.NEXT_PUBLIC_CONTACT_EMAIL}`}
           className="hover:text-accent-foreground transition-colors"
         >
           Contact Us

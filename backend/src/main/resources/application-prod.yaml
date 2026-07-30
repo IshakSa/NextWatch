@@ -1,0 +1,39 @@
+spring:
+    config:
+        activate:
+            on-profile: prod
+    datasource:
+        url: ${PROD_DB_URL}
+        username: ${PROD_DB_USER}
+        password: ${PROD_DB_PASSWORD}
+    jpa:
+        hibernate:
+            ddl-auto: update
+        open-in-view: false
+    web:
+        error:
+            include-stacktrace: never
+            include-message: never
+
+    ai:
+        ollama:
+            base-url: ${PROD_OLLAMA_URL}
+
+server:
+    shutdown: graceful
+logging:
+    level:
+        root: info
+        org:
+            hibernate:
+                SQL: warn
+                orm:
+                    results:
+                        loading: warn
+            springframework:
+                cloud:
+                    openfeign: warn
+management:
+    endpoint:
+        health:
+            show-details: never

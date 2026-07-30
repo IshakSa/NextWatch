@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   reactCompiler: true,
+  output: "standalone",
   allowedDevOrigins: ["192.168.0.78"],
   experimental: {
     turbopackFileSystemCacheForDev: true,
@@ -10,7 +11,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/api/:path*",
-        destination: "http://localhost:8080*",
+        destination: `${process.env.BACKEND_URL || "http://localhost:8080"}/api/:path*`,
       },
     ];
   },

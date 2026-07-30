@@ -3,29 +3,14 @@ spring:
         name: NextWatch
 
     datasource:
-        url: jdbc:postgresql://localhost:5432/app_dev
         driver-class-name: org.postgresql.Driver
-        username: ${DEV_DB_USER}
-        password: ${DEV_DB_PASSWORD}
-
-    jpa:
-        hibernate:
-            ddl-auto: update
-        show-sql: true
 
     jackson:
         deserialization:
             fail-on-unknown-properties: false
-    cloud:
-        openfeign:
-            client:
-                config:
-                    default:
-                        logger-level: BASIC
 
     ai:
         ollama:
-            base-url: http://localhost:11434
             embedding:
                 model: nomic-embed-text:v1.5
         vectorstore:
@@ -35,9 +20,6 @@ spring:
 server:
     servlet:
         context-path: /api
-logging:
-    level:
-        <me.nextwatch.NextWatch.api>: debug
 
 app:
     jwt:

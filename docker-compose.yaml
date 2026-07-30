@@ -1,0 +1,70 @@
+services:
+    postgres:
+        image: pgvector/pgvector:pg17
+        container_name: production-db
+        environment:
+            POSTGRES_USER: ${PROD_DB_USER}
+            POSTGRES_PASSWORD: ${PROD_DB_PASSWORD}
+            POSTGRES_DB: ${PROD_DB_POSTGRES_DB}
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+        restart: always
+
+    ollama:
+        image: ollama/ollama:0.32.5
+        container_name: production-embedding-model
+        volumes:
+            - ollama_data:/root/.ollama
+        ports:
+            - "11434:11434"
+        restart: always
+
+    backend:
+        build:
+            context: ./backend
+        container_name: production-backend
+        ports:
+            - "8080:8080"
+        environment:
+            - SPRING_PROFILES_ACTIVE=prod
+            - PROD_DB_URL=jdbc:postgresql://postgres:5432/${PROD_DB_POSTGRES_DB}
+            - PROD_DB_USER=${PROD_DB_USER}
+            - PROD_DB_PASSWORD=${PROD_DB_PASSWORD}
+            - PROD_DB_POSTGRES_DB=${PROD_DB_POSTGRES_DB}
+            - PROD_OLLAMA_URL=${PROD_OLLAMA_URL}
+            - TMDB_API_KEY=${TMDB_API_KEY}
+            - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+            - OAUTH2_GOOGLE_CLIENT_ID=${OAUTH2_GOOGLE_CLIENT_ID}
+            - OAUTH2_GOOGLE_SECRET_ID=${OAUTH2_GOOGLE_SECRET_ID}
+        depends_on:
+            - postgres
+            - ollama
+        deploy:
+            restart_policy:
+                condition: on-failure
+                delay: 5s
+                max_attempts: 5
+                window: 120s
+
+    frontend:
+        build:
+            context: ./frontend
+            args:
+                - NEXT_PUBLIC_CONTACT_EMAIL=${NEXT_PUBLIC_CONTACT_EMAIL}
+        container_name: production-frontend
+        environment:
+            - BACKEND_URL=${BACKEND_URL}
+        ports:
+            - "3000:3000"
+        depends_on:
+            - backend
+        deploy:
+            restart_policy:
+                condition: on-failure
+                delay: 3s
+                max_attempts: 5
+                window: 60s
+
+volumes:
+    postgres_data:
+    ollama_data:

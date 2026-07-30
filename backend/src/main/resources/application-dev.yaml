@@ -1,0 +1,28 @@
+spring:
+    config:
+        activate:
+            on-profile: dev
+    datasource:
+        url: jdbc:postgresql://localhost:5432/${DEV_DB_POSTGRES_DB}
+        driver-class-name: org.postgresql.Driver
+        username: ${DEV_DB_USER}
+        password: ${DEV_DB_PASSWORD}
+
+    ai:
+        ollama:
+            base-url: ${DEV_OLLAMA_URL}
+
+    jpa:
+        hibernate:
+            ddl-auto: update
+        show-sql: true
+
+    cloud:
+        openfeign:
+            client:
+                config:
+                    default:
+                        logger-level: BASIC
+logging:
+    level:
+        <me.nextwatch.NextWatch.api>: debug
