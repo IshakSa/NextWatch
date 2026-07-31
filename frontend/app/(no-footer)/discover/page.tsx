@@ -1,5 +1,4 @@
 import DiscoverCarousel from "@/components/carousel/DiscoverCarousel/DiscoverCarousel";
-import { ContentItem } from "@/types";
 import { request } from "@/lib/requestHandler";
 import {
   Card,
@@ -14,12 +13,12 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 export default async function DiscoverPage() {
-  const content: ContentItem[] = await request(
-    "/api/user/recommendations?limit=10",
+  const hasRecommendations: boolean = await request(
+    "/api/user/has-embedding-profile",
     "couldn't fetch data",
   );
 
-  if (content.length === 0) {
+  if (!hasRecommendations) {
     return (
       <main className="flex min-h-screen items-center justify-center p-4 bg-background">
         <Card className="max-w-md w-full bg-card/50">

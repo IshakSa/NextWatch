@@ -1,6 +1,7 @@
 "use client";
 
-import OAuthButton from "@/components/auth/OAuthButton";
+// !TODO: REGISTRATION CURRENTLY DISABLED
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -11,16 +12,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { FieldGroup } from "@/components/ui/field";
 import Link from "next/link";
-import { FormProvider, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import FieldInput from "../../../components/auth/field/FieldInput";
-import { registerUser } from "./actions";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
-import { loginUser } from "@/app/(main)/login/actions";
 
 const registerSchema = z
   .object({
@@ -51,79 +46,40 @@ export default function RegisterPage() {
     },
   });
 
-  const router = useRouter();
-
-  async function handleSubmit(data: RegisterValues) {
-    try {
-      await registerUser(data);
-      await loginUser({ email: data.email, password: data.password });
-      router.push("/");
-    } catch (error) {
-      toast.error("Registration failed", {
-        description: "Something went wrong. Please try again later.",
-      });
-    }
-  }
+  // const router = useRouter();
+  //
+  // async function handleSubmit(data: RegisterValues) {
+  //   try {
+  //     await registerUser(data);
+  //     await loginUser({ email: data.email, password: data.password });
+  //     router.push("/");
+  //   } catch (error) {
+  //     toast.error("Registration failed", {
+  //       description: "Something went wrong. Please try again later.",
+  //     });
+  //   }
+  // }
 
   return (
     <main>
       <div className="container flex min-h-screen items-center mt-3 justify-center">
         <Card className="w-full max-w-sm">
           <CardHeader>
-            <CardTitle>Register to start discovering</CardTitle>
-            <CardDescription>Enter your details to create your account</CardDescription>
+            <CardTitle>Registration currently disabled</CardTitle>
+            <CardDescription>
+              This app is in active Beta. Public registration is paused, but you can explore using
+              the <span className="text-foreground">Demo Account </span>. Credentials can be found
+              directly on the login page.
+            </CardDescription>
           </CardHeader>
 
-          <CardContent>
-            <FormProvider {...form}>
-              <form onSubmit={form.handleSubmit(handleSubmit)} id="register-form" noValidate>
-                <FieldGroup className="flex flex-col gap-4 lg:gap-5 2xl:gap-6">
-                  <FieldInput<RegisterValues>
-                    name="username"
-                    label="Username"
-                    placeholder="Username"
-                    type="text"
-                  />
-
-                  <FieldInput<RegisterValues>
-                    name="email"
-                    label="Email"
-                    placeholder="Email"
-                    type="email"
-                  />
-
-                  <FieldInput<RegisterValues>
-                    name="password"
-                    label="Password"
-                    placeholder="Password"
-                    type="password"
-                  />
-
-                  <FieldInput<RegisterValues>
-                    name="confirmPassword"
-                    label="Confirm Password"
-                    placeholder="Password"
-                    type="password"
-                  />
-
-                  <FieldInput<RegisterValues> name="tos" label="" placeholder="" type="" />
-                </FieldGroup>
-              </form>
-            </FormProvider>
-          </CardContent>
+          <CardContent></CardContent>
 
           <CardFooter className="flex-col gap-2">
-            <Button type="submit" className="w-full rounded-lg" form="register-form">
-              Register
-            </Button>
-
-            <OAuthButton />
-
             <div className="flex items-center muted-text">
-              <p>Already have an account?</p>
               <CardAction>
                 <Button variant="link" className="font-semibold">
-                  <Link href="/login">Login</Link>
+                  <Link href="/login">Go to Login Page</Link>
                 </Button>
               </CardAction>
             </div>
@@ -132,4 +88,72 @@ export default function RegisterPage() {
       </div>
     </main>
   );
+
+  // return (
+  //   <main>
+  //     <div className="container flex min-h-screen items-center mt-3 justify-center">
+  //       <Card className="w-full max-w-sm">
+  //         <CardHeader>
+  //           <CardTitle>Register to start discovering</CardTitle>
+  //           <CardDescription>Enter your details to create your account</CardDescription>
+  //         </CardHeader>
+  //
+  //         <CardContent>
+  //           <FormProvider {...form}>
+  //             <form onSubmit={form.handleSubmit(handleSubmit)} id="register-form" noValidate>
+  //               <FieldGroup className="flex flex-col gap-4 lg:gap-5 2xl:gap-6">
+  //                 <FieldInput<RegisterValues>
+  //                   name="username"
+  //                   label="Username"
+  //                   placeholder="Username"
+  //                   type="text"
+  //                 />
+  //
+  //                 <FieldInput<RegisterValues>
+  //                   name="email"
+  //                   label="Email"
+  //                   placeholder="Email"
+  //                   type="email"
+  //                 />
+  //
+  //                 <FieldInput<RegisterValues>
+  //                   name="password"
+  //                   label="Password"
+  //                   placeholder="Password"
+  //                   type="password"
+  //                 />
+  //
+  //                 <FieldInput<RegisterValues>
+  //                   name="confirmPassword"
+  //                   label="Confirm Password"
+  //                   placeholder="Password"
+  //                   type="password"
+  //                 />
+  //
+  //                 <FieldInput<RegisterValues> name="tos" label="" placeholder="" type="" />
+  //               </FieldGroup>
+  //             </form>
+  //           </FormProvider>
+  //         </CardContent>
+  //
+  //         <CardFooter className="flex-col gap-2">
+  //           <Button type="submit" className="w-full rounded-lg" form="register-form">
+  //             Register
+  //           </Button>
+  //
+  //           <OAuthButton />
+  //
+  //           <div className="flex items-center muted-text">
+  //             <p>Already have an account?</p>
+  //             <CardAction>
+  //               <Button variant="link" className="font-semibold">
+  //                 <Link href="/login">Login</Link>
+  //               </Button>
+  //             </CardAction>
+  //           </div>
+  //         </CardFooter>
+  //       </Card>
+  //     </div>
+  //   </main>
+  // );
 }

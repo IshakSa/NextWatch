@@ -20,7 +20,6 @@ export default function WatchlistCard({
   type: WatchTabType;
 }) {
   function handleDeleteContentItem() {
-    console.log("Deleted: ", contentItem.id);
     deleteContentItemById(contentItem.id);
   }
 

@@ -19,20 +19,23 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { deleteUserAccount, logoutUser } from "@/components/layout/navbar/_components/actions";
+import { logoutUser } from "@/components/layout/navbar/_components/actions";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { showInDevToast } from "@/lib/utils";
 
 export default function UserMenu() {
   const router = useRouter();
   async function deleteAccount() {
-    toast.error("Account permanently deleted", {
-      description: "Your taste profile and watchlist have been removed from our servers.",
-    });
-    await deleteUserAccount();
-    localStorage.removeItem("seen_recommendations");
-    router.replace("/");
-    window.location.reload();
+    // !TODO: DELETION CURRENTLY DISABLED
+    // toast.error("Account permanently deleted", {
+    //   description: "Your taste profile and watchlist have been removed from our servers.",
+    // });
+    // await deleteUserAccount();
+    // localStorage.removeItem("seen_recommendations");
+    // router.replace("/");
+    // window.location.reload();
+    showInDevToast();
   }
   async function logout() {
     toast.success("Logged out successfully", {

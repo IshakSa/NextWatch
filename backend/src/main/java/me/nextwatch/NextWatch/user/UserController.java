@@ -30,9 +30,11 @@ public class UserController {
         return new ResponseEntity<>(userService.login(userDto), HttpStatus.OK);
     }
 
+    // !TODO: REGISTRATION CURRENTLY DISABLED
     @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody RegisterDto userDto) {
-        return new ResponseEntity<>(userService.register(userDto), HttpStatus.OK);
+    public ResponseEntity<Void> register(@RequestBody RegisterDto userDto) {
+        //        return new ResponseEntity<>(userService.register(userDto), HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 
     @GetMapping("/recommendations")
@@ -45,9 +47,16 @@ public class UserController {
                 HttpStatus.OK);
     }
 
+    @GetMapping("/has-embedding-profile")
+    public ResponseEntity<Boolean> hasEmbeddingProfile(@AuthenticationPrincipal UserPrincipal currentUser) {
+        return new ResponseEntity<>(userService.hasEmbeddingProfile(currentUser.getId()), HttpStatus.OK);
+    }
+
+    // !TODO: DELETION CURRENTLY DISABLED
     @DeleteMapping
     public ResponseEntity<Void> delete(@AuthenticationPrincipal UserPrincipal currentUser) {
-        userService.delete(currentUser.getId());
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        //        userService.delete(currentUser.getId());
+        //        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 }

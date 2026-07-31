@@ -32,7 +32,7 @@ public class EmbeddingService {
 
     public float[] getUserEmbedding(List<WatchlistItem> watchlist) {
         if (watchlist == null || watchlist.isEmpty()) {
-            return new float[0];
+            return null;
         }
 
         List<ContentId> contentIds = watchlist.stream()

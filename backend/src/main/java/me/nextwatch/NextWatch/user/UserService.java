@@ -74,4 +74,9 @@ public class UserService {
 
         userRepository.save(user);
     }
+
+    public Boolean hasEmbeddingProfile(Integer userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        return user.getEmbedding() != null;
+    }
 }

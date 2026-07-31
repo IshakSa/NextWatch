@@ -9,6 +9,17 @@ import MobileDiscoverItem from "./_components/MobileDiscoverItem";
 import DesktopDiscoverItem from "./_components/DesktopDiscoverItem";
 import { FilterProvider } from "./_components/FilterContext";
 import fetchNextRecommendations from "@/app/(no-footer)/discover/actions";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { ClapperboardIcon } from "lucide-react";
 
 type StoredSeenRecommendations = {
   expiresAt: number;
@@ -141,6 +152,39 @@ export default function DiscoverCarousel() {
     setTimeout(() => {
       setAnimatingSlideIndex(null);
     }, 950);
+  }
+
+  if (localContent.length === 0) {
+    return (
+      <div className="flex min-h-screen items-center justify-center p-4 bg-background">
+        <Card className="max-w-md w-full bg-card/50">
+          <CardHeader className="text-center pb-2">
+            <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
+              <ClapperboardIcon className="h-6 w-6" />
+            </div>
+
+            <CardTitle className="text-xl font-bold tracking-tight sm:text-2xl">
+              You’ve seen all our current recommendations
+            </CardTitle>
+
+            <CardDescription className="text-sm text-muted-foreground pt-2 leading-relaxed">
+              To get new suggestions, simply save more titles to your watchlist or mark them as
+              watched.
+            </CardDescription>
+          </CardHeader>
+
+          <CardContent />
+
+          <CardFooter className="flex flex-col sm:flex-row gap-2 w-full">
+            <Link className="w-full" href="/">
+              <Button className="w-full" size="lg">
+                Browse Movies & Shows
+              </Button>
+            </Link>
+          </CardFooter>
+        </Card>
+      </div>
+    );
   }
 
   return (

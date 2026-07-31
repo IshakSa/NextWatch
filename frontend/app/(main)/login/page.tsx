@@ -9,7 +9,7 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
+  CardTitle
 } from "@/components/ui/card";
 import { FieldGroup } from "@/components/ui/field";
 import Link from "next/link";
@@ -20,6 +20,7 @@ import FieldInput from "../../../components/auth/field/FieldInput";
 import { loginUser } from "./actions";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { RefreshCwIcon } from "lucide-react";
 
 const loginSchema = z.object({
   email: z.email("Please enter a valid email address"),
@@ -52,7 +53,7 @@ export default function LoginPage() {
 
   return (
     <main>
-      <div className="container flex min-h-screen items-center mt-3 justify-center">
+      <div className="container flex flex-col gap-5 min-h-screen items-center mt-3 justify-center">
         <Card className="w-full max-w-sm">
           <CardHeader>
             <CardTitle>Login to your account</CardTitle>
@@ -97,6 +98,29 @@ export default function LoginPage() {
               </CardAction>
             </div>
           </CardFooter>
+        </Card>
+
+        <Card className="w-full max-w-xs">
+          <CardContent className="space-y-3">
+            <div className="flex items-center justify-between border-b pb-2">
+              <span className="font-semibold">Demo Account</span>
+              <span className="flex items-center gap-1 text-muted-foreground">
+                <RefreshCwIcon className="h-2.5 w-2.5 animate-[spin_4s_linear_infinite]" />
+                Resets daily
+              </span>
+            </div>
+
+            <div className="space-y-1 text-xs">
+              <div className="flex items-center">
+                <span className="text-muted-foreground w-16 shrink-0">Email:</span>
+                <span className="select-all text-foreground font-semibold">test@mail.com</span>
+              </div>
+              <div className="flex items-center">
+                <span className="text-muted-foreground w-16 shrink-0">Password:</span>
+                <span className="select-all text-foreground font-semibold">Test1234</span>
+              </div>
+            </div>
+          </CardContent>
         </Card>
       </div>
     </main>

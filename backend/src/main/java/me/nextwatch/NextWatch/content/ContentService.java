@@ -45,7 +45,7 @@ public class ContentService {
         contentRepository.save(contentEmbedding);
     }
 
-    private void saveNewContentAsEmbedding(List<ContentSummaryDto> content) {
+    public void saveNewContentAsEmbedding(List<ContentSummaryDto> content) {
         content.forEach(this::saveNewContentAsEmbedding);
     }
 
