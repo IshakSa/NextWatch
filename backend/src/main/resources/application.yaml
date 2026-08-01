@@ -13,9 +13,6 @@ spring:
         ollama:
             embedding:
                 model: nomic-embed-text:v1.5
-        vectorstore:
-            pgvector:
-                dimensions: 768
 
 server:
     servlet:
