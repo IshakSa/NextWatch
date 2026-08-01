@@ -12,10 +12,16 @@ services:
 
     ollama:
         image: ollama/ollama:0.32.5
-        container_name: prod-ollama-embedA
+        container_name: prod-ollama-embed
         volumes:
             - ollama_data:/root/.ollama
         restart: always
+        entrypoint: [ "/bin/sh", "-c" ]
+        command: >
+            "ollama serve &
+            sleep 5;
+            ollama pull nomic-embed-text:v1.5;
+            wait"
 
     backend:
         build:
