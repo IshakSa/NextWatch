@@ -67,9 +67,9 @@ services:
                 max_attempts: 5
                 window: 60s
         volumes:
-            - /var/www/static-legal-files/impressum-content.html:/app/public/impressum-content.html
-            - /var/www/static-legal-files/privacy-content.html:/app/public/privacy-content.html
-            - /var/www/static-legal-files/terms-of-service-content.html:/app/public/terms-of-service-content.html
+            - ${LEGAL_DOCS_VOLUME_PATH:?LEGAL_DOCS_VOLUME_PATH is missing}/impressum-content.html:/app/public/impressum-content.html
+            - ${LEGAL_DOCS_VOLUME_PATH:?LEGAL_DOCS_VOLUME_PATH is missing}/privacy-content.html:/app/public/privacy-content.html
+            - ${LEGAL_DOCS_VOLUME_PATH:?LEGAL_DOCS_VOLUME_PATH is missing}/terms-of-service-content.html:/app/public/terms-of-service-content.html
 
 volumes:
     postgres_data:
