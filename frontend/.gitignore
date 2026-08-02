@@ -41,8 +41,6 @@ yarn-error.log*
 next-env.d.ts
 
 certificates
+/public/impressum-content.html
 /public/privacy-content.html
 /public/terms-of-service-content.html
-/app/(main)/impressum/
-/app/(main)/tos/
-/app/(main)/privacy/

@@ -66,6 +66,10 @@ services:
                 delay: 3s
                 max_attempts: 5
                 window: 60s
+        volumes:
+            - ${LEGAL_DOCS_VOLUME_PATH}/impressum-content.html:/app/public/impressum-content.html
+            - ${LEGAL_DOCS_VOLUME_PATH}/privacy-content.html:/app/public/privacy-content.html
+            - ${LEGAL_DOCS_VOLUME_PATH}/terms-of-service-content.html:/app/public/terms-of-service-content.html
 
 volumes:
     postgres_data:
