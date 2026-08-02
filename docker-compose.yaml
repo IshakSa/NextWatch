@@ -2,10 +2,10 @@ services:
     postgres:
         image: pgvector/pgvector:pg17
         container_name: prod-db
-        environment:
-            - POSTGRES_USER=${PROD_DB_USER}
-            - POSTGRES_PASSWORD=${PROD_DB_PASSWORD}
-            - POSTGRES_DB=${PROD_DB_POSTGRES_DB}
+        #        environment:
+        #            - POSTGRES_USER=${PROD_DB_USER}
+        #            - POSTGRES_PASSWORD=${PROD_DB_PASSWORD}
+        #            - POSTGRES_DB=${PROD_DB_POSTGRES_DB}
         volumes:
             - postgres_data:/var/lib/postgresql/data
         restart: always
