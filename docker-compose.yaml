@@ -29,7 +29,7 @@ services:
         container_name: prod-backend
         environment:
             - SPRING_PROFILES_ACTIVE=prod
-            - PROD_DB_URL=jdbc:postgresql://postgres:5432/${PROD_DB_POSTGRES_DB}
+            #            - PROD_DB_URL=jdbc:postgresql://postgres:5432/${PROD_DB_POSTGRES_DB}
             #            - PROD_DB_USER=${PROD_DB_USER}
             #            - PROD_DB_PASSWORD=${PROD_DB_PASSWORD}
             #            - PROD_DB_POSTGRES_DB=${PROD_DB_POSTGRES_DB}
