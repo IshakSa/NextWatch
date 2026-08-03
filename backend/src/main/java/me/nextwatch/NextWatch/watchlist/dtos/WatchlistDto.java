@@ -10,8 +10,8 @@ import java.util.List;
 public record WatchlistDto(List<SavedItem> saved, List<WatchedItem> watched) {
 
     @Builder
-    public record SavedItem(@JsonUnwrapped ContentSummaryDto contentItem, long addedTimestamp) {}
+    public record SavedItem(@JsonUnwrapped ContentSummaryDto contentItem, Long addedTimestamp) {}
 
     @Builder
-    public record WatchedItem(@JsonUnwrapped ContentSummaryDto contentItem, double userRating, long watchedTimestamp) {}
+    public record WatchedItem(@JsonUnwrapped ContentSummaryDto contentItem, Double userRating, Long watchedTimestamp) {}
 }

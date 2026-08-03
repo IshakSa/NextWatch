@@ -28,17 +28,23 @@ public class WatchlistService {
     }
 
     public WatchlistDto getWatchlist(Integer userId) {
-        // !: always get from test account
         List<WatchlistItem> watchlist = watchlistRepository.findAllByIdUserId(userId);
 
         return watchlistMapper.toWatchlistDto(watchlist);
     }
 
     public void add(Integer userId, WatchlistAddDto watchlistAddDto) {
+        // TODO: change how already seen content is handled here
+        // suggestion: if user adds content to saved, and he already seen it, show seen batch in frontend in saved tab
         if (watchlistAddDto.status().equals(WatchlistStatus.SAVED)
                 && watchlistRepository.existsById(new WatchlistItemId(userId, watchlistAddDto.contentId()))) {
             return;
         }
+
+        WatchlistItem currentWatchlistItem = watchlistRepository
+                .findById(new WatchlistItemId(userId, watchlistAddDto.contentId()))
+                .orElse(null);
+        boolean watchlistItemExists = currentWatchlistItem != null;
 
         User user = User.builder().id(userId).build();
         WatchlistItem watchlistItem = WatchlistItem.builder()
@@ -47,6 +53,8 @@ public class WatchlistService {
                 .status(watchlistAddDto.status())
                 .contentType(watchlistAddDto.contentType())
                 .userRating(watchlistAddDto.userRating())
+                .addedTimestamp(watchlistItemExists ? currentWatchlistItem.getAddedTimestamp() : null)
+                .watchedTimestamp(watchlistItemExists ? currentWatchlistItem.getWatchedTimestamp() : null)
                 .build();
 
         watchlistRepository.save(watchlistItem);

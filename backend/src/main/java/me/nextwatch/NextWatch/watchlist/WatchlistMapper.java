@@ -29,13 +29,13 @@ public class WatchlistMapper {
             if (watchlistItem.getStatus().equals(WatchlistStatus.SAVED)) {
                 SavedItem savedItem = SavedItem.builder()
                         .contentItem(contentItem)
-                        .addedTimestamp(System.currentTimeMillis())
+                        .addedTimestamp(watchlistItem.getSavedEpochSecond())
                         .build();
                 saved.add(savedItem);
             } else {
                 WatchedItem watchedItem = WatchedItem.builder()
                         .contentItem(contentItem)
-                        .watchedTimestamp(System.currentTimeMillis())
+                        .watchedTimestamp(watchlistItem.getWatchedEpochSecond())
                         .userRating(watchlistItem.getUserRating())
                         .build();
                 watched.add(watchedItem);
