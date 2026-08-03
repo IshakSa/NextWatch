@@ -87,9 +87,9 @@ services:
                 max_attempts: 5
                 window: 60s
         volumes:
-            - ${LEGAL_DOCS_VOLUME_PATH:-/var/www/static-legal-files}/impressum-content.html:/app/public/impressum-content.html
-            - ${LEGAL_DOCS_VOLUME_PATH:-/var/www/static-legal-files}/privacy-content.html:/app/public/privacy-content.html
-            - ${LEGAL_DOCS_VOLUME_PATH:-/var/www/static-legal-files}/terms-of-service-content.html:/app/public/terms-of-service-content.html
+            - /var/www/static-legal-files/impressum-content.html:/app/public/impressum-content.html
+            - /var/www/static-legal-files/privacy-content.html:/app/public/privacy-content.html
+            - /var/www/static-legal-files/terms-of-service-content.html:/app/public/terms-of-service-content.html
         healthcheck:
             test: [ "CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:3000/api/health || exit 1" ]
             interval: 30s
