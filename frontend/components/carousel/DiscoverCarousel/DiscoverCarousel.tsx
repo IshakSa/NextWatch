@@ -73,6 +73,7 @@ export default function DiscoverCarousel() {
   const isDoubleClickLocked = useRef(false);
   const addWatchlistButtonRefs = useRef<ChildRefActions[]>([]);
   const [animatingSlideIndex, setAnimatingSlideIndex] = useState<number | null>(null);
+  const [initContentLoaded, setInitContentLoaded] = useState(false);
 
   useEffect(() => {
     revalidateStoredSeenContent();
@@ -81,6 +82,8 @@ export default function DiscoverCarousel() {
       const content = await fetchNextRecommendations(getStoredSeenContent().seenIds);
       setLocalContent(content);
       updateStoredSeenContent(content.map((content) => content.id));
+
+      setInitContentLoaded(true);
     };
     loadContent();
   }, []);
@@ -155,36 +158,44 @@ export default function DiscoverCarousel() {
   }
 
   if (localContent.length === 0) {
-    return (
-      <div className="flex min-h-screen items-center justify-center p-4 bg-background">
-        <Card className="max-w-md w-full bg-card/50">
-          <CardHeader className="text-center pb-2">
-            <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
-              <ClapperboardIcon className="h-6 w-6" />
-            </div>
+    if (!initContentLoaded) {
+      return (
+        <div className="flex h-screen w-screen items-center justify-center">
+          <h2>Finding recommendations for you...</h2>
+        </div>
+      );
+    } else {
+      return (
+        <div className="flex min-h-screen items-center justify-center p-4 bg-background">
+          <Card className="max-w-md w-full bg-card/50">
+            <CardHeader className="text-center pb-2">
+              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
+                <ClapperboardIcon className="h-6 w-6" />
+              </div>
 
-            <CardTitle className="text-xl font-bold tracking-tight sm:text-2xl">
-              You’ve seen all our current recommendations
-            </CardTitle>
+              <CardTitle className="text-xl font-bold tracking-tight sm:text-2xl">
+                You’ve seen all our current recommendations
+              </CardTitle>
 
-            <CardDescription className="text-sm text-muted-foreground pt-2 leading-relaxed">
-              To get new suggestions, simply save more titles to your watchlist or mark them as
-              watched.
-            </CardDescription>
-          </CardHeader>
+              <CardDescription className="text-sm text-muted-foreground pt-2 leading-relaxed">
+                To get new suggestions, simply save more titles to your watchlist or mark them as
+                watched.
+              </CardDescription>
+            </CardHeader>
 
-          <CardContent />
+            <CardContent />
 
-          <CardFooter className="flex flex-col sm:flex-row gap-2 w-full">
-            <Link className="w-full" href="/">
-              <Button className="w-full" size="lg">
-                Browse Movies & Shows
-              </Button>
-            </Link>
-          </CardFooter>
-        </Card>
-      </div>
-    );
+            <CardFooter className="flex flex-col sm:flex-row gap-2 w-full">
+              <Link className="w-full" href="/">
+                <Button className="w-full" size="lg">
+                  Browse Movies & Shows
+                </Button>
+              </Link>
+            </CardFooter>
+          </Card>
+        </div>
+      );
+    }
   }
 
   return (

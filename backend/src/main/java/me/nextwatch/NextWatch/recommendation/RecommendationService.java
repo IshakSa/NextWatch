@@ -8,6 +8,7 @@ import me.nextwatch.NextWatch.user.UserRepository;
 import me.nextwatch.NextWatch.watchlist.WatchlistItem;
 import me.nextwatch.NextWatch.watchlist.WatchlistRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -31,6 +32,7 @@ public class RecommendationService {
         this.watchlistRepository = watchlistRepository;
     }
 
+    @Transactional
     public List<ContentSummaryDto> getUserRecommendations(Integer userId, List<Integer> seenContentIds, int limit) {
         float[] userEmbedding = userRepository
                 .findById(userId)
@@ -45,6 +47,7 @@ public class RecommendationService {
                 .distinct()
                 .toList();
 
+        contentRepository.setLocalEfSearch();
         List<Content> recommendations = contentRepository.findTopSimilarContent(userEmbedding, excludedIds, limit);
 
         if (recommendations.isEmpty()) {
