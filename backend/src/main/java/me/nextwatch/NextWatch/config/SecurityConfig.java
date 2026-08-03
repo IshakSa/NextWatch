@@ -33,10 +33,11 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtFilter jwtFilter) {
         return http.csrf(CsrfConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/user/register", "/user/login", "/content/**")
-                        .permitAll()
-                        .anyRequest()
-                        .authenticated())
+                .authorizeHttpRequests(
+                        auth -> auth.requestMatchers("/user/register", "/user/login", "/content/**", "/actuator/health")
+                                .permitAll()
+                                .anyRequest()
+                                .authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

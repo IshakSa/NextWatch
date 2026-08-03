@@ -9,6 +9,11 @@ services:
         volumes:
             - postgres_data:/var/lib/postgresql/data
         restart: always
+        healthcheck:
+            test: [ "CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}" ]
+            interval: 10s
+            timeout: 5s
+            retries: 5
 
     ollama:
         image: ollama/ollama:0.32.5
@@ -22,6 +27,12 @@ services:
             sleep 5;
             ollama pull nomic-embed-text:v1.5;
             wait"
+        healthcheck:
+            test: [ "CMD-SHELL", "ollama list | grep -q 'nomic-embed-text:v1.5' || exit 1" ]
+            interval: 300s
+            timeout: 5s
+            retries: 3
+            start_period: 15s
 
     backend:
         build:
@@ -39,14 +50,22 @@ services:
             - OAUTH2_GOOGLE_CLIENT_ID=${OAUTH2_GOOGLE_CLIENT_ID}
             - OAUTH2_GOOGLE_SECRET_ID=${OAUTH2_GOOGLE_SECRET_ID}
         depends_on:
-            - postgres
-            - ollama
+            postgres:
+                condition: service_healthy
+            ollama:
+                condition: service_healthy
         deploy:
             restart_policy:
                 condition: on-failure
                 delay: 5s
                 max_attempts: 5
                 window: 120s
+        healthcheck:
+            test: [ "CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:8080/api/actuator/health || exit 1" ]
+            interval: 20s
+            timeout: 5s
+            retries: 3
+            start_period: 45s
 
     frontend:
         build:
@@ -59,7 +78,8 @@ services:
         ports:
             - "3000:3000"
         depends_on:
-            - backend
+            backend:
+                condition: service_healthy
         deploy:
             restart_policy:
                 condition: on-failure
@@ -67,9 +87,15 @@ services:
                 max_attempts: 5
                 window: 60s
         volumes:
-            - /var/www/static-legal-files/impressum-content.html:/app/public/impressum-content.html
-            - /var/www/static-legal-files/privacy-content.html:/app/public/privacy-content.html
-            - /var/www/static-legal-files/terms-of-service-content.html:/app/public/terms-of-service-content.html
+            - ./frontend/public/impressum-content.html:/app/public/impressum-content.html
+            - ./frontend/public/privacy-content.html:/app/public/privacy-content.html
+            - ./frontend/public/terms-of-service-content.html:/app/public/terms-of-service-content.html
+        healthcheck:
+            test: [ "CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:3000/api/health || exit 1" ]
+            interval: 30s
+            timeout: 5s
+            retries: 3
+            start_period: 15s
 
 volumes:
     postgres_data:
