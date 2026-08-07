@@ -21,6 +21,7 @@ import { loginUser } from "./actions";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { RefreshCwIcon } from "lucide-react";
+import posthog from "posthog-js";
 
 const loginSchema = z.object({
   email: z.email("Please enter a valid email address"),
@@ -42,9 +43,11 @@ export default function LoginPage() {
 
   async function handleSubmit(data: LoginValues) {
     try {
-      await loginUser(data);
+      const { userId } = await loginUser(data);
+      posthog.identify(userId, { email: data.email });
+      posthog.capture("login_completed");
       router.push("/");
-    } catch (error) {
+    } catch {
       toast.error("Login failed", {
         description: "Invalid email or password. Please check your credentials and try again.",
       });

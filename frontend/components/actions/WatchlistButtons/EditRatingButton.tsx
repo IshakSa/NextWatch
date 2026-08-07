@@ -8,6 +8,7 @@ import EditStarIcon from "../../icons/EditStarIcon";
 import StarRating from "../../shared/StarRating";
 import { addWatched } from "@/components/actions/WatchlistButtons/actions";
 import { ContentType } from "@/types";
+import posthog from "posthog-js";
 
 export default function EditRatingButton({
   className,
@@ -46,6 +47,11 @@ export default function EditRatingButton({
   async function handleSaveRating(rating: number) {
     setSavedRating(rating);
     await addWatched(contentId, contentType, rating);
+    posthog.capture("content_rating_saved", {
+      content_id: contentId,
+      content_type: contentType,
+      rating,
+    });
   }
 
   return (

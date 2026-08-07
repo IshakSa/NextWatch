@@ -9,6 +9,7 @@ import StarRating from "../../shared/StarRating";
 import { ContentType } from "@/types";
 import { addWatched, removeWatchlist } from "@/components/actions/WatchlistButtons/actions";
 import ProtectedButton from "@/components/shared/ProtectedButton";
+import posthog from "posthog-js";
 
 export default function WatchedButton({
   className,
@@ -47,11 +48,19 @@ export default function WatchedButton({
       setIsPopoverOpen(true);
 
       await addWatched(contentId, contentType, 0);
+      posthog.capture("content_marked_watched", {
+        content_id: contentId,
+        content_type: contentType,
+      });
       return;
     }
 
     setIsPopoverOpen(false);
     await removeWatchlist(contentId);
+    posthog.capture("content_marked_unwatched", {
+      content_id: contentId,
+      content_type: contentType,
+    });
   }
 
   async function handleSaveRating(rating: number) {

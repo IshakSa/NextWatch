@@ -23,6 +23,7 @@ import { logoutUser } from "@/components/layout/navbar/_components/actions";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { showInDevToast } from "@/lib/utils";
+import posthog from "posthog-js";
 
 export default function UserMenu() {
   const router = useRouter();
@@ -38,6 +39,7 @@ export default function UserMenu() {
     showInDevToast();
   }
   async function logout() {
+    posthog.reset();
     toast.success("Logged out successfully", {
       description: "Goodbye! Hope to see you back soon for more movies.",
     });

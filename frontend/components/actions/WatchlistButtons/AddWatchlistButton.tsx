@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { addWatchlist, removeWatchlist } from "@/components/actions/WatchlistButtons/actions";
 import { ContentType } from "@/types";
 import ProtectedButton from "@/components/shared/ProtectedButton";
+import posthog from "posthog-js";
 
 export interface ChildRefActions {
   triggerChildFunction: () => void;
@@ -46,6 +47,10 @@ const AddWatchlistButton = forwardRef<ChildRefActions, AddWatchlistButtonProps>(
       setIsSaved(previousState);
       undoToast();
       await addWatchlist(contentId, contentType);
+      posthog.capture("watchlist_item_added", {
+        content_id: contentId,
+        content_type: contentType,
+      });
     };
 
     const removedToast = (previousState: boolean) => {
@@ -75,9 +80,17 @@ const AddWatchlistButton = forwardRef<ChildRefActions, AddWatchlistButtonProps>(
         if (newState) {
           addedToast();
           await addWatchlist(contentId, contentType);
+          posthog.capture("watchlist_item_added", {
+            content_id: contentId,
+            content_type: contentType,
+          });
         } else {
           removedToast(previousState);
           await removeWatchlist(contentId);
+          posthog.capture("watchlist_item_removed", {
+            content_id: contentId,
+            content_type: contentType,
+          });
         }
       } catch (error: unknown) {
         if (error instanceof Error) {
