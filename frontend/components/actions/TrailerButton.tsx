@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { PlayIcon } from "lucide-react";
+import posthog from "posthog-js";
 
 export default function TrailerButton({
   className,
@@ -12,6 +13,7 @@ export default function TrailerButton({
 }) {
   function handlePlayVideo() {
     setIsVideoPlaying(true);
+    posthog.capture("trailer_started");
   }
 
   return (

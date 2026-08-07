@@ -5,6 +5,7 @@ import { Button } from "../ui/button";
 import { useState } from "react";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { toast } from "sonner";
+import posthog from "posthog-js";
 
 export default function ShareButton({
   className,
@@ -26,10 +27,12 @@ export default function ShareButton({
     if (navigator.share) {
       try {
         await navigator.share(shareData);
+        posthog.capture("content_shared", { share_method: "native" });
       } catch {}
     } else {
       try {
         await navigator.clipboard.writeText(window.location.href);
+        posthog.capture("content_shared", { share_method: "clipboard" });
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
 

@@ -1,10 +1,18 @@
+"use client";
+
 import Link from "next/link";
+import posthog from "posthog-js";
 
 export default function LegalLinks({
   flexRowOnLargeScreen = true,
 }: {
   flexRowOnLargeScreen?: boolean;
 }) {
+  function resetCookies() {
+    posthog.clear_opt_in_out_capturing();
+    window.location.reload();
+  }
+
   return (
     <div
       className={`flex flex-col ${flexRowOnLargeScreen && "lg:flex-row"} items-center mt-10 lg:mt-5 justify-between text-muted-foreground gap-y-4`}
@@ -25,6 +33,13 @@ export default function LegalLinks({
         >
           Contact Us
         </Link>
+
+        <button
+          onClick={resetCookies}
+          className="cursor-pointer hover:text-accent-foreground transition-colors"
+        >
+          Cookie settings
+        </button>
       </div>
 
       <p>©2026 NextWatch. All rights reserved</p>

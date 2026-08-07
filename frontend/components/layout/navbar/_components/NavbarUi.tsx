@@ -3,15 +3,28 @@
 import { usePathname } from "next/navigation";
 import { useIsScrolled } from "@/hooks/useIsScrolled";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import posthog from "posthog-js";
 import NavbarDesktop from "@/components/layout/navbar/_components/NavbarDesktop";
 import NavbarMobile from "@/components/layout/navbar/_components/NavbarMobile";
 
-export default function NavbarUi({ isLoggedIn }: { isLoggedIn: boolean }) {
+export default function NavbarUi({
+  isLoggedIn,
+  userId,
+}: {
+  isLoggedIn: boolean;
+  userId: string | null;
+}) {
   const pathname = usePathname();
   const isScrolled = useIsScrolled();
   const isDesktop = useMediaQuery("(min-width: 1024px)");
   const [isSearchOverlayShown, setIsSearchOverlayShown] = useState(false);
+
+  useEffect(() => {
+    if (userId) {
+      posthog.identify(userId);
+    }
+  }, [userId]);
 
   function handleSearchOverlay() {
     setIsSearchOverlayShown(!isSearchOverlayShown);
