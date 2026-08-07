@@ -5,6 +5,7 @@ import Navbar from "@/components/layout/navbar/Navbar";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/layout/ThemeProvider";
 import { Toaster } from "sonner";
+import { Banner } from "@/app/banner";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -34,6 +35,8 @@ export default async function RootLayout({
           <Navbar />
 
           {children}
+
+          <Banner />
 
           <Toaster
             position="top-center"
