@@ -72,6 +72,8 @@ services:
             context: ./frontend
             args:
                 - NEXT_PUBLIC_CONTACT_EMAIL=${NEXT_PUBLIC_CONTACT_EMAIL}
+                - NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN=${NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN}
+                - NEXT_PUBLIC_POSTHOG_HOST=${NEXT_PUBLIC_POSTHOG_HOST}
         container_name: prod-frontend
         environment:
             - BACKEND_URL=${BACKEND_URL}
