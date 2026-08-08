@@ -50,6 +50,7 @@ Movie and TV series metadata is sourced from the [TMDB](https://www.themoviedb.o
 | Embeddings   | Ollama, `nomic-embed-text`                      |
 | External API | TMDB API                                        |
 | Deployment   | Docker, Coolify, Netcup VPS                     |
+| Analytics    | PostHog                                         |
 
 ## Recommendation System
 
