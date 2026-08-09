@@ -98,6 +98,10 @@ services:
             timeout: 5s
             retries: 6
             start_period: 60s
+        labels:
+            - "traefik.http.middlewares.scraper-limit.ratelimit.average=3"
+            - "traefik.http.middlewares.scraper-limit.ratelimit.burst=10"
+            - "traefik.http.routers.nextjs-router.middlewares=scraper-limit"
 
 volumes:
     postgres_data:
