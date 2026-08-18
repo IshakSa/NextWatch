@@ -46,7 +46,7 @@ public class DemoAccountResetTask {
         });
     }
 
-    private List<WatchlistAddDto> getDefaultWatchlist() {
+    public List<WatchlistAddDto> getDefaultWatchlist() {
         WatchlistAddDto dune2 = new WatchlistAddDto(693134, ContentType.MOVIE, WatchlistStatus.SAVED, null);
         WatchlistAddDto theBear = new WatchlistAddDto(136315, ContentType.TV, WatchlistStatus.SAVED, null);
         WatchlistAddDto spiderman = new WatchlistAddDto(969681, ContentType.MOVIE, WatchlistStatus.SAVED, null);
