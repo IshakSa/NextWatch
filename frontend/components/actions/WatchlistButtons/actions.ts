@@ -17,8 +17,8 @@ export async function addWatched(contentId: number, contentType: ContentType, us
   });
 }
 
-export async function removeWatchlist(contentId: number) {
-  await request(`/api/watchlist/${contentId}`, "deleting from watchlist failed", {
+export async function removeWatchlist(contentId: number, contentType: ContentType) {
+  await request(`/api/watchlist/${contentType}/${contentId}`, "deleting from watchlist failed", {
     method: "DELETE",
   });
 }

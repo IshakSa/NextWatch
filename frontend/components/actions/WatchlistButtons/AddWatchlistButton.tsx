@@ -86,7 +86,7 @@ const AddWatchlistButton = forwardRef<ChildRefActions, AddWatchlistButtonProps>(
           });
         } else {
           removedToast(previousState);
-          await removeWatchlist(contentId);
+          await removeWatchlist(contentId, contentType);
           posthog.capture("watchlist_item_removed", {
             content_id: contentId,
             content_type: contentType,
