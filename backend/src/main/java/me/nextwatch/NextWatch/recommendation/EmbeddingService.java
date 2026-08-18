@@ -36,7 +36,7 @@ public class EmbeddingService {
         }
 
         List<ContentId> contentIds = watchlist.stream()
-                .map(item -> new ContentId(item.getId().getContentId(), item.getContentType()))
+                .map(item -> item.getId().getEmbeddedContentId())
                 .toList();
         List<Content> content = contentRepository.findAllById(contentIds);
         List<float[]> embeddings = content.stream().map(Content::getEmbedding).toList();

@@ -41,7 +41,8 @@ public class RecommendationService {
         List<WatchlistItem> watchlist = watchlistRepository.findAllByIdUserId(userId);
 
         List<Integer> watchlistContentIds = watchlist.stream()
-                .map(watchlistItem -> watchlistItem.getId().getContentId())
+                .map(watchlistItem ->
+                        watchlistItem.getId().getEmbeddedContentId().getContentId())
                 .toList();
         List<Integer> excludedIds = Stream.concat(seenContentIds.stream(), watchlistContentIds.stream())
                 .distinct()
@@ -55,8 +56,7 @@ public class RecommendationService {
         }
 
         return recommendations.stream()
-                .map(item -> contentService.getContentByIdAndByType(
-                        item.getId().getContentId(), item.getId().getContentType(), true))
+                .map(item -> contentService.getContentByIdAndByType(item.getId(), true))
                 .toList();
     }
 }
