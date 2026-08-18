@@ -56,7 +56,7 @@ public class RecommendationService {
         }
 
         return recommendations.stream()
-                .map(item -> contentService.getContentByIdAndByType(item.getId(), true))
+                .map(item -> contentService.getContentByContentId(item.getId(), true))
                 .toList();
     }
 }

@@ -184,7 +184,7 @@ public class ContentService {
         return content;
     }
 
-    public ContentSummaryDto getContentByIdAndByType(ContentId contentId) {
+    public ContentSummaryDto getContentByContentId(ContentId contentId) {
         return getContentByContentId(contentId, false);
     }
 }

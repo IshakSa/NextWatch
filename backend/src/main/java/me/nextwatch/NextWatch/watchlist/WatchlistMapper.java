@@ -24,7 +24,7 @@ public class WatchlistMapper {
 
         watchlist.forEach(watchlistItem -> {
             ContentSummaryDto contentItem =
-                    contentService.getContentByIdAndByType(watchlistItem.getId().getEmbeddedContentId());
+                    contentService.getContentByContentId(watchlistItem.getId().getEmbeddedContentId());
 
             if (watchlistItem.getStatus().equals(WatchlistStatus.SAVED)) {
                 SavedItem savedItem = SavedItem.builder()
