@@ -3,7 +3,7 @@ package me.nextwatch.NextWatch.watchlist;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.*;
-import me.nextwatch.NextWatch.content.ContentType;
+import me.nextwatch.NextWatch.content.Content;
 import me.nextwatch.NextWatch.user.User;
 
 import java.time.Instant;
@@ -34,7 +34,10 @@ public class WatchlistItem {
     @JoinColumn(name = "user_id")
     private User user;
 
-    private ContentType contentType;
+    @ManyToOne
+    @MapsId("embeddedContentId")
+    @JoinColumns({@JoinColumn(name = "content_id"), @JoinColumn(name = "content_type")})
+    private Content content;
 
     @PrePersist
     @PreUpdate
