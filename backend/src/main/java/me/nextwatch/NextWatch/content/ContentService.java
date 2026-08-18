@@ -168,23 +168,23 @@ public class ContentService {
         return content;
     }
 
-    public ContentSummaryDto getContentByIdAndByType(
-            Integer contentId, ContentType contentType, boolean includeTrailer) {
-        ContentSummaryApiDto response = tmdbApiClient.getContentByTypeAndById(contentId, contentType.toLower());
+    public ContentSummaryDto getContentByContentId(ContentId contentId, boolean includeTrailer) {
+        ContentSummaryApiDto response = tmdbApiClient.getContentByTypeAndById(
+                contentId.getContentId(), contentId.getContentType().toLower());
 
         if (includeTrailer) {
             String trailerId = tmdbApiClient
-                    .getTrailers(contentType.toString().toLowerCase(), contentId)
+                    .getTrailers(contentId.getContentType().toString().toLowerCase(), contentId.getContentId())
                     .getTrailerId();
             response = response.toBuilder().trailerId(trailerId).build();
         }
 
-        ContentSummaryDto content = contentMapper.toContentSummaryDto(response, contentType);
+        ContentSummaryDto content = contentMapper.toContentSummaryDto(response, contentId.getContentType());
         saveNewContentAsEmbedding(content);
         return content;
     }
 
-    public ContentSummaryDto getContentByIdAndByType(Integer contentId, ContentType contentType) {
-        return getContentByIdAndByType(contentId, contentType, false);
+    public ContentSummaryDto getContentByIdAndByType(ContentId contentId) {
+        return getContentByContentId(contentId, false);
     }
 }

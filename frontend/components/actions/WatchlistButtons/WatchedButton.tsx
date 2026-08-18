@@ -56,7 +56,7 @@ export default function WatchedButton({
     }
 
     setIsPopoverOpen(false);
-    await removeWatchlist(contentId);
+    await removeWatchlist(contentId, contentType);
     posthog.capture("content_marked_unwatched", {
       content_id: contentId,
       content_type: contentType,

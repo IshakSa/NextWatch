@@ -45,7 +45,7 @@ export default function WatchTab({
         WatchlistItem[] | WatchedItem[],
     );
 
-    await removeWatchlist(deletedContentItem.id);
+    await removeWatchlist(deletedContentItem.id, deletedContentItem.type);
 
     displayDeletedAlert(deletedContentItem);
   }

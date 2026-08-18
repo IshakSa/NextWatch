@@ -1,5 +1,6 @@
 package me.nextwatch.NextWatch.watchlist;
 
+import me.nextwatch.NextWatch.content.ContentType;
 import me.nextwatch.NextWatch.security.UserPrincipal;
 import me.nextwatch.NextWatch.watchlist.dtos.WatchlistAddDto;
 import me.nextwatch.NextWatch.watchlist.dtos.WatchlistDto;
@@ -30,16 +31,21 @@ public class WatchlistController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{contentId}")
+    @DeleteMapping("/{contentType}/{contentId}")
     public ResponseEntity<Void> delete(
-            @AuthenticationPrincipal UserPrincipal currentUser, @PathVariable Integer contentId) {
-        watchlistService.delete(currentUser.getId(), contentId);
+            @AuthenticationPrincipal UserPrincipal currentUser,
+            @PathVariable ContentType contentType,
+            @PathVariable Integer contentId) {
+        watchlistService.delete(currentUser.getId(), contentType, contentId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/status/{contentId}")
+    @GetMapping("/{contentType}/{contentId}/status")
     public ResponseEntity<WatchlistStatus> getStatus(
-            @AuthenticationPrincipal UserPrincipal currentUser, @PathVariable int contentId) {
-        return new ResponseEntity<>(watchlistService.getStatus(currentUser.getId(), contentId), HttpStatus.OK);
+            @AuthenticationPrincipal UserPrincipal currentUser,
+            @PathVariable ContentType contentType,
+            @PathVariable Integer contentId) {
+        return new ResponseEntity<>(
+                watchlistService.getStatus(currentUser.getId(), contentType, contentId), HttpStatus.OK);
     }
 }

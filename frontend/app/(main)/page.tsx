@@ -1,12 +1,12 @@
 import ContentCarousel from "@/components/carousel/ContentCarousel";
 import HeroContentCarousel from "@/components/hero/HeroContentCarousel";
-import { ContentItem } from "@/types/content";
+import { ContentItem, ContentType } from "@/types/content";
 import { WatchlistStatus } from "@/types";
 import { request } from "@/lib/requestHandler";
 import { cookies } from "next/headers";
 
-async function getWatchlistStatus(contentId: number) {
-  return await request(`/api/watchlist/status/${contentId}`, "failed to fetch data");
+async function getWatchlistStatus(contentId: number, contentType: ContentType) {
+  return await request(`/api/watchlist/${contentType}/${contentId}/status`, "failed to fetch data");
 }
 
 export default async function Home() {
@@ -32,7 +32,7 @@ export default async function Home() {
   const watchlistStatuses = await Promise.all(
     hero.map(async (contentItem) => {
       const watchlistStatus: WatchlistStatus = isLoggedIn
-        ? await getWatchlistStatus(contentItem.id)
+        ? await getWatchlistStatus(contentItem.id, contentItem.type)
         : "none";
       return { contentId: contentItem.id, status: watchlistStatus };
     }),

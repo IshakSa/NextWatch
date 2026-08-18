@@ -1,5 +1,8 @@
 package me.nextwatch.NextWatch.watchlist;
 
+import me.nextwatch.NextWatch.content.Content;
+import me.nextwatch.NextWatch.content.ContentId;
+import me.nextwatch.NextWatch.content.ContentType;
 import me.nextwatch.NextWatch.user.User;
 import me.nextwatch.NextWatch.user.UserService;
 import me.nextwatch.NextWatch.watchlist.dtos.WatchlistAddDto;
@@ -34,24 +37,27 @@ public class WatchlistService {
     }
 
     public void add(Integer userId, WatchlistAddDto watchlistAddDto) {
+        WatchlistItemId watchlistItemId =
+                new WatchlistItemId(userId, new ContentId(watchlistAddDto.contentId(), watchlistAddDto.contentType()));
+
         // TODO: change how already seen content is handled here
         // suggestion: if user adds content to saved, and he already seen it, show seen batch in frontend in saved tab
-        if (watchlistAddDto.status().equals(WatchlistStatus.SAVED)
-                && watchlistRepository.existsById(new WatchlistItemId(userId, watchlistAddDto.contentId()))) {
+        if (watchlistAddDto.status().equals(WatchlistStatus.SAVED) && watchlistRepository.existsById(watchlistItemId)) {
             return;
         }
 
-        WatchlistItem currentWatchlistItem = watchlistRepository
-                .findById(new WatchlistItemId(userId, watchlistAddDto.contentId()))
-                .orElse(null);
+        WatchlistItem currentWatchlistItem =
+                watchlistRepository.findById(watchlistItemId).orElse(null);
         boolean watchlistItemExists = currentWatchlistItem != null;
 
         User user = User.builder().id(userId).build();
+        Content content =
+                Content.builder().id(watchlistItemId.getEmbeddedContentId()).build();
         WatchlistItem watchlistItem = WatchlistItem.builder()
                 .user(user)
-                .id(new WatchlistItemId(user.getId(), watchlistAddDto.contentId()))
+                .content(content)
+                .id(watchlistItemId)
                 .status(watchlistAddDto.status())
-                .contentType(watchlistAddDto.contentType())
                 .userRating(watchlistAddDto.userRating())
                 .addedTimestamp(watchlistItemExists ? currentWatchlistItem.getAddedTimestamp() : null)
                 .watchedTimestamp(watchlistItemExists ? currentWatchlistItem.getWatchedTimestamp() : null)
@@ -61,14 +67,17 @@ public class WatchlistService {
         userService.updateEmbedding(userId, getWatchlistEntities(userId));
     }
 
-    public void delete(Integer userId, Integer contentId) {
-        watchlistRepository.deleteById(new WatchlistItemId(userId, contentId));
+    public void delete(Integer userId, ContentType contentType, Integer contentId) {
+        WatchlistItemId watchlistItemId = new WatchlistItemId(userId, new ContentId(contentId, contentType));
+
+        watchlistRepository.deleteById(watchlistItemId);
         userService.updateEmbedding(userId, getWatchlistEntities(userId));
     }
 
-    public WatchlistStatus getStatus(Integer userId, int contentId) {
-        Optional<WatchlistItem> watchlistItemQuery =
-                watchlistRepository.findById(new WatchlistItemId(userId, contentId));
+    public WatchlistStatus getStatus(Integer userId, ContentType contentType, Integer contentId) {
+        WatchlistItemId watchlistItemId = new WatchlistItemId(userId, new ContentId(contentId, contentType));
+
+        Optional<WatchlistItem> watchlistItemQuery = watchlistRepository.findById(watchlistItemId);
         if (watchlistItemQuery.isEmpty()) {
             return WatchlistStatus.NONE;
         }

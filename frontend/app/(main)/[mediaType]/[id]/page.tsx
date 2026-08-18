@@ -2,7 +2,7 @@ import EpisodesCarousel from "@/components/carousel/EpisodesCarousel/EpisodeCaro
 import ExpandableOverview from "@/components/shared/ExpandableOverview";
 import HeroSection from "@/components/hero/HeroSection";
 import WatchProviders from "@/components/providers/WatchProviders";
-import { ContentItemDetails, WatchlistStatus } from "@/types";
+import { ContentItemDetails, ContentType, WatchlistStatus } from "@/types";
 import ContentCarousel from "@/components/carousel/ContentCarousel";
 import { request } from "@/lib/requestHandler";
 import { cookies } from "next/headers";
@@ -14,8 +14,8 @@ async function getDetails(mediaType: "tv" | "movie", id: number) {
   );
 }
 
-async function getWatchlistStatus(contentId: number) {
-  return await request(`/api/watchlist/status/${contentId}`, "failed to fetch data");
+async function getWatchlistStatus(contentId: number, contentType: ContentType) {
+  return await request(`/api/watchlist/${contentType}/${contentId}/status`, "failed to fetch data");
 }
 
 export default async function MovieDetailsPage({
@@ -29,7 +29,7 @@ export default async function MovieDetailsPage({
 
   const contentItem: ContentItemDetails = await getDetails(mediaType, idNum);
   const watchlistStatus: WatchlistStatus = isLoggedIn
-    ? await getWatchlistStatus(contentItem.id)
+    ? await getWatchlistStatus(contentItem.id, contentItem.type)
     : "none";
 
   if (!contentItem) {
