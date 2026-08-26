@@ -44,7 +44,8 @@ export default function DiscoverDetails({
 
         <p className="text-foreground/50 dark:text-muted-foreground text-sm my-2">
           {toDisplayContentLength(item.type, item.length)} •{" "}
-          {toReleaseDateDisplay(item.releaseDate)} • {item.genres?.join(" • ")}
+          {item.releaseDate ? toReleaseDateDisplay(item.releaseDate) : "N/A"} •{" "}
+          {item.genres?.join(" • ")}
         </p>
 
         <div className="max-w-xl">
