@@ -1,15 +1,44 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SelectButton from "./_components/SelectButton";
 import ComboboxButton from "./_components/ComboboxButton";
-import { COUNTRIES, watchOptionMap } from "./constants";
+import { COUNTRIES, CountryObject, watchOptionMap } from "./constants";
 import ProviderCard from "./_components/ProviderCard";
 import { Providers } from "@/types";
 
+function getProviderCountryPreference() {
+  const providerCountry = localStorage.getItem("providerCountryPreference");
+
+  if (!providerCountry) {
+    return COUNTRIES[0];
+  }
+
+  const foundProviderCountry = COUNTRIES.find((country) => country.code === providerCountry);
+
+  if (!foundProviderCountry) {
+    return COUNTRIES[0];
+  }
+
+  return foundProviderCountry;
+}
+
+function saveProviderCountryPreference(country: CountryObject) {
+  localStorage.setItem("providerCountryPreference", country.code);
+}
+
 export default function WatchProviders({ providers }: { providers: Providers }) {
-  const [selectedCountry, setSelectedCountry] = useState(COUNTRIES[0]);
+  const [selectedCountry, setSelectedCountry] = useState(() => {
+    if (typeof window !== "undefined") {
+      return getProviderCountryPreference();
+    }
+    return COUNTRIES[0];
+  });
   const [selectedWatchOption, setSelectedWatchOption] = useState("Stream");
+
+  useEffect(() => {
+    saveProviderCountryPreference(selectedCountry);
+  }, [selectedCountry]);
 
   const countryProviders = providers[selectedCountry.code];
 
