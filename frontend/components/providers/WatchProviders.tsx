@@ -6,6 +6,7 @@ import ComboboxButton from "./_components/ComboboxButton";
 import { COUNTRIES, CountryObject, watchOptionMap } from "./constants";
 import ProviderCard from "./_components/ProviderCard";
 import { Providers } from "@/types";
+import { PlayOffIcon } from "lucide-react";
 
 function getProviderCountryPreference() {
   const providerCountry = localStorage.getItem("providerCountryPreference");
@@ -68,11 +69,17 @@ export default function WatchProviders({ providers }: { providers: Providers }) 
       </div>
 
       <div className="space-x-3 space-y-3 mt-5">
-        {currentProviders &&
+        {currentProviders.length !== 0 ? (
           currentProviders
             .sort((a, b) => a.displayPriority - b.displayPriority)
             .slice(0, 4)
-            .map((provider) => <ProviderCard key={provider.providerId} provider={provider} />)}
+            .map((provider) => <ProviderCard key={provider.providerId} provider={provider} />)
+        ) : (
+          <div className="flex space-x-2 items-center text-muted-foreground">
+            <PlayOffIcon />
+            <p className="font-semibold">No available provider found</p>
+          </div>
+        )}
       </div>
     </div>
   );
