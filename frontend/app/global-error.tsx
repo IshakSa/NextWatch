@@ -20,7 +20,7 @@ export default function GlobalError({
         <main>
           <h1>Something went wrong</h1>
           <p>Please try again.</p>
-          <button type="button" onClick={reset}>
+          <button type="button" onClick={reset} className="cursor-pointer">
             Try again
           </button>
         </main>
