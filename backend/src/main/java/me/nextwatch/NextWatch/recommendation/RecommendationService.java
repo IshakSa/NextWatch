@@ -4,6 +4,7 @@ import me.nextwatch.NextWatch.content.Content;
 import me.nextwatch.NextWatch.content.ContentRepository;
 import me.nextwatch.NextWatch.content.ContentService;
 import me.nextwatch.NextWatch.content.dtos.ContentSummaryDto;
+import me.nextwatch.NextWatch.exception.ResourceNotFoundException;
 import me.nextwatch.NextWatch.user.UserRepository;
 import me.nextwatch.NextWatch.watchlist.WatchlistItem;
 import me.nextwatch.NextWatch.watchlist.WatchlistRepository;
@@ -36,7 +37,7 @@ public class RecommendationService {
     public List<ContentSummaryDto> getUserRecommendations(Integer userId, List<Integer> seenContentIds, int limit) {
         float[] userEmbedding = userRepository
                 .findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"))
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"))
                 .getEmbedding();
         List<WatchlistItem> watchlist = watchlistRepository.findAllByIdUserId(userId);
 

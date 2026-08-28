@@ -1,5 +1,6 @@
 package me.nextwatch.NextWatch.user;
 
+import me.nextwatch.NextWatch.exception.ResourceNotFoundException;
 import me.nextwatch.NextWatch.recommendation.EmbeddingService;
 import me.nextwatch.NextWatch.security.JwtService;
 import me.nextwatch.NextWatch.user.dtos.LoginDto;
@@ -67,7 +68,7 @@ public class UserService {
     }
 
     public void updateEmbedding(Integer userId, List<WatchlistItem> watchlist) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         float[] embedding = embeddingService.getUserEmbedding(watchlist);
         user.setEmbedding(embedding);
@@ -76,7 +77,7 @@ public class UserService {
     }
 
     public Boolean hasEmbeddingProfile(Integer userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
         return user.getEmbedding() != null;
     }
 }
