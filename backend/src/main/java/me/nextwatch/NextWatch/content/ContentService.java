@@ -1,5 +1,6 @@
 package me.nextwatch.NextWatch.content;
 
+import jakarta.annotation.Nullable;
 import me.nextwatch.NextWatch.api.TmdbApiClient;
 import me.nextwatch.NextWatch.api.TmdbPageResponse;
 import me.nextwatch.NextWatch.api.dtos.*;
@@ -168,20 +169,24 @@ public class ContentService {
         return content;
     }
 
+    @Nullable
     public ContentSummaryDto getContentByContentId(ContentId contentId, boolean includeTrailer) {
-        ContentSummaryApiDto response = tmdbApiClient.getContentByTypeAndById(
-                contentId.getContentId(), contentId.getContentType().toLower());
+        try {
+            ContentSummaryApiDto response = tmdbApiClient.getContentByTypeAndById(
+                    contentId.getContentId(), contentId.getContentType().toLower());
+            if (includeTrailer) {
+                String trailerId = tmdbApiClient
+                        .getTrailers(contentId.getContentType().toString().toLowerCase(), contentId.getContentId())
+                        .getTrailerId();
+                response = response.toBuilder().trailerId(trailerId).build();
+            }
 
-        if (includeTrailer) {
-            String trailerId = tmdbApiClient
-                    .getTrailers(contentId.getContentType().toString().toLowerCase(), contentId.getContentId())
-                    .getTrailerId();
-            response = response.toBuilder().trailerId(trailerId).build();
+            ContentSummaryDto content = contentMapper.toContentSummaryDto(response, contentId.getContentType());
+            saveNewContentAsEmbedding(content);
+            return content;
+        } catch (Exception exception) {
+            return null;
         }
-
-        ContentSummaryDto content = contentMapper.toContentSummaryDto(response, contentId.getContentType());
-        saveNewContentAsEmbedding(content);
-        return content;
     }
 
     public ContentSummaryDto getContentByContentId(ContentId contentId) {

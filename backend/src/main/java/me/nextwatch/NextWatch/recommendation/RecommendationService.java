@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 @Service
@@ -58,6 +59,7 @@ public class RecommendationService {
 
         return recommendations.stream()
                 .map(item -> contentService.getContentByContentId(item.getId(), true))
+                .filter(Objects::nonNull)
                 .toList();
     }
 }
