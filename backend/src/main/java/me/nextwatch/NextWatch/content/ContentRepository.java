@@ -19,7 +19,7 @@ public interface ContentRepository extends JpaRepository<Content, ContentId> {
     @Query(value = """
         SELECT * FROM content
         WHERE content_Id NOT IN :excludedIds
-        ORDER BY embedding <=> cast(:userVector as vector)
+        ORDER BY embedding <#> cast(:userVector as vector)
         LIMIT :limit;
         """, nativeQuery = true)
     List<Content> findTopSimilarContent(
