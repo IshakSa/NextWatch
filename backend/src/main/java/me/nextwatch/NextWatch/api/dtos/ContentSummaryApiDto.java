@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.annotation.Nullable;
 import lombok.Builder;
-import me.nextwatch.NextWatch.api.TmdbGenreResponse;
 import me.nextwatch.NextWatch.content.ContentType;
 
 import java.time.LocalDate;
@@ -39,7 +38,12 @@ public record ContentSummaryApiDto(
         @Nullable @JsonProperty("number_of_seasons") Integer seasonsAmount,
         @Nullable @JsonProperty("vote_count") Integer voteCount,
         @Nullable String trailerId,
-        @Nullable @JsonProperty("created_by") List<CreatorApiDto> creatorsDto) {
+        @Nullable @JsonProperty("created_by") List<CreatorApiDto> creatorsDto,
+
+        @Nullable @JsonProperty("videos") ContentTrailerApiDto trailers,
+        @Nullable @JsonProperty("credits") CreditsApiDto credits,
+        @Nullable @JsonProperty("watch/providers") ProvidersApiDto providers,
+        @Nullable @JsonProperty("recommendations") TmdbPageResponse<ContentSummaryApiDto> recommendations) {
 
     public List<Integer> resolveGenreIds() {
         return Objects.requireNonNullElseGet(

@@ -1,11 +1,7 @@
 package me.nextwatch.NextWatch.content;
 
 import me.nextwatch.NextWatch.api.GenreProviderService;
-import me.nextwatch.NextWatch.api.TmdbPageResponse;
-import me.nextwatch.NextWatch.api.dtos.ContentSummaryApiDto;
-import me.nextwatch.NextWatch.api.dtos.CreditsApiDto;
-import me.nextwatch.NextWatch.api.dtos.ProvidersApiDto;
-import me.nextwatch.NextWatch.api.dtos.SeasonApiDto;
+import me.nextwatch.NextWatch.api.dtos.*;
 import me.nextwatch.NextWatch.content.dtos.ContentDetailsDto;
 import me.nextwatch.NextWatch.content.dtos.ContentSummaryDto;
 import org.springframework.stereotype.Service;
