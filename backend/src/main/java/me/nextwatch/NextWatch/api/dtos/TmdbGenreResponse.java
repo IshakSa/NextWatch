@@ -1,4 +1,4 @@
-package me.nextwatch.NextWatch.api;
+package me.nextwatch.NextWatch.api.dtos;
 
 import java.util.List;
 
