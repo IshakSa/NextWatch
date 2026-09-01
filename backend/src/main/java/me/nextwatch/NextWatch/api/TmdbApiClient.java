@@ -12,6 +12,12 @@ import java.time.LocalDate;
 @FeignClient(name = "tmdbApi", url = "https://api.themoviedb.org/3", configuration = FeignConfig.class)
 public interface TmdbApiClient {
 
+    @GetMapping("/{contentType}/{id}")
+    ContentSummaryApiDto getContentDetails(
+            @PathVariable String contentType,
+            @PathVariable Integer id,
+            @RequestParam("append_to_response") String appendToResponse);
+
     // TODO: Set to enum value again
     @GetMapping("/{contentType}/{id}")
     ContentSummaryApiDto getContentByTypeAndById(@PathVariable Integer id, @PathVariable String contentType);

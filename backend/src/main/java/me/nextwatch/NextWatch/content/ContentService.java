@@ -1,8 +1,9 @@
 package me.nextwatch.NextWatch.content;
 
 import jakarta.annotation.Nullable;
+import me.nextwatch.NextWatch.api.AppendToResponse;
 import me.nextwatch.NextWatch.api.TmdbApiClient;
-import me.nextwatch.NextWatch.api.TmdbPageResponse;
+import me.nextwatch.NextWatch.api.TmdbApiService;
 import me.nextwatch.NextWatch.api.dtos.*;
 import me.nextwatch.NextWatch.content.dtos.ContentDetailsDto;
 import me.nextwatch.NextWatch.content.dtos.ContentSummaryDto;
@@ -20,16 +21,19 @@ public class ContentService {
     private final ContentMapper contentMapper;
     private final EmbeddingService embeddingService;
     private final ContentRepository contentRepository;
+    private final TmdbApiService tmdbApiService;
 
     public ContentService(
             TmdbApiClient tmdbApiClient,
             ContentMapper contentMapper,
             EmbeddingService embeddingService,
-            ContentRepository contentRepository) {
+            ContentRepository contentRepository,
+            TmdbApiService tmdbApiService) {
         this.tmdbApiClient = tmdbApiClient;
         this.contentMapper = contentMapper;
         this.embeddingService = embeddingService;
         this.contentRepository = contentRepository;
+        this.tmdbApiService = tmdbApiService;
     }
 
     private void saveNewContentAsEmbedding(ContentSummaryDto content) {
@@ -109,6 +113,20 @@ public class ContentService {
         List<ContentSummaryDto> content = contentMapper.toContentSummaryDtoList(response);
         saveNewContentAsEmbedding(content);
         return content;
+    }
+
+    public ContentDetailsDto getDetailsV2(Integer id, ContentType contentType, boolean includeSimilar) {
+        List<AppendToResponse> appendToResponse = new ArrayList<>(List.of(
+                AppendToResponse.TRAILERS,
+                AppendToResponse.CREDITS,
+                AppendToResponse.WATCH_PROVIDERS,
+                AppendToResponse.SEASONS));
+
+        if (includeSimilar) {
+            appendToResponse.add(AppendToResponse.RECOMMENDATIONS);
+        }
+
+        return tmdbApiService.getContentDetails(contentType, id, appendToResponse);
     }
 
     public ContentDetailsDto getDetails(Integer id, ContentType contentType, boolean includeSimilar) {
