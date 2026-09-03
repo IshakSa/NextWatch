@@ -8,6 +8,6 @@ public enum AppendToResponse {
     TRAILERS,
     CREDITS,
     WATCH_PROVIDERS,
-    RECOMMENDATIONS,
+    SIMILAR,
     SEASONS
 }

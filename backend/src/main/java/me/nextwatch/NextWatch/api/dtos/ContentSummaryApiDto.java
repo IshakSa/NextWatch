@@ -34,16 +34,18 @@ public record ContentSummaryApiDto(
 
         @JsonProperty("vote_average") Double rating,
 
+        @JsonProperty("vote_count") Integer voteCount,
+
         @Nullable @JsonProperty("media_type") ContentType contentType,
         @Nullable @JsonProperty("number_of_seasons") Integer seasonsAmount,
-        @Nullable @JsonProperty("vote_count") Integer voteCount,
+
         @Nullable String trailerId,
         @Nullable @JsonProperty("created_by") List<CreatorApiDto> creatorsDto,
 
         @Nullable @JsonProperty("videos") ContentTrailerApiDto trailers,
         @Nullable @JsonProperty("credits") CreditsApiDto credits,
         @Nullable @JsonProperty("watch/providers") ProvidersApiDto providers,
-        @Nullable @JsonProperty("recommendations") TmdbPageResponse<ContentSummaryApiDto> recommendations) {
+        @Nullable @JsonProperty("recommendations") TmdbPageResponse<ContentSummaryApiDto> similar) {
 
     public List<Integer> resolveGenreIds() {
         return Objects.requireNonNullElseGet(
