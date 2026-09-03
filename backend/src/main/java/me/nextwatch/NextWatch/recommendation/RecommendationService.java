@@ -57,8 +57,8 @@ public class RecommendationService {
             return List.of();
         }
 
-        return recommendations.stream()
-                .map(item -> contentService.getContentByContentId(item.getId(), true))
+        return recommendations.parallelStream()
+                .map(item -> contentService.getSummary(item.getId(), true))
                 .filter(Objects::nonNull)
                 .toList();
     }
