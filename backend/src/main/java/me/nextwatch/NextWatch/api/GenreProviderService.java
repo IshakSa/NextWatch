@@ -1,5 +1,6 @@
 package me.nextwatch.NextWatch.api;
 
+import me.nextwatch.NextWatch.api.dtos.TmdbGenreResponse;
 import me.nextwatch.NextWatch.content.ContentType;
 import org.springframework.stereotype.Service;
 

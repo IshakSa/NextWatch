@@ -6,8 +6,13 @@ import java.util.List;
 
 public record ContentTrailerApiDto(@JsonProperty("results") List<TrailerItemApiDto> trailers) {
     public String getTrailerId() {
+        if (trailers == null) {
+            return null;
+        }
+
         List<TrailerItemApiDto> filteredTrailers =
                 trailers.stream().filter(item -> item.type().equals("Trailer")).toList();
+
         if (filteredTrailers.isEmpty()) {
             return null;
         }
