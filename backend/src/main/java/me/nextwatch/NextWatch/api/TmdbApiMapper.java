@@ -2,6 +2,7 @@ package me.nextwatch.NextWatch.api;
 
 import jakarta.annotation.Nullable;
 import me.nextwatch.NextWatch.api.dtos.ContentSummaryApiDto;
+import me.nextwatch.NextWatch.api.dtos.CreditsApiDto;
 import me.nextwatch.NextWatch.api.dtos.ProvidersApiDto;
 import me.nextwatch.NextWatch.api.dtos.SeasonApiDto;
 import me.nextwatch.NextWatch.content.ContentType;
@@ -12,8 +13,6 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static me.nextwatch.NextWatch.Utils.executeIfNonNullElseNull;
 
 @Service
 public class TmdbApiMapper {
@@ -44,7 +43,9 @@ public class TmdbApiMapper {
                 .build();
     }
 
-    // !TODO refactor these two methods
+    /**
+     * Used when the {@code ContentType} is not in the api response but rather given as a path variable in the controller
+     */
     public List<ContentSummaryDto> toContentSummaryDtoList(
             List<ContentSummaryApiDto> contentApiDtoList, ContentType contentType) {
         int MAX_ITEMS = 20;
@@ -54,6 +55,9 @@ public class TmdbApiMapper {
                 .subList(0, MAX_ITEMS);
     }
 
+    /**
+     * Used when the {@code ContentType} is already in the api response
+     */
     public List<ContentSummaryDto> toContentSummaryDtoList(List<ContentSummaryApiDto> contentApiDtoList) {
         return contentApiDtoList.stream()
                 .map(contentApiDto -> toContentSummaryDto(contentApiDto, contentApiDto.contentType()))
@@ -64,24 +68,15 @@ public class TmdbApiMapper {
             ContentSummaryApiDto apiDto, ContentType contentType, @Nullable List<SeasonApiDto> seasonApiDtos) {
         List<String> genres = genreProviderService.getGenres(apiDto.resolveGenreIds(), contentType);
 
-        String trailerId = executeIfNonNullElseNull(apiDto.trailers(), () -> {
-            assert apiDto.trailers() != null;
-            return apiDto.trailers().getTrailerId();
-        });
+        String trailerId = apiDto.trailers() != null ? apiDto.trailers().getTrailerId() : null;
 
-        ContentDetailsDto.CreditsDto credits =
-                executeIfNonNullElseNull(apiDto.credits(), () -> getCreditsDto(apiDto, contentType));
+        ContentDetailsDto.CreditsDto credits = getCreditsDto(apiDto, contentType);
 
-        Map<String, ContentDetailsDto.ProviderOptionsDto> providers =
-                executeIfNonNullElseNull(apiDto.providers(), () -> getProviders(apiDto));
+        Map<String, ContentDetailsDto.ProviderOptionsDto> providers = getProviders(apiDto);
 
-        List<ContentSummaryDto> similar = executeIfNonNullElseNull(apiDto.similar(), () -> {
-            assert apiDto.similar() != null;
-            return toContentSummaryDtoList(apiDto.similar().results(), contentType);
-        });
+        List<ContentSummaryDto> similar = getSimilar(apiDto, contentType);
 
-        List<ContentDetailsDto.SeasonDto> seasons =
-                executeIfNonNullElseNull(seasonApiDtos, () -> getSeasons(seasonApiDtos));
+        List<ContentDetailsDto.SeasonDto> seasons = getSeasons(seasonApiDtos);
 
         return new ContentDetailsDto(
                 apiDto.id(),
@@ -101,39 +96,29 @@ public class TmdbApiMapper {
     }
 
     private ContentDetailsDto.CreditsDto getCreditsDto(ContentSummaryApiDto apiDto, ContentType contentType) {
-        final int MAX_CREDIT_ITEMS = 10;
-        List<ContentDetailsDto.ActorDto> cast = apiDto.credits().cast().stream()
-                .map(castItem -> ContentDetailsDto.ActorDto.builder()
-                        .name(castItem.name())
-                        .profilePath(castItem.profilePath())
-                        .character(castItem.character())
-                        .order(castItem.order())
-                        .build())
-                .toList();
-        if (cast.size() > MAX_CREDIT_ITEMS) {
-            cast = cast.subList(0, MAX_CREDIT_ITEMS);
+        if (apiDto.credits() == null) {
+            return null;
         }
 
+        final int MAX_CREDIT_ITEMS = 10;
+
+        List<ContentDetailsDto.ActorDto> cast = apiDto.credits().cast().stream()
+                .limit(MAX_CREDIT_ITEMS)
+                .map(this::toActorDto)
+                .toList();
+
         List<ContentDetailsDto.DirectorDto> directors;
-        if (contentType.equals(ContentType.TV) && apiDto.creatorsDto() != null) {
+        if (contentType == ContentType.TV && apiDto.creatorsDto() != null) {
             directors = apiDto.creatorsDto().stream()
-                    .map(creator -> ContentDetailsDto.DirectorDto.builder()
-                            .name(creator.name())
-                            .profilePath(creator.profilePath())
-                            .build())
+                    .limit(MAX_CREDIT_ITEMS)
+                    .map(this::toDirectorDto)
                     .toList();
         } else {
             directors = apiDto.credits().crew().stream()
                     .filter(crewItem -> crewItem.job().equals("Direct" + "or"))
-                    .map(crewItem -> ContentDetailsDto.DirectorDto.builder()
-                            .name(crewItem.name())
-                            .profilePath(crewItem.profilePath())
-                            .build())
+                    .limit(MAX_CREDIT_ITEMS)
+                    .map(this::toDirectorDto)
                     .toList();
-        }
-
-        if (directors.size() > MAX_CREDIT_ITEMS) {
-            directors = directors.subList(0, MAX_CREDIT_ITEMS);
         }
 
         return ContentDetailsDto.CreditsDto.builder()
@@ -142,25 +127,57 @@ public class TmdbApiMapper {
                 .build();
     }
 
+    private ContentDetailsDto.ActorDto toActorDto(CreditsApiDto.CastItem castItem) {
+        return ContentDetailsDto.ActorDto.builder()
+                .name(castItem.name())
+                .profilePath(castItem.profilePath())
+                .character(castItem.character())
+                .order(castItem.order())
+                .build();
+    }
+
+    private ContentDetailsDto.DirectorDto toDirectorDto(CreditsApiDto.CrewItem crewItem) {
+        return ContentDetailsDto.DirectorDto.builder()
+                .name(crewItem.name())
+                .profilePath(crewItem.profilePath())
+                .build();
+    }
+
+    private ContentDetailsDto.DirectorDto toDirectorDto(ContentSummaryApiDto.CreatorApiDto creator) {
+        return ContentDetailsDto.DirectorDto.builder()
+                .name(creator.name())
+                .profilePath(creator.profilePath())
+                .build();
+    }
+
     private Map<String, ContentDetailsDto.ProviderOptionsDto> getProviders(ContentSummaryApiDto apiDto) {
+        if (apiDto.providers() == null) {
+            return null;
+        }
+
         Map<String, ContentDetailsDto.ProviderOptionsDto> providers = new HashMap<>();
         apiDto.providers()
                 .providers()
-                .forEach((countryCode, optionsDto) -> providers.put(
-                        countryCode,
-                        ContentDetailsDto.ProviderOptionsDto.builder()
-                                .flatrate(mapList(optionsDto.flatrate()))
-                                .rent(mapList(optionsDto.rent()))
-                                .buy(mapList(optionsDto.buy()))
-                                .build()));
+                .forEach((countryCode, optionsApiDto) ->
+                        providers.put(countryCode, toProviderOptionsDto(optionsApiDto)));
 
         return providers;
     }
 
-    private List<ContentDetailsDto.ProviderDetailsDto> mapList(List<ProvidersApiDto.ProviderDetailsApiDto> list) {
-        if (list == null) return List.of();
+    private ContentDetailsDto.ProviderOptionsDto toProviderOptionsDto(
+            ProvidersApiDto.ProviderOptionsApiDto optionsApiDto) {
+        return ContentDetailsDto.ProviderOptionsDto.builder()
+                .flatrate(toProviderDetailsDtos(optionsApiDto.flatrate()))
+                .rent(toProviderDetailsDtos(optionsApiDto.rent()))
+                .buy(toProviderDetailsDtos(optionsApiDto.buy()))
+                .build();
+    }
 
-        return list.stream()
+    private List<ContentDetailsDto.ProviderDetailsDto> toProviderDetailsDtos(
+            List<ProvidersApiDto.ProviderDetailsApiDto> providerDetailsApiDtos) {
+        if (providerDetailsApiDtos == null) return List.of();
+
+        return providerDetailsApiDtos.stream()
                 .map(detailsApiDto -> ContentDetailsDto.ProviderDetailsDto.builder()
                         .logoPath(detailsApiDto.logoPath())
                         .providerId(detailsApiDto.providerId())
@@ -170,25 +187,36 @@ public class TmdbApiMapper {
                 .toList();
     }
 
-    private List<ContentDetailsDto.SeasonDto> getSeasons(List<SeasonApiDto> seasonApiDtos) {
-        List<ContentDetailsDto.SeasonDto> seasons = null;
-        if (seasonApiDtos != null) {
-            seasons = seasonApiDtos.stream()
-                    .map(season -> ContentDetailsDto.SeasonDto.builder()
-                            .seasonNumber(season.seasonNumber())
-                            .releaseDate(season.releaseDate())
-                            .episodes(season.episodes().stream()
-                                    .map(episode -> ContentDetailsDto.EpisodeDto.builder()
-                                            .episodeNumber(episode.episodeNumber())
-                                            .overview(episode.overview())
-                                            .name(episode.name())
-                                            .runtime(episode.runtime())
-                                            .stillPath(episode.stillPath())
-                                            .build())
-                                    .toList())
-                            .build())
-                    .toList();
+    private List<ContentSummaryDto> getSimilar(ContentSummaryApiDto apiDto, ContentType contentType) {
+        if (apiDto.similar() == null) {
+            return null;
         }
-        return seasons;
+        return toContentSummaryDtoList(apiDto.similar().results(), contentType);
+    }
+
+    private List<ContentDetailsDto.SeasonDto> getSeasons(List<SeasonApiDto> seasonApiDtos) {
+        if (seasonApiDtos == null) {
+            return null;
+        }
+
+        return seasonApiDtos.stream()
+                .map(season -> ContentDetailsDto.SeasonDto.builder()
+                        .seasonNumber(season.seasonNumber())
+                        .releaseDate(season.releaseDate())
+                        .episodes(toEpisodeDtos(season.episodes()))
+                        .build())
+                .toList();
+    }
+
+    private List<ContentDetailsDto.EpisodeDto> toEpisodeDtos(List<SeasonApiDto.EpisodeApiDto> episodeApiDtos) {
+        return episodeApiDtos.stream()
+                .map(episode -> ContentDetailsDto.EpisodeDto.builder()
+                        .episodeNumber(episode.episodeNumber())
+                        .overview(episode.overview())
+                        .name(episode.name())
+                        .runtime(episode.runtime())
+                        .stillPath(episode.stillPath())
+                        .build())
+                .toList();
     }
 }

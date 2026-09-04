@@ -17,7 +17,7 @@ public record ContentDetailsDto(
         List<String> genres,
         ContentType type,
         String overview,
-        int length,
+        Integer length,
         double rating,
         LocalDate releaseDate,
         String backdropPath,

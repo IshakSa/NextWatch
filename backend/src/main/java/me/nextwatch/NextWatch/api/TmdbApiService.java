@@ -102,21 +102,25 @@ public class TmdbApiService {
                 .results()
                 .subList(0, maxItems);
 
-        // runtime is only needed for hero section (day TimeWindow)
+        // fetch length and trailers and add it to the response dto
         if (timeWindow.equals(TimeWindow.DAY) && includeTrailer) {
-            response = response.parallelStream()
-                    .map(apiDto -> {
-                        ContentDetailsDto trendingDayDetails =
-                                getContentDetails(apiDto.contentType(), apiDto.id(), AppendToResponse.TRAILERS);
-                        return apiDto.toBuilder()
-                                .length(trendingDayDetails.length())
-                                .trailerId(trendingDayDetails.trailerId())
-                                .build();
-                    })
-                    .toList();
+            response = getTrendingDayDetails(response);
         }
 
         return tmdbApiMapper.toContentSummaryDtoList(response);
+    }
+
+    private List<ContentSummaryApiDto> getTrendingDayDetails(List<ContentSummaryApiDto> response) {
+        return response.parallelStream()
+                .map(apiDto -> {
+                    ContentDetailsDto trendingDayDetails =
+                            getContentDetails(apiDto.contentType(), apiDto.id(), AppendToResponse.TRAILERS);
+                    return apiDto.toBuilder()
+                            .length(trendingDayDetails.length())
+                            .trailerId(trendingDayDetails.trailerId())
+                            .build();
+                })
+                .toList();
     }
 
     public List<ContentSummaryDto> searchByName(String query) {
